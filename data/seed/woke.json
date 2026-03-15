@@ -1,0 +1,249 @@
+{
+  "lexemeId": "woke",
+  "query": "woke",
+  "normalizedQuery": "woke",
+  "supportedModes": ["word", "phrase", "paragraph"],
+  "currentSnapshot": {
+    "snapshotId": "woke_current",
+    "date": "2024-01-01",
+    "eraLabel": "Contemporary",
+    "definition": "Alert to racial or social injustice and discrimination; politically aware, especially regarding issues of race, gender, and identity. Also used pejoratively to describe excessive political correctness.",
+    "usageNote": "Deeply contested: used approvingly within progressive communities as an identity term, and used pejoratively by critics to describe what they see as performative or excessive social justice politics. The word's meaning depends heavily on who is using it and in what context.",
+    "exampleUsage": "Supporters praised the company's woke hiring practices; critics called the same policies patronising.",
+    "register": "informal",
+    "sentiment": "neutral",
+    "confidence": 0.85,
+    "sourceIds": ["oed_woke_modern", "merriam_woke"]
+  },
+  "historicalSnapshots": [
+    {
+      "snapshotId": "woke_literal",
+      "date": "1000-01-01",
+      "eraLabel": "Old/Middle English",
+      "definition": "Past tense of 'wake': having awakened from sleep.",
+      "usageNote": "The literal grammatical past tense: 'She woke at dawn.' This sense has been present throughout the history of English.",
+      "exampleUsage": "He woke before sunrise and went to the fields.",
+      "register": "neutral",
+      "sentiment": "neutral",
+      "confidence": 0.99,
+      "sourceIds": ["oed_wake_verb"]
+    },
+    {
+      "snapshotId": "woke_aave_early",
+      "date": "1940-01-01",
+      "eraLabel": "Early-to-Mid 20th Century",
+      "definition": "Aware of, and alert to, the realities of racial oppression and discrimination; vigilant about racial injustice.",
+      "usageNote": "Originated in African American Vernacular English (AAVE) as a call to awareness: 'stay woke' meant remain vigilant about racism and social injustice. Documented in early R&B and activist contexts.",
+      "exampleUsage": "\"I been sleeping all my life / And now that you have woke me up\" — Lead Belly, 1938.",
+      "register": "informal",
+      "sentiment": "positive",
+      "confidence": 0.89,
+      "sourceIds": ["oed_woke_modern", "lead_belly_scottsboro"]
+    },
+    {
+      "snapshotId": "woke_mainstream",
+      "date": "2014-01-01",
+      "eraLabel": "Social Media Era",
+      "definition": "Aware of systemic racism and social injustice; broadly politically conscious about issues of race, gender, sexuality, and identity.",
+      "usageNote": "Popularised widely via #BlackLivesMatter following the 2014 Ferguson protests. 'Stay woke' became a mainstream social media phrase. The meaning broadened beyond race to include gender, LGBTQ+ issues, and other social justice causes.",
+      "exampleUsage": "Stay woke. Know your history. #Ferguson",
+      "register": "informal",
+      "sentiment": "positive",
+      "confidence": 0.91,
+      "sourceIds": ["oed_woke_modern", "blm_usage"]
+    }
+  ],
+  "summaryOfChange": {
+    "shortSummary": "From literal past tense through AAVE racial-awareness slang to mainstream political term and culture-war flashpoint.",
+    "longSummary": "Woke began as the mundane past tense of 'wake'. In early-to-mid 20th century African American Vernacular English it acquired a figurative meaning: alert to racial injustice, with 'stay woke' as a watchword. Following the 2012–2014 Black Lives Matter movement it exploded into mainstream usage, first used approvingly then increasingly co-opted as a pejorative by critics of progressive politics. By the early 2020s it had become one of the most contested words in English: positively valenced for some, derogatory for others, and increasingly evacuated of specific meaning by overuse on both sides.",
+    "sentimentShift": "positive-to-complex",
+    "driftType": "semantic-shift",
+    "driftMagnitude": 0.8
+  },
+  "keyDates": [
+    {
+      "date": "1938-01-01",
+      "label": "Lead Belly's Scottsboro Boys song",
+      "significance": "One of the earliest documented uses of 'woke' in the political awareness sense: 'Best stay woke, keep your eyes open.'"
+    },
+    {
+      "date": "1962-01-01",
+      "label": "William Melvin Kelley's NYT essay",
+      "significance": "Kelley's 1962 article 'If You're Woke You Dig It' documented the AAVE figurative sense for mainstream audiences."
+    },
+    {
+      "date": "2014-01-01",
+      "label": "Ferguson protests and #StayWoke",
+      "significance": "#StayWoke went viral during the Ferguson protests following the killing of Michael Brown, bringing the word to international mainstream attention."
+    },
+    {
+      "date": "2017-01-01",
+      "label": "Begins appearing in political attacks",
+      "significance": "Conservative political commentators began using 'woke' pejoratively to describe what they characterised as excessive political correctness."
+    },
+    {
+      "date": "2023-01-01",
+      "label": "Word of the year debates",
+      "significance": "Multiple major dictionaries and media outlets debated whether 'woke' had become so contested as to be unusable without partisan positioning."
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "oed_woke_modern",
+      "title": "Oxford English Dictionary – woke, adj.",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. © Oxford University Press.",
+      "excerpt": "Originally and chiefly in African American usage: alert to injustice in society, especially racism. Now frequently in general use, sometimes depreciatively.",
+      "relevanceNote": "Definitive documentation of the word's origins and its contested contemporary status.",
+      "confidence": 0.93
+    },
+    {
+      "sourceId": "merriam_woke",
+      "title": "Merriam-Webster Dictionary – woke",
+      "author": null,
+      "publisher": "Merriam-Webster",
+      "publishedDate": "2023-01-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. © Merriam-Webster.",
+      "excerpt": "aware of and actively attentive to important facts and issues (especially issues of racial and social justice)",
+      "relevanceNote": "American lexicographic authority; its definition reflects the positive-valence sense.",
+      "confidence": 0.92
+    },
+    {
+      "sourceId": "lead_belly_scottsboro",
+      "title": "Scottsboro Boys (song)",
+      "author": "Lead Belly (Huddie Ledbetter)",
+      "publisher": null,
+      "publishedDate": "1938-01-01",
+      "sourceType": "other",
+      "attribution": "Historical record. Song predates current copyright framework in relevant jurisdiction.",
+      "excerpt": "\"I advise everybody, be a little careful when they go along through there — best stay woke, keep their eyes open.\"",
+      "relevanceNote": "One of the earliest documented uses of 'woke' in the political awareness sense in recorded music.",
+      "confidence": 0.91
+    },
+    {
+      "sourceId": "oed_wake_verb",
+      "title": "Oxford English Dictionary – wake, v.",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. © Oxford University Press.",
+      "excerpt": "Past tense forms include 'woke' (intransitive) and 'waked' (transitive). The strong past tense 'woke' is attested from Old English.",
+      "relevanceNote": "Documents the literal grammatical past-tense sense that is the word's etymological base.",
+      "confidence": 0.99
+    },
+    {
+      "sourceId": "blm_usage",
+      "title": "#BlackLivesMatter and the Woke Movement",
+      "author": null,
+      "publisher": "Various media",
+      "publishedDate": "2014-01-01",
+      "sourceType": "other",
+      "attribution": "Documented from public social media and news archives.",
+      "excerpt": "Stay woke. The phrase spread across social media as protests erupted in Ferguson, Missouri, in August 2014.",
+      "relevanceNote": "Documents the moment the word entered mainstream global usage.",
+      "confidence": 0.85
+    }
+  ],
+  "relatedWorks": [
+    {
+      "workId": "rw_kelley_essay",
+      "title": "If You're Woke You Dig It",
+      "creator": "William Melvin Kelley",
+      "year": 1962,
+      "workType": "essay",
+      "whyRelevant": "One of the first mainstream print appearances of 'woke' in its political sense, written for a general audience.",
+      "publicDomainHint": false,
+      "links": []
+    }
+  ],
+  "relatedPages": [
+    {
+      "pageId": "pg_semantic_drift",
+      "title": "Semantic Drift",
+      "slug": "semantic-drift",
+      "summary": "The broad phenomenon of word meanings shifting across time.",
+      "route": "/pages/semantic-drift",
+      "tags": ["linguistics", "history"]
+    },
+    {
+      "pageId": "pg_register_slang",
+      "title": "Register and Slang",
+      "slug": "register-and-slang",
+      "summary": "How in-group language moves into mainstream usage.",
+      "route": "/pages/register-and-slang",
+      "tags": ["linguistics", "sociolinguistics"]
+    }
+  ],
+  "relatedConcepts": [
+    {
+      "conceptId": "cancel",
+      "label": "cancel (culture)",
+      "relationship": "politically-adjacent",
+      "note": "Another contested term that acquired political baggage in the same cultural moment."
+    },
+    {
+      "conceptId": "vigilant",
+      "label": "vigilant",
+      "relationship": "semantic-synonym-historical",
+      "note": "The original 'stay woke' used vigilance as a metaphor for racial awareness."
+    }
+  ],
+  "ambiguityNotes": [
+    "The meaning of 'woke' is genuinely contested: it carries positive valence for those who use it as a term of political awareness, and negative valence for those who use it as a critique of progressive politics. BackWords presents both perspectives without taking sides.",
+    "The original AAVE sense (racial awareness, community self-protection) is historically distinct from the broader 'social justice awareness' sense of the 2010s–2020s.",
+    "By the early 2020s, some commentators argued the word had become too ideologically loaded to use neutrally in journalism or public discourse.",
+    "The literal past-tense grammatical sense ('she woke up') remains unaffected by the political controversy."
+  ],
+  "timelineEvents": [
+    {
+      "eventId": "te_woke_literal",
+      "date": "1000-01-01",
+      "eraLabel": "Old English",
+      "title": "Literal past tense of 'wake'",
+      "summary": "The grammatical base sense: having woken from sleep. This sense has never been lost.",
+      "relatedSnapshotId": "woke_literal",
+      "sourceIds": ["oed_wake_verb"]
+    },
+    {
+      "eventId": "te_woke_lead_belly",
+      "date": "1938-01-01",
+      "eraLabel": "Early 20th Century",
+      "title": "Lead Belly's watchword: 'stay woke'",
+      "summary": "One of the earliest documented uses of 'woke' as a metaphor for racial vigilance in AAVE, in the context of the Scottsboro Boys case.",
+      "relatedSnapshotId": "woke_aave_early",
+      "sourceIds": ["lead_belly_scottsboro"]
+    },
+    {
+      "eventId": "te_woke_kelley",
+      "date": "1962-01-01",
+      "eraLabel": "Civil Rights Era",
+      "title": "Kelley documents the AAVE sense",
+      "summary": "William Melvin Kelley's essay 'If You're Woke You Dig It' brings the figurative sense to mainstream print attention.",
+      "relatedSnapshotId": "woke_aave_early",
+      "sourceIds": ["oed_woke_modern"]
+    },
+    {
+      "eventId": "te_woke_blm",
+      "date": "2014-01-01",
+      "eraLabel": "Social Media Era",
+      "title": "#StayWoke goes mainstream",
+      "summary": "Ferguson protests spread #StayWoke globally via social media, transforming a community watchword into an international term.",
+      "relatedSnapshotId": "woke_mainstream",
+      "sourceIds": ["blm_usage", "oed_woke_modern"]
+    },
+    {
+      "eventId": "te_woke_backlash",
+      "date": "2017-01-01",
+      "eraLabel": "Contemporary",
+      "title": "The pejorative co-option",
+      "summary": "Political opponents begin using 'woke' as a term of mockery, beginning the word's transformation into a culture-war flashpoint.",
+      "relatedSnapshotId": "woke_current",
+      "sourceIds": ["merriam_woke"]
+    }
+  ]
+}

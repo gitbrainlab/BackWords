@@ -1,0 +1,201 @@
+{
+  "lexemeId": "artificial",
+  "query": "artificial",
+  "normalizedQuery": "artificial",
+  "supportedModes": ["word", "phrase", "paragraph"],
+  "currentSnapshot": {
+    "snapshotId": "artificial_current",
+    "date": "2024-01-01",
+    "eraLabel": "Contemporary",
+    "definition": "Made or produced by human beings rather than occurring naturally; not genuine; simulated. In computing: produced by artificial intelligence.",
+    "usageNote": "Carries both a neutral sense (artificial sweetener) and a pejorative one (artificial smile). The phrase 'artificial intelligence' (AI) has made the word newly prominent and complex.",
+    "exampleUsage": "The artificial intelligence model generated a convincing but entirely fictional response.",
+    "register": "neutral",
+    "sentiment": "neutral",
+    "confidence": 0.96,
+    "sourceIds": ["oed_artificial_modern"]
+  },
+  "historicalSnapshots": [
+    {
+      "snapshotId": "artificial_skillful",
+      "date": "1450-01-01",
+      "eraLabel": "Middle English",
+      "definition": "Made with skill or art; the product of human craft and ingenuity. Artful, contrived by art.",
+      "usageNote": "From Latin 'artificialis' (of or belonging to art). In early use, being 'artificial' was praiseworthy — it meant skilled, crafted, made with mastery.",
+      "exampleUsage": "The artificial beauty of the garden reflected the gardener's considerable art.",
+      "register": "formal",
+      "sentiment": "positive",
+      "confidence": 0.90,
+      "sourceIds": ["oed_artificial_1"]
+    },
+    {
+      "snapshotId": "artificial_manmade",
+      "date": "1650-01-01",
+      "eraLabel": "Early Modern English",
+      "definition": "Produced by human work rather than natural processes; man-made as opposed to natural.",
+      "usageNote": "The contrast with 'natural' emerged as the dominant framework. No longer inherently positive — could be neutral or mildly pejorative depending on context.",
+      "exampleUsage": "These artificial flowers, though cleverly made, lack the fragrance of nature.",
+      "register": "neutral",
+      "sentiment": "neutral",
+      "confidence": 0.93,
+      "sourceIds": ["oed_artificial_1", "johnson_dict_artificial"]
+    },
+    {
+      "snapshotId": "artificial_false",
+      "date": "1800-01-01",
+      "eraLabel": "19th Century",
+      "definition": "Not genuine; simulated; assumed for effect; insincere.",
+      "usageNote": "By the Romantic era, 'artificial' had acquired a strongly pejorative shade — 'artificial manners', 'artificial sentiment'. Contrast with the Romantic ideal of authentic nature.",
+      "exampleUsage": "Her artificial smiles concealed a deep unhappiness.",
+      "register": "neutral",
+      "sentiment": "negative",
+      "confidence": 0.92,
+      "sourceIds": ["oed_artificial_1"]
+    }
+  ],
+  "summaryOfChange": {
+    "shortSummary": "From 'made with skill' (positive) through 'man-made' (neutral) to 'simulated/fake' (negative or neutral depending on context).",
+    "longSummary": "Artificial entered English with an entirely positive connotation: it meant made with artistry and skill, from Latin 'ars' (art). Over the Early Modern period it shifted to a neutral contrast with 'natural'. The Romantic reaction against industrialisation and artifice gave it a pejorative shade: artificial things were fake, insincere, inferior to nature. Today it occupies a complex middle ground — artificial flavours and artificial limbs are straightforward, while an 'artificial smile' is still mildly pejorative. The rise of 'artificial intelligence' has added a new neutral-to-positive connotation in tech contexts.",
+    "sentimentShift": "positive-to-neutral",
+    "driftType": "pejoration",
+    "driftMagnitude": 0.55
+  },
+  "keyDates": [
+    {
+      "date": "1450-01-01",
+      "label": "First English use",
+      "significance": "Earliest recorded English use meaning 'made with art or skill'."
+    },
+    {
+      "date": "1726-01-01",
+      "label": "Swift's 'Gulliver's Travels'",
+      "significance": "Swift satirises 'artificial' systems and reasoning, beginning to associate the word with the mechanical and soulless."
+    },
+    {
+      "date": "1956-01-01",
+      "label": "Dartmouth Conference coins 'Artificial Intelligence'",
+      "significance": "John McCarthy's coinage of 'artificial intelligence' begins a new chapter in the word's history, giving it a powerful technical meaning."
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "oed_artificial_1",
+      "title": "Oxford English Dictionary – artificial, adj.",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. © Oxford University Press.",
+      "excerpt": "Made by art; contrived by human skill and labour. Later: not natural; simulated. Of persons: affected, not genuine.",
+      "relevanceNote": "Full arc from positive artisan skill to pejorative inauthenticity.",
+      "confidence": 0.97
+    },
+    {
+      "sourceId": "oed_artificial_modern",
+      "title": "Oxford English Dictionary – artificial, adj. (modern)",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. © Oxford University Press.",
+      "excerpt": "Produced or introduced by human activity rather than occurring naturally. Also in 'artificial intelligence'.",
+      "relevanceNote": "Contemporary neutral-to-negative range of meanings.",
+      "confidence": 0.97
+    },
+    {
+      "sourceId": "johnson_dict_artificial",
+      "title": "A Dictionary of the English Language – artificial",
+      "author": "Samuel Johnson",
+      "publisher": "W. Strahan",
+      "publishedDate": "1755-01-01",
+      "sourceType": "dictionary",
+      "attribution": "Public domain.",
+      "excerpt": "ARTIFICIAL. adj. Made by art; not natural; fictitious; not genuine; contrived with skill.",
+      "relevanceNote": "Johnson captures the transition point — both 'made with skill' and 'not genuine' coexist.",
+      "confidence": 0.95
+    }
+  ],
+  "relatedWorks": [
+    {
+      "workId": "rw_swift_gullivers",
+      "title": "Gulliver's Travels",
+      "creator": "Jonathan Swift",
+      "year": 1726,
+      "workType": "novel",
+      "whyRelevant": "Swift satirises artificial systems of knowledge and government, associating 'artificial' with the mechanical, soulless, and absurd.",
+      "publicDomainHint": true,
+      "links": [
+        {
+          "label": "Project Gutenberg",
+          "url": "https://www.gutenberg.org/ebooks/829"
+        }
+      ]
+    }
+  ],
+  "relatedPages": [
+    {
+      "pageId": "pg_pejoration",
+      "title": "Pejoration",
+      "slug": "pejoration",
+      "summary": "How and why word meanings become more negative over time.",
+      "route": "/pages/pejoration",
+      "tags": ["linguistics", "semantics"]
+    }
+  ],
+  "relatedConcepts": [
+    {
+      "conceptId": "natural",
+      "label": "natural",
+      "relationship": "antonym-context",
+      "note": "The rise of 'natural' as a positive term is the mirror image of artificial's journey."
+    },
+    {
+      "conceptId": "synthetic",
+      "label": "synthetic",
+      "relationship": "synonym-modern",
+      "note": "Synthetic took over some of artificial's neutral sense in the 20th century."
+    }
+  ],
+  "ambiguityNotes": [
+    "In contemporary use, 'artificial' is often neutral in technical contexts (artificial limb, artificial sweetener) but retains pejorative connotations in personal/social contexts (artificial smile, artificial personality).",
+    "The AI field's use of 'artificial intelligence' has begun to rehabilitate the word's connotations in some tech-forward communities."
+  ],
+  "timelineEvents": [
+    {
+      "eventId": "te_artificial_me",
+      "date": "1450-01-01",
+      "eraLabel": "Middle English",
+      "title": "Enters English meaning 'made with art'",
+      "summary": "From Latin 'artificialis', the word initially praised skilled human craft.",
+      "relatedSnapshotId": "artificial_skillful",
+      "sourceIds": ["oed_artificial_1"]
+    },
+    {
+      "eventId": "te_artificial_johnson",
+      "date": "1755-01-01",
+      "eraLabel": "18th Century",
+      "title": "Johnson captures the turning point",
+      "summary": "Johnson's Dictionary shows 'artificial' meaning both 'made with skill' and 'fictitious/not genuine' — the positive and negative senses coexisting.",
+      "relatedSnapshotId": "artificial_manmade",
+      "sourceIds": ["johnson_dict_artificial"]
+    },
+    {
+      "eventId": "te_artificial_romantic",
+      "date": "1800-01-01",
+      "eraLabel": "Romantic Era",
+      "title": "Romanticism makes 'natural' the ideal",
+      "summary": "The Romantic reaction against industrialisation elevated 'natural' as the supreme value, making 'artificial' a term of critique for inauthenticity.",
+      "relatedSnapshotId": "artificial_false",
+      "sourceIds": ["oed_artificial_1"]
+    },
+    {
+      "eventId": "te_artificial_ai",
+      "date": "1956-01-01",
+      "eraLabel": "Mid-20th Century",
+      "title": "Dartmouth: 'Artificial Intelligence' coined",
+      "summary": "John McCarthy coins 'artificial intelligence' at the Dartmouth Conference, beginning a new positive technical register for the word.",
+      "relatedSnapshotId": "artificial_current",
+      "sourceIds": ["oed_artificial_modern"]
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "lexemeId": "charity",
+  "query": "charity",
+  "normalizedQuery": "charity",
+  "supportedModes": ["word", "phrase", "paragraph"],
+  "currentSnapshot": {
+    "snapshotId": "charity_current",
+    "date": "2024-01-01",
+    "eraLabel": "Contemporary",
+    "definition": "An organisation set up to provide help to those in need; the voluntary giving of money or goods; benevolence.",
+    "usageNote": "Primarily understood as an institution (a registered charity) or an act of giving money to those in need. The theological sense is largely absent from secular usage.",
+    "exampleUsage": "She donated to several charities supporting children in crisis.",
+    "register": "neutral",
+    "sentiment": "positive",
+    "confidence": 0.97,
+    "sourceIds": ["oed_charity_modern"]
+  },
+  "historicalSnapshots": [
+    {
+      "snapshotId": "charity_caritas",
+      "date": "1200-01-01",
+      "eraLabel": "Medieval English",
+      "definition": "Christian love; the theological virtue of love for God and one's neighbour. Caritas.",
+      "usageNote": "Translated from the Latin 'caritas' in the Vulgate Bible. In 1 Corinthians 13, 'charity' means transcendent divine love — not giving money.",
+      "exampleUsage": "Though I speak with the tongues of men and of angels, and have not charity, I am become as sounding brass.",
+      "register": "formal",
+      "sentiment": "positive",
+      "confidence": 0.97,
+      "sourceIds": ["kjv_1corinthians", "oed_charity_1"]
+    },
+    {
+      "snapshotId": "charity_almsgiving",
+      "date": "1500-01-01",
+      "eraLabel": "Early Modern English",
+      "definition": "Practical Christian love in action: almsgiving to the poor; benevolence; acts of mercy.",
+      "usageNote": "As Protestantism emphasised works and social duty, 'charity' acquired the practical sense of giving to the poor—while retaining the theological backdrop.",
+      "exampleUsage": "He gave charity to the beggars at the church gate.",
+      "register": "formal",
+      "sentiment": "positive",
+      "confidence": 0.94,
+      "sourceIds": ["oed_charity_1", "tyndale_bible"]
+    },
+    {
+      "snapshotId": "charity_benevolence",
+      "date": "1750-01-01",
+      "eraLabel": "18th Century",
+      "definition": "Liberality to the poor; benevolent giving; good will towards others generally.",
+      "usageNote": "The Enlightenment secularised charity into a civic virtue. 'Charitable societies' emerged as proto-NGOs. The theological sense retreated to explicitly religious contexts.",
+      "exampleUsage": "The Society for the Relief of Poor Widows was founded on the principles of charity and civic duty.",
+      "register": "formal",
+      "sentiment": "positive",
+      "confidence": 0.93,
+      "sourceIds": ["oed_charity_modern"]
+    },
+    {
+      "snapshotId": "charity_institutional",
+      "date": "1850-01-01",
+      "eraLabel": "Victorian Era",
+      "definition": "An institution organised for charitable purposes; charitable relief of the poor.",
+      "usageNote": "The Victorian era proliferated charitable societies. 'Charity' began to denote the institution as much as the virtue—'a charity school', 'charity case'. Some negative connotations of paternalism emerged.",
+      "exampleUsage": "She refused charity from the workhouse, preferring honest labour.",
+      "register": "neutral",
+      "sentiment": "neutral",
+      "confidence": 0.92,
+      "sourceIds": ["oed_charity_modern", "dickens_charity"]
+    }
+  ],
+  "summaryOfChange": {
+    "shortSummary": "From divine love (caritas) through almsgiving to registered nonprofit organisation.",
+    "longSummary": "Charity entered English as the translation of the Latin 'caritas'—the greatest of the three theological virtues in 1 Corinthians 13: selfless love for God and neighbour. Through the Reformation and Enlightenment, it narrowed from transcendent love to the practical act of giving to the poor. By the Victorian era it had further institutionalised into charitable societies and foundations. Today it primarily denotes a registered nonprofit organisation or the act of giving money—almost entirely secularised, with only liturgical contexts preserving the original divine-love meaning.",
+    "sentimentShift": "positive-to-positive",
+    "driftType": "narrowing",
+    "driftMagnitude": 0.75
+  },
+  "keyDates": [
+    {
+      "date": "1382-01-01",
+      "label": "Wycliffe Bible",
+      "significance": "First English Bible translation uses 'charite' for Latin 'caritas' in 1 Corinthians 13."
+    },
+    {
+      "date": "1611-01-01",
+      "label": "King James Bible",
+      "significance": "KJV uses 'charity' throughout, cementing the theological sense in English-speaking Protestant culture."
+    },
+    {
+      "date": "1946-01-01",
+      "label": "RSV/modern translations shift",
+      "significance": "The Revised Standard Version translates 'caritas' as 'love' rather than 'charity', accelerating the separation of the word from its theological origin."
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "kjv_1corinthians",
+      "title": "King James Bible – 1 Corinthians 13",
+      "author": null,
+      "publisher": "Royal Printer",
+      "publishedDate": "1611-01-01",
+      "sourceType": "historical",
+      "attribution": "Public domain.",
+      "excerpt": "And though I bestow all my goods to feed the poor, and though I give my body to be burned, and have not charity, it profiteth me nothing.",
+      "relevanceNote": "The canonical English text that fixed 'charity' as the translation of caritas and shaped its theological meaning for four centuries.",
+      "confidence": 0.99
+    },
+    {
+      "sourceId": "oed_charity_1",
+      "title": "Oxford English Dictionary – charity, n. (historical senses)",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. © Oxford University Press.",
+      "excerpt": "Christian love; the theological virtue (one of the three 'theological virtues'). Also: charitable giving, liberality to the poor.",
+      "relevanceNote": "Documents the full arc from theological virtue to practical benevolence.",
+      "confidence": 0.97
+    },
+    {
+      "sourceId": "oed_charity_modern",
+      "title": "Oxford English Dictionary – charity, n. (modern senses)",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. © Oxford University Press.",
+      "excerpt": "An organisation set up to provide help and raise money for those in need; the voluntary giving of help.",
+      "relevanceNote": "Contemporary primary senses — institutional and practical, no longer primarily theological.",
+      "confidence": 0.97
+    },
+    {
+      "sourceId": "tyndale_bible",
+      "title": "Tyndale Bible – New Testament",
+      "author": "William Tyndale",
+      "publisher": null,
+      "publishedDate": "1526-01-01",
+      "sourceType": "historical",
+      "attribution": "Public domain.",
+      "excerpt": "Though I bestowe all my goodes to fede ye poore... and yet have no love, it profiteth me nothinge.",
+      "relevanceNote": "Tyndale used 'love' rather than 'charity', showing that the translation choice was contested from the start.",
+      "confidence": 0.88
+    }
+  ],
+  "relatedWorks": [
+    {
+      "workId": "rw_kjv_corinthians",
+      "title": "1 Corinthians 13 (King James Bible)",
+      "creator": null,
+      "year": 1611,
+      "workType": "other",
+      "whyRelevant": "The most influential English-language use of 'charity' in the theological sense. 'The greatest of these is charity' shaped the word's meaning for four centuries.",
+      "publicDomainHint": true,
+      "links": []
+    }
+  ],
+  "relatedPages": [
+    {
+      "pageId": "pg_semantic_drift",
+      "title": "Semantic Drift",
+      "slug": "semantic-drift",
+      "summary": "The broad phenomenon of word meanings shifting across time.",
+      "route": "/pages/semantic-drift",
+      "tags": ["linguistics", "history"]
+    },
+    {
+      "pageId": "pg_pejoration",
+      "title": "Pejoration",
+      "slug": "pejoration",
+      "summary": "How and why word meanings become more negative over time.",
+      "route": "/pages/pejoration",
+      "tags": ["linguistics", "semantics"]
+    }
+  ],
+  "relatedConcepts": [
+    {
+      "conceptId": "love",
+      "label": "love",
+      "relationship": "translation-variant",
+      "note": "Modern Bible translations use 'love' where KJV used 'charity', reflecting the narrowing."
+    },
+    {
+      "conceptId": "mercy",
+      "label": "mercy",
+      "relationship": "semantic-neighbour",
+      "note": "Mercy overlaps with the practical almsgiving sense of charity."
+    }
+  ],
+  "ambiguityNotes": [
+    "In liturgical and theological contexts, 'charity' still carries the full weight of caritas. Reading 1 Corinthians 13 with the modern 'donation' sense misses the theological point entirely.",
+    "The phrase 'cold charity' acquired negative connotations in Victorian usage — charity as patronising condescension rather than love."
+  ],
+  "timelineEvents": [
+    {
+      "eventId": "te_charity_wycliffe",
+      "date": "1382-01-01",
+      "eraLabel": "Medieval English",
+      "title": "Wycliffe introduces 'charite'",
+      "summary": "John Wycliffe's first English Bible translation uses 'charite' for Latin 'caritas', introducing the word into English religious life.",
+      "relatedSnapshotId": "charity_caritas",
+      "sourceIds": ["oed_charity_1"]
+    },
+    {
+      "eventId": "te_charity_kjv",
+      "date": "1611-01-01",
+      "eraLabel": "Early Modern English",
+      "title": "King James Bible cements the word",
+      "summary": "The KJV's consistent use of 'charity' for caritas fixed the theological sense in English-speaking Protestant consciousness for three centuries.",
+      "relatedSnapshotId": "charity_caritas",
+      "sourceIds": ["kjv_1corinthians"]
+    },
+    {
+      "eventId": "te_charity_enlightenment",
+      "date": "1750-01-01",
+      "eraLabel": "18th Century",
+      "title": "Enlightenment secularisation",
+      "summary": "Charitable societies emerge as civic institutions, secularising 'charity' from theological virtue to practical benevolence.",
+      "relatedSnapshotId": "charity_benevolence",
+      "sourceIds": ["oed_charity_modern"]
+    },
+    {
+      "eventId": "te_charity_rsv",
+      "date": "1946-01-01",
+      "eraLabel": "Mid-20th Century",
+      "title": "Modern Bible translators prefer 'love'",
+      "summary": "The RSV and subsequent translations use 'love' for caritas, effectively separating 'charity' from its original meaning in new religious texts.",
+      "relatedSnapshotId": "charity_institutional",
+      "sourceIds": ["oed_charity_modern"]
+    }
+  ]
+}
