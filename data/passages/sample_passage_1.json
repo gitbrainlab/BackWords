@@ -1,0 +1,63 @@
+{
+  "passageId": "passage_wordsworth_1",
+  "title": "From The Prelude – William Wordsworth (1850)",
+  "sourceNote": "William Wordsworth, The Prelude (1850 text), Book I. Public domain.",
+  "originalText": "Wisdom and Spirit of Nature! Thou Soul that art the Eternity of Thought! That givest to forms and images a breath and everlasting motion—not in vain, by day or star-light, thus from my first dawn of Childhood, didst thou intertwine for me the passions that build up our human soul; not with the mean and vulgar works of Man, but with high objects, with enduring things, with life and nature, purifying thus the elements of feeling and of thought, and sanctifying by such discipline both pain and fear, until we recognise a grandeur in the beatings of the heart.",
+  "modernParaphrase": "Spirit of Nature and Wisdom! You are the eternal principle behind all thought, giving life and endless motion to every form and image. From the earliest dawn of my childhood, you wove into me—not through trivial human creations, but through sublime and lasting things—the deep passions that shape the human soul. Through nature's discipline, you transformed even pain and fear into something sacred, until we come to recognise a kind of grandeur in the very beating of our hearts.",
+  "highlights": [
+    {
+      "highlightId": "h1",
+      "start": 0,
+      "end": 7,
+      "text": "Wisdom",
+      "conceptId": "wisdom",
+      "label": "Abstract virtue: active cosmic principle",
+      "confidence": 0.82
+    },
+    {
+      "highlightId": "h2",
+      "start": 128,
+      "end": 137,
+      "text": "Childhood",
+      "conceptId": "childhood",
+      "label": "Romantic elevation: sacred formative period",
+      "confidence": 0.88
+    },
+    {
+      "highlightId": "h3",
+      "start": 212,
+      "end": 219,
+      "text": "vulgar",
+      "conceptId": "vulgar",
+      "label": "vulgar: 'common/low' (not obscene)",
+      "confidence": 0.95
+    },
+    {
+      "highlightId": "h4",
+      "start": 336,
+      "end": 345,
+      "text": "purifying",
+      "conceptId": "purifying",
+      "label": "Theological resonance: moral/spiritual cleansing",
+      "confidence": 0.79
+    },
+    {
+      "highlightId": "h5",
+      "start": 359,
+      "end": 370,
+      "text": "sanctifying",
+      "conceptId": "sanctifying",
+      "label": "Theological: making holy — applied to pain and fear",
+      "confidence": 0.91
+    },
+    {
+      "highlightId": "h6",
+      "start": 418,
+      "end": 425,
+      "text": "grandeur",
+      "conceptId": "grandeur",
+      "label": "Sublime concept: Romantic key term for awesome scale",
+      "confidence": 0.87
+    }
+  ]
+}
