@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://backwords.app/schemas/RelatedPage.schema.json",
+  "title": "RelatedPage",
+  "description": "An in-app knowledge page cross-linked from a result",
+  "type": "object",
+  "required": ["pageId", "title", "slug", "summary", "route", "tags"],
+  "properties": {
+    "pageId": {
+      "type": "string",
+      "description": "Unique identifier, e.g. 'pg_semantic_drift'"
+    },
+    "title": {
+      "type": "string",
+      "description": "Display title of the knowledge page"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-safe identifier matching the data/pages/<slug>.json filename"
+    },
+    "summary": {
+      "type": "string",
+      "description": "One-sentence description of the page content"
+    },
+    "route": {
+      "type": "string",
+      "description": "In-app navigation route, e.g. '/pages/semantic-drift'"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Topic tags for filtering and discovery"
+    }
+  },
+  "additionalProperties": false
+}

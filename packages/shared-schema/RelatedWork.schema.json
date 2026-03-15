@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://backwords.app/schemas/RelatedWork.schema.json",
+  "title": "RelatedWork",
+  "description": "A literary or cultural work that illuminates a word's historical usage",
+  "type": "object",
+  "required": ["workId", "title", "workType", "whyRelevant", "publicDomainHint"],
+  "properties": {
+    "workId": {
+      "type": "string",
+      "description": "Unique identifier, e.g. 'rw_wordsworth_prelude'"
+    },
+    "title": {
+      "type": "string",
+      "description": "Full title of the work"
+    },
+    "creator": {
+      "type": ["string", "null"],
+      "description": "Author, composer, director, etc."
+    },
+    "year": {
+      "type": ["integer", "null"],
+      "description": "Year of first publication/release"
+    },
+    "workType": {
+      "type": "string",
+      "enum": ["novel", "poetry", "play", "essay", "dictionary", "journal", "film", "song", "other"],
+      "description": "Type of creative or scholarly work"
+    },
+    "whyRelevant": {
+      "type": "string",
+      "description": "Why this work is significant for understanding the word's history"
+    },
+    "publicDomainHint": {
+      "type": "boolean",
+      "description": "Whether this work is believed to be in the public domain (not a legal guarantee)"
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["label", "url"],
+        "properties": {
+          "label": { "type": "string" },
+          "url": { "type": "string", "format": "uri" }
+        },
+        "additionalProperties": false
+      },
+      "default": [],
+      "description": "External links (Project Gutenberg, archive.org, etc.)"
+    }
+  },
+  "additionalProperties": false
+}

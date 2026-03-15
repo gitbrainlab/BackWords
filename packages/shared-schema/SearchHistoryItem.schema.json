@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://backwords.app/schemas/SearchHistoryItem.schema.json",
+  "title": "SearchHistoryItem",
+  "description": "A record of a past search, persisted in SwiftData",
+  "type": "object",
+  "required": ["id", "text", "normalizedQuery", "mode", "timestamp"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier"
+    },
+    "text": {
+      "type": "string",
+      "description": "Original search text as entered by the user"
+    },
+    "normalizedQuery": {
+      "type": "string",
+      "description": "Lowercased, trimmed form for deduplication"
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["word", "phrase", "paragraph"],
+      "description": "Search mode used"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the search was performed"
+    },
+    "selectedDate": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Specific date the user anchored to, if any"
+    },
+    "selectedEraLabel": {
+      "type": ["string", "null"],
+      "description": "Era label corresponding to selectedDate"
+    },
+    "pinned": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the user has pinned this history item"
+    },
+    "lastResultId": {
+      "type": ["string", "null"],
+      "description": "lexemeId of the last result for this search"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://backwords.app/schemas/InterpretationResult.schema.json",
+  "title": "InterpretationResult",
+  "description": "Full interpretation result returned by POST /interpret",
+  "type": "object",
+  "required": ["lexemeId", "query", "normalizedQuery", "currentSnapshot", "historicalSnapshots", "sources", "summaryOfChange", "keyDates", "generatedAt", "modelVersion"],
+  "properties": {
+    "lexemeId": { "type": "string", "description": "Stable slug identifier, e.g. 'awful' or 'nice_foolish'" },
+    "query": { "type": "string", "description": "Original query string as submitted" },
+    "normalizedQuery": { "type": "string", "description": "Lowercase normalized form" },
+    "requestedDate": { "type": ["string", "null"], "format": "date", "description": "ISO8601 date the client requested" },
+    "resolvedEraLabel": { "type": ["string", "null"], "description": "Era label of the resolved snapshot" },
+    "currentSnapshot": { "$ref": "#/$defs/SnapshotInterpretation" },
+    "selectedSnapshot": {
+      "oneOf": [{ "$ref": "#/$defs/SnapshotInterpretation" }, { "type": "null" }],
+      "description": "The snapshot closest to requestedDate, if a date was provided"
+    },
+    "historicalSnapshots": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/SnapshotInterpretation" },
+      "description": "All historical snapshots ordered oldest to newest"
+    },
+    "summaryOfChange": { "$ref": "#/$defs/SummaryOfChange" },
+    "keyDates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/KeyDate" }
+    },
+    "sources": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/SourceCitation" }
+    },
+    "relatedWorks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/RelatedWork" },
+      "default": []
+    },
+    "relatedPages": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/RelatedPage" },
+      "default": []
+    },
+    "relatedConcepts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/RelatedConcept" },
+      "default": []
+    },
+    "ambiguityNotes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "passage": {
+      "oneOf": [{ "$ref": "#/$defs/Passage" }, { "type": "null" }]
+    },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "modelVersion": { "type": "string" }
+  },
+  "$defs": {
+    "SnapshotInterpretation": {
+      "type": "object",
+      "required": ["snapshotId", "date", "eraLabel", "definition", "usageNote", "exampleUsage", "register", "sentiment", "confidence", "sourceIds"],
+      "properties": {
+        "snapshotId": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "eraLabel": { "type": "string" },
+        "definition": { "type": "string" },
+        "usageNote": { "type": "string" },
+        "exampleUsage": { "type": "string" },
+        "register": { "type": "string", "enum": ["formal", "informal", "neutral", "technical", "vulgar", "archaic"] },
+        "sentiment": { "type": "string", "enum": ["positive", "negative", "neutral"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "sourceIds": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "SummaryOfChange": {
+      "type": "object",
+      "required": ["shortSummary", "longSummary", "sentimentShift", "driftType", "driftMagnitude"],
+      "properties": {
+        "shortSummary": { "type": "string" },
+        "longSummary": { "type": "string" },
+        "sentimentShift": {
+          "type": "string",
+          "enum": ["positive-to-negative", "negative-to-positive", "neutral-to-negative", "neutral-to-positive", "positive-to-neutral", "negative-to-neutral", "stable", "complex"]
+        },
+        "driftType": {
+          "type": "string",
+          "enum": ["pejoration", "amelioration", "narrowing", "broadening", "semantic-shift", "stable", "reclamation"]
+        },
+        "driftMagnitude": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "KeyDate": {
+      "type": "object",
+      "required": ["date", "label", "significance"],
+      "properties": {
+        "date": { "type": "string", "format": "date" },
+        "label": { "type": "string" },
+        "significance": { "type": "string" }
+      }
+    },
+    "SourceCitation": {
+      "type": "object",
+      "required": ["sourceId", "title", "sourceType", "attribution", "excerpt", "relevanceNote", "confidence"],
+      "properties": {
+        "sourceId": { "type": "string" },
+        "title": { "type": "string" },
+        "author": { "type": ["string", "null"] },
+        "publisher": { "type": ["string", "null"] },
+        "publishedDate": { "type": ["string", "null"] },
+        "sourceType": {
+          "type": "string",
+          "enum": ["dictionary", "literary", "academic", "historical", "newspaper", "other"]
+        },
+        "attribution": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "relevanceNote": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "RelatedWork": {
+      "type": "object",
+      "required": ["workId", "title", "workType", "whyRelevant", "publicDomainHint"],
+      "properties": {
+        "workId": { "type": "string" },
+        "title": { "type": "string" },
+        "creator": { "type": ["string", "null"] },
+        "year": { "type": ["integer", "null"] },
+        "workType": {
+          "type": "string",
+          "enum": ["novel", "poetry", "play", "essay", "dictionary", "journal", "film", "song", "other"]
+        },
+        "whyRelevant": { "type": "string" },
+        "publicDomainHint": { "type": "boolean" },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["label", "url"],
+            "properties": {
+              "label": { "type": "string" },
+              "url": { "type": "string", "format": "uri" }
+            }
+          }
+        }
+      }
+    },
+    "RelatedPage": {
+      "type": "object",
+      "required": ["pageId", "title", "slug", "summary", "route", "tags"],
+      "properties": {
+        "pageId": { "type": "string" },
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "summary": { "type": "string" },
+        "route": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "RelatedConcept": {
+      "type": "object",
+      "required": ["conceptId", "label", "relationship"],
+      "properties": {
+        "conceptId": { "type": "string" },
+        "label": { "type": "string" },
+        "relationship": { "type": "string" },
+        "note": { "type": ["string", "null"] }
+      }
+    },
+    "Passage": {
+      "type": "object",
+      "required": ["originalText", "modernParaphrase", "highlights"],
+      "properties": {
+        "originalText": { "type": "string" },
+        "modernParaphrase": { "type": ["string", "null"] },
+        "highlights": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/PassageHighlight" }
+        }
+      }
+    },
+    "PassageHighlight": {
+      "type": "object",
+      "required": ["highlightId", "start", "end", "text", "conceptId", "label", "confidence"],
+      "properties": {
+        "highlightId": { "type": "string" },
+        "start": { "type": "integer", "minimum": 0 },
+        "end": { "type": "integer", "minimum": 0 },
+        "text": { "type": "string" },
+        "conceptId": { "type": "string" },
+        "label": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}

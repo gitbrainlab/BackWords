@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://backwords.app/schemas/TimelineEvent.schema.json",
+  "title": "TimelineEvent",
+  "description": "A historical event that influenced a word's meaning or usage",
+  "type": "object",
+  "required": ["eventId", "date", "eraLabel", "title", "summary", "sourceIds"],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "description": "Unique identifier for the event"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO8601 date of the event"
+    },
+    "eraLabel": {
+      "type": "string",
+      "description": "Human-readable era name, e.g. 'Victorian Era'"
+    },
+    "title": {
+      "type": "string",
+      "description": "Short event title"
+    },
+    "summary": {
+      "type": "string",
+      "description": "1–3 sentence description of the event and its linguistic significance"
+    },
+    "relatedSnapshotId": {
+      "type": ["string", "null"],
+      "description": "ID of the snapshot most closely associated with this event"
+    },
+    "sourceIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "IDs of sources that document this event"
+    }
+  },
+  "additionalProperties": false
+}
