@@ -14,7 +14,7 @@ Interpret a word, phrase, or passage in historical context.
 
 ```json
 {
-  "query": "awful",
+  "query": "silly",
   "mode": "word",
   "selectedDate": "1850-01-01",
   "clientContext": {
@@ -36,90 +36,90 @@ Interpret a word, phrase, or passage in historical context.
 
 ```json
 {
-  "lexemeId": "awful",
-  "query": "awful",
-  "normalizedQuery": "awful",
+  "lexemeId": "silly",
+  "query": "silly",
+  "normalizedQuery": "silly",
   "requestedDate": "1850-01-01",
   "resolvedEraLabel": "Victorian Era",
   "currentSnapshot": {
-    "snapshotId": "awful_current",
+    "snapshotId": "silly_current",
     "date": "2024-01-01",
     "eraLabel": "Contemporary",
-    "definition": "Very bad or unpleasant; used as an intensifier.",
-    "usageNote": "Used casually to express strong disapproval or emphasis.",
-    "exampleUsage": "The weather was awful yesterday.",
+    "definition": "Showing a lack of common sense or judgement; absurd and foolish.",
+    "usageNote": "Applied affectionately or dismissively depending on context.",
+    "exampleUsage": "Don't be silly — you can't carry all those bags at once.",
     "register": "informal",
     "sentiment": "negative",
-    "confidence": 0.98,
-    "sourceIds": ["oed_awful_modern"]
+    "confidence": 0.97,
+    "sourceIds": ["oed_silly_modern"]
   },
   "selectedSnapshot": {
-    "snapshotId": "awful_1850",
-    "date": "1850-01-01",
-    "eraLabel": "Victorian Era",
-    "definition": "Inspiring awe; solemnly impressive.",
-    "usageNote": "Used reverently to describe the sublime—storms, cathedrals, divine power.",
-    "exampleUsage": "The awful silence of the mountains.",
-    "register": "formal",
-    "sentiment": "neutral",
-    "confidence": 0.95,
-    "sourceIds": ["oed_awful_1", "johnson_dict"]
+    "snapshotId": "silly_elizabethan",
+    "date": "1600-01-01",
+    "eraLabel": "Elizabethan",
+    "definition": "Feeble of mind; lacking good judgement; simple to the point of being easily deceived.",
+    "usageNote": "Shakespeare uses it in this transitional register — between 'harmless' and 'foolish'.",
+    "exampleUsage": "A silly fellow, easily gulled.",
+    "register": "informal",
+    "sentiment": "negative",
+    "confidence": 0.89,
+    "sourceIds": ["oed_silly_1", "bosworth_toller_silly"]
   },
   "historicalSnapshots": [
     {
-      "snapshotId": "awful_old_english",
+      "snapshotId": "silly_old_english",
       "date": "0900-01-01",
       "eraLabel": "Old English",
-      "definition": "Inspiring fear or dread; terror-inducing.",
-      "usageNote": "Primarily religious and supernatural contexts.",
-      "exampleUsage": "The awful wrath of God.",
+      "definition": "Blessed; happy; fortunate; spiritually worthy.",
+      "usageNote": "From Old English 'sælig' — to be silly was to be in God's favour.",
+      "exampleUsage": "Sælig mann — blessed man.",
       "register": "formal",
-      "sentiment": "negative",
-      "confidence": 0.87,
-      "sourceIds": ["bosworth_toller"]
+      "sentiment": "positive",
+      "confidence": 0.92,
+      "sourceIds": ["bosworth_toller_silly"]
     }
   ],
   "summaryOfChange": {
-    "shortSummary": "From awe-inspiring reverence to casual intensifier for 'bad'.",
-    "longSummary": "Awful began as a deeply reverent adjective meaning 'worthy of awe'—used for divine power, natural sublimity, and solemn occasions. By the 19th century it had weakened to 'impressively large or notable'. In the 20th century, pejoration accelerated, and 'awful' came to mean simply 'very bad', with the intensifier use ('awfully kind') preserving a ghost of its original amplifying force.",
+    "shortSummary": "From 'blessed by God' to 'foolishly trivial' — one of English's most dramatic reversals.",
+    "longSummary": "In Old English 'sælig' was a term of the highest spiritual praise: to be silly was to be blessed by God. Through Middle English the sense widened to 'innocent and helpless', then darkened — the innocent became the simple-minded, the simple-minded became the easily-gulled, and by Early Modern English the word had fully pejorated into 'foolish'. Today it sits at the mild end of a spectrum of intellectual dismissal, all memory of its blessed origins lost to most speakers.",
     "sentimentShift": "positive-to-negative",
     "driftType": "pejoration",
-    "driftMagnitude": 0.9
+    "driftMagnitude": 0.95
   },
   "keyDates": [
     {
-      "date": "1755-01-01",
-      "label": "Johnson's Dictionary",
-      "significance": "Defined 'awful' as 'that which strikes with awe; that which fills with reverence'."
+      "date": "0900-01-01",
+      "label": "Old English sælig",
+      "significance": "The root 'sælig' meant divinely blessed — cognate with German 'selig', which still retains this meaning today."
     },
     {
-      "date": "1884-01-01",
-      "label": "OED First Edition",
-      "significance": "First systematic record of the weakening colloquial sense."
+      "date": "1750-01-01",
+      "label": "Pejoration complete",
+      "significance": "By the mid-18th century dictionaries recorded 'silly' exclusively as 'foolish' or 'trivial'."
     }
   ],
   "sources": [
     {
-      "sourceId": "oed_awful_1",
-      "title": "Oxford English Dictionary – awful, adj.",
-      "author": "Oxford University Press",
+      "sourceId": "oed_silly_1",
+      "title": "Oxford English Dictionary — silly, adj.",
+      "author": null,
       "publisher": "Oxford University Press",
       "publishedDate": "2023-09-01",
       "sourceType": "dictionary",
       "attribution": "Paraphrase. OED content © Oxford University Press.",
-      "excerpt": "Originally: inspiring reverential wonder or fear. Later weakened to: very great, notable, or unpleasant.",
-      "relevanceNote": "Primary authority on historical English usage.",
+      "excerpt": "Originally: blessed, happy, fortunate. Later: innocent, harmless. Now chiefly: foolish, showing a lack of sense.",
+      "relevanceNote": "Primary authority tracing the full arc from 'blessed' to 'foolish'.",
       "confidence": 0.98
     }
   ],
   "relatedWorks": [
     {
-      "workId": "rw_wordsworth_prelude",
-      "title": "The Prelude",
-      "creator": "William Wordsworth",
-      "year": 1850,
-      "workType": "poetry",
-      "whyRelevant": "Contains canonical uses of 'awful' in the sublime/reverential sense.",
+      "workId": "rw_shakespeare_midsummer",
+      "title": "A Midsummer Night's Dream",
+      "creator": "William Shakespeare",
+      "year": 1600,
+      "workType": "play",
+      "whyRelevant": "Contains uses of 'silly' in its transitional phase — illustrating the word mid-drift between 'harmless' and 'foolish'.",
       "publicDomainHint": true,
       "links": []
     }
@@ -171,9 +171,9 @@ Ask the engine to explain *why* a specific source supports a specific interpreta
 
 ```json
 {
-  "sourceId": "oed_awful_1",
-  "query": "awful",
-  "snapshotId": "awful_1850",
+  "sourceId": "oed_silly_1",
+  "query": "silly",
+  "snapshotId": "silly_elizabethan",
   "clientContext": null
 }
 ```
@@ -189,11 +189,12 @@ Ask the engine to explain *why* a specific source supports a specific interpreta
 
 ```json
 {
-  "sourceId": "oed_awful_1",
-  "explanation": "The OED entry for 'awful' traces the word's etymology from Old English 'egeful' (fear-inducing) through its 18th-century meaning of reverential awe to the colloquial weakening in the 19th century. This dictionary entry is the gold standard reference for this transition because it provides dated quotations spanning over a thousand years of written English.",
+  "sourceId": "oed_silly_1",
+  "explanation": "The OED entry for 'silly' traces the word's etymology from Old English 'sælig' (blessed/happy) through its Middle English sense of 'innocent/pitiable' to the fully pejorated modern 'foolish'. It provides dated quotations spanning over a thousand years of written English, making it the primary authority on this dramatic reversal.",
   "supportingQuotes": [
-    "1697 DRYDEN: 'The awful father sits in regal state.'",
-    "1830 TENNYSON: 'The awful shadow of some unseen Power.'"
+    "c900 — sælig: blessed, happy, favoured by God.",
+    "c1300 — 'a silly child': innocent, defenceless.",
+    "1570 — 'a silly fellow, easily gulled': simple-minded."
   ],
   "confidenceNarrative": "High confidence (0.98) — the OED is the primary authority on historical English semantics and provides direct documentary evidence.",
   "generatedAt": "2024-01-01T00:00:00Z"

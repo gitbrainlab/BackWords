@@ -124,16 +124,18 @@ struct HighlightedTextView: View {
     NavigationStack {
         PassageView(
             passage: Passage(
-                originalText: "The awful silence of the mountains filled every soul with reverence and vulgar cares were forgotten.",
-                modernParaphrase: "The awe-inspiring silence of the mountains filled everyone with reverence, and ordinary worries were forgotten.",
+                originalText: "The silly child wandered from the flock and found companion in the valley, unaware of disaster ahead.",
+                modernParaphrase: "The innocent child wandered away and found a friend in the valley, unaware of the catastrophe ahead.",
                 highlights: [
-                    PassageHighlight(highlightId: "h1", start: 4, end: 9, text: "awful",
-                                     conceptId: "awful", label: "Sublime reverence", confidence: 0.95),
-                    PassageHighlight(highlightId: "h2", start: 70, end: 76, text: "vulgar",
-                                     conceptId: "vulgar", label: "Common/ordinary (not obscene)", confidence: 0.88)
+                    PassageHighlight(highlightId: "h1", start: 4, end: 9, text: "silly",
+                                     conceptId: "silly", label: "Innocent/blessed (OE)", confidence: 0.95),
+                    PassageHighlight(highlightId: "h2", start: 47, end: 56, text: "companion",
+                                     conceptId: "companion", label: "Bread-sharer (Latin)", confidence: 0.88),
+                    PassageHighlight(highlightId: "h3", start: 82, end: 89, text: "disaster",
+                                     conceptId: "disaster", label: "Bad star (Italian)", confidence: 0.91)
                 ]
             ),
-            query: "awful"
+            query: "silly"
         )
     }
 }

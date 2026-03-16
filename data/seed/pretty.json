@@ -1,0 +1,231 @@
+{
+  "lexemeId": "pretty",
+  "query": "pretty",
+  "normalizedQuery": "pretty",
+  "supportedModes": ["word", "phrase"],
+  "currentSnapshot": {
+    "snapshotId": "pretty_current",
+    "date": "2024-01-01",
+    "eraLabel": "Contemporary",
+    "definition": "Attractive in a delicate or graceful way; moderately (as an intensifier: 'pretty good').",
+    "usageNote": "Used both as an adjective for aesthetic appeal and as an adverbial intensifier. 'Pretty' often implies delicate rather than dramatic beauty. As an intensifier it can soften ('pretty bad') or qualify ('pretty good').",
+    "exampleUsage": "She wore a pretty dress; the results were pretty impressive.",
+    "register": "neutral",
+    "sentiment": "positive",
+    "confidence": 0.97,
+    "sourceIds": ["oed_pretty_modern", "merriam_pretty"]
+  },
+  "historicalSnapshots": [
+    {
+      "snapshotId": "pretty_old_english",
+      "date": "1000-01-01",
+      "eraLabel": "Old English / early Middle English",
+      "definition": "Cunning; clever; crafty; artfully made.",
+      "usageNote": "From Old English 'prættig' (crafty, astute, from 'prætt', trick or wile). The original sense was about mental sharpness or skill, not physical appearance.",
+      "exampleUsage": "A pretty device — a cleverly made contrivance.",
+      "register": "neutral",
+      "sentiment": "positive",
+      "confidence": 0.88,
+      "sourceIds": ["oed_pretty_1", "bosworth_toller_pretty"]
+    },
+    {
+      "snapshotId": "pretty_middle_english",
+      "date": "1400-01-01",
+      "eraLabel": "Middle English",
+      "definition": "Clever and skilful in a pleasing way; fine; apt; well-made.",
+      "usageNote": "The 'cunning' sense softened into 'pleasingly apt or well-crafted'. A 'pretty solution' was an elegant one; a 'pretty speech' was well-turned. Physical attractiveness began entering the frame.",
+      "exampleUsage": "A pretty conceit — a clever and elegant idea.",
+      "register": "neutral",
+      "sentiment": "positive",
+      "confidence": 0.87,
+      "sourceIds": ["oed_pretty_1", "middle_english_dict_pretty"]
+    },
+    {
+      "snapshotId": "pretty_early_modern",
+      "date": "1550-01-01",
+      "eraLabel": "Early Modern English",
+      "definition": "Pleasing to the eye; attractive, especially in a dainty or delicate way.",
+      "usageNote": "Physical appearance became the primary sense. 'Pretty' settled into a slightly lesser register than 'beautiful' — more delicate, less grand. Also established as a mild intensifier ('pretty well', 'pretty soon').",
+      "exampleUsage": "She is passing pretty; the garden is prettily kept.",
+      "register": "neutral",
+      "sentiment": "positive",
+      "confidence": 0.92,
+      "sourceIds": ["oed_pretty_2", "shakespeare_ref_pretty"]
+    }
+  ],
+  "summaryOfChange": {
+    "shortSummary": "From 'cunning and crafty' to 'delicately attractive' — the word migrated from mind to appearance.",
+    "longSummary": "Old English 'prættig' meant cleverly crafty — related to 'prætt' (a trick or wile). It was a word about mental sharpness, not physical appearance. Through Middle English, the sense of 'cleverly made' softened into 'pleasingly apt', and gradually the pleasure associated with cleverness transferred to visual pleasure. By Early Modern English, physical attractiveness had become primary, with 'clever' almost entirely displaced. The word also developed a secondary career as a qualifier-intensifier ('pretty good', 'pretty bad') that persists today.",
+    "sentimentShift": "positive-to-positive",
+    "driftType": "semantic-shift",
+    "driftMagnitude": 0.75
+  },
+  "keyDates": [
+    {
+      "date": "1000-01-01",
+      "label": "Old English root 'prættig'",
+      "significance": "The root 'prætt' (trick, wile) shows the original cognitive sense — 'pretty' was about cleverness, not looks."
+    },
+    {
+      "date": "1450-01-01",
+      "label": "Transition to aesthetic sense",
+      "significance": "By the mid-15th century, 'pretty' was being applied to persons and things in a way that mixed 'well-made' with 'attractive to the eye'."
+    },
+    {
+      "date": "1570-01-01",
+      "label": "Physical attractiveness dominant",
+      "significance": "The aesthetic sense had become primary by Shakespeare's time, though the 'apt/well-made' sense survived in phrases like 'a pretty argument'."
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "oed_pretty_1",
+      "title": "Oxford English Dictionary — pretty, adj.",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase and excerpt. OED content © Oxford University Press. Used for educational commentary.",
+      "excerpt": "Originally: cunning, crafty, artful. Later: cleverly made, fine, apt. Now chiefly: attractive, especially in a dainty way.",
+      "relevanceNote": "The OED traces the full arc from 'cunning' to 'attractive', with dated quotations at each stage.",
+      "confidence": 0.98
+    },
+    {
+      "sourceId": "oed_pretty_2",
+      "title": "Oxford English Dictionary — pretty, adj. (visual senses)",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. OED content © Oxford University Press.",
+      "excerpt": "Of a person, esp. a woman or child: attractive in a delicate or graceful way.",
+      "relevanceNote": "Documents the arrival of physical attractiveness as the dominant sense.",
+      "confidence": 0.96
+    },
+    {
+      "sourceId": "oed_pretty_modern",
+      "title": "Oxford English Dictionary — pretty, adv. (intensifier)",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. OED content © Oxford University Press.",
+      "excerpt": "As an adverb: to a moderately high degree; fairly, quite.",
+      "relevanceNote": "Shows the parallel development as a qualifier-intensifier.",
+      "confidence": 0.95
+    },
+    {
+      "sourceId": "bosworth_toller_pretty",
+      "title": "An Anglo-Saxon Dictionary",
+      "author": "Joseph Bosworth, T. Northcote Toller",
+      "publisher": "Oxford University Press",
+      "publishedDate": "1898-01-01",
+      "sourceType": "dictionary",
+      "attribution": "Public domain.",
+      "excerpt": "prætt: a trick, wile, craft, art. prættig: cunning, astute.",
+      "relevanceNote": "Documents the Old English root — the word was about cleverness and cunning, not appearance.",
+      "confidence": 0.90
+    }
+  ],
+  "relatedWorks": [
+    {
+      "workId": "rw_shakespeare_merry_wives",
+      "title": "The Merry Wives of Windsor",
+      "creator": "William Shakespeare",
+      "year": 1602,
+      "workType": "play",
+      "whyRelevant": "Contains 'pretty' used in the transitional phase — both in the 'well-made/apt' sense and in the emerging physical-attractiveness sense.",
+      "publicDomainHint": true,
+      "links": [
+        { "label": "Project Gutenberg", "url": "https://www.gutenberg.org/ebooks/1517" }
+      ]
+    },
+    {
+      "workId": "rw_austen_pride",
+      "title": "Pride and Prejudice",
+      "creator": "Jane Austen",
+      "year": 1813,
+      "workType": "novel",
+      "whyRelevant": "Austen uses 'pretty' to describe physical appearance with the full nuance of its 'delicately attractive' rather than 'strikingly beautiful' connotation — the register was already fully established.",
+      "publicDomainHint": true,
+      "links": [
+        { "label": "Project Gutenberg", "url": "https://www.gutenberg.org/ebooks/1342" }
+      ]
+    }
+  ],
+  "relatedPages": [
+    {
+      "pageId": "pg_semantic_drift",
+      "title": "Semantic Drift",
+      "slug": "semantic-drift",
+      "summary": "The broad phenomenon of word meanings shifting across time.",
+      "route": "/pages/semantic-drift",
+      "tags": ["linguistics", "history"]
+    },
+    {
+      "pageId": "pg_register_and_slang",
+      "title": "Register and Slang",
+      "slug": "register-and-slang",
+      "summary": "How context and social register shape meaning.",
+      "route": "/pages/register-and-slang",
+      "tags": ["linguistics", "social-history"]
+    }
+  ],
+  "relatedConcepts": [
+    {
+      "conceptId": "cunning",
+      "label": "cunning",
+      "relationship": "parallel-shift",
+      "note": "Also began as 'knowledgeable/skilful' and shifted to 'craftily deceptive' — the opposite direction to 'pretty'."
+    },
+    {
+      "conceptId": "nice",
+      "label": "nice",
+      "relationship": "parallel-amelioration",
+      "note": "Both 'nice' and 'pretty' ended up as terms of mild approval after very different journeys."
+    }
+  ],
+  "ambiguityNotes": [
+    "'A pretty mess' uses 'pretty' ironically — the 'apt/fit' sense inverted to emphasise an inconveniently thorough problem.",
+    "The intensifier use ('pretty good', 'pretty bad') is fully grammaticalised and no longer felt as figurative.",
+    "In some dialects, 'pretty' applied to a man can feel slightly unusual — the word has a stronger gender association than 'handsome'."
+  ],
+  "timelineEvents": [
+    {
+      "eventId": "te_pretty_oe",
+      "date": "1000-01-01",
+      "eraLabel": "Old English",
+      "title": "Prættig: cleverly crafty",
+      "summary": "Old English 'prættig' meant cunning or artful — the root was 'prætt' (a trick or wile). The word described mental sharpness.",
+      "relatedSnapshotId": "pretty_old_english",
+      "sourceIds": ["bosworth_toller_pretty"]
+    },
+    {
+      "eventId": "te_pretty_me",
+      "date": "1450-01-01",
+      "eraLabel": "Late Middle English",
+      "title": "Well-made and pleasing",
+      "summary": "'Clever' softened into 'pleasingly apt' — a 'pretty argument' or 'pretty device' was elegantly constructed.",
+      "relatedSnapshotId": "pretty_middle_english",
+      "sourceIds": ["oed_pretty_1"]
+    },
+    {
+      "eventId": "te_pretty_shakespeare",
+      "date": "1600-01-01",
+      "eraLabel": "Elizabethan",
+      "title": "Physical attractiveness becomes dominant",
+      "summary": "By Shakespeare's era 'pretty' primarily meant physically attractive, especially in a delicate way. The 'cunning' origin was entirely forgotten.",
+      "relatedSnapshotId": "pretty_early_modern",
+      "sourceIds": ["oed_pretty_2"]
+    },
+    {
+      "eventId": "te_pretty_intensifier",
+      "date": "1700-01-01",
+      "eraLabel": "18th Century",
+      "title": "Adverbial intensifier established",
+      "summary": "By 1700, 'pretty' as a qualifying adverb ('pretty good', 'pretty well') was in common use, a parallel meaning track that persists today.",
+      "relatedSnapshotId": "pretty_current",
+      "sourceIds": ["oed_pretty_modern"]
+    }
+  ]
+}

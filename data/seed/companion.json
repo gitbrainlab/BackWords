@@ -1,0 +1,235 @@
+{
+  "lexemeId": "companion",
+  "query": "companion",
+  "normalizedQuery": "companion",
+  "supportedModes": ["word", "phrase"],
+  "currentSnapshot": {
+    "snapshotId": "companion_current",
+    "date": "2024-01-01",
+    "eraLabel": "Contemporary",
+    "definition": "A person or animal with whom one spends time; a close associate or friend.",
+    "usageNote": "Broad modern use: a travel companion, a companion app, a companion animal. The word suggests togetherness more than deep intimacy — slightly more formal than 'friend'.",
+    "exampleUsage": "She was his companion on the long journey north.",
+    "register": "neutral",
+    "sentiment": "positive",
+    "confidence": 0.97,
+    "sourceIds": ["oed_companion_modern", "merriam_companion"]
+  },
+  "historicalSnapshots": [
+    {
+      "snapshotId": "companion_latin",
+      "date": "1300-01-01",
+      "eraLabel": "Medieval Latin / Old French",
+      "definition": "One who shares bread with another; a fellow at table.",
+      "usageNote": "From Latin 'com-' (together) + 'panis' (bread). The word literally meant a bread-sharer — one who eats at the same table. This was a concrete act of social bonding: sharing food was the primary sign of trust and alliance.",
+      "exampleUsage": "Compagnon: one who shares bread at the same table.",
+      "register": "neutral",
+      "sentiment": "positive",
+      "confidence": 0.94,
+      "sourceIds": ["oed_companion_1", "lewis_short"]
+    },
+    {
+      "snapshotId": "companion_middle_english",
+      "date": "1380-01-01",
+      "eraLabel": "Middle English",
+      "definition": "A person who associates with another; a fellow member of a group or guild.",
+      "usageNote": "The bread-sharing origin generalised to any close associate. Guild members were 'companions'; knights were 'companions' of orders. The word carried warmth and loyalty.",
+      "exampleUsage": "He was a true companion in arms, never leaving the field.",
+      "register": "neutral",
+      "sentiment": "positive",
+      "confidence": 0.91,
+      "sourceIds": ["oed_companion_1", "chaucer_companion"]
+    },
+    {
+      "snapshotId": "companion_early_modern",
+      "date": "1600-01-01",
+      "eraLabel": "Early Modern English",
+      "definition": "An associate; one who keeps company with another; a fellow-traveller.",
+      "usageNote": "The word expanded beyond close bonds to general association. 'Companion' became a common term for travel, work, and circumstance — retaining warmth but becoming more neutral. Also used for paid companions in wealthy households.",
+      "exampleUsage": "She engaged a companion to read to her in the evenings.",
+      "register": "neutral",
+      "sentiment": "positive",
+      "confidence": 0.90,
+      "sourceIds": ["oed_companion_2", "shakespeare_companion"]
+    }
+  ],
+  "summaryOfChange": {
+    "shortSummary": "From 'one who shares bread' to 'friend or associate' — a metaphor of physical sharing became the foundation of social bonding in language.",
+    "longSummary": "The etymology of 'companion' reveals how literally the ancient world thought about friendship. To break bread together was the foundational act of alliance and trust — strangers became allies at the table. The Latin 'companio' encoded this concrete act: com- (together) + panis (bread). As the word passed through Old French into English, the bread-sharing became metaphorical, but the warmth of shared sustenance persisted. Today's companion retains the sense of togetherness and mutuality, even if no actual bread is involved. The word is a reminder that the language of friendship grew directly from the language of food.",
+    "sentimentShift": "positive-to-positive",
+    "driftType": "broadening",
+    "driftMagnitude": 0.55
+  },
+  "keyDates": [
+    {
+      "date": "1300-01-01",
+      "label": "Latin 'companio' enters Old French",
+      "significance": "The Latin compound com+panis was the literal foundation of companionship: sharing a loaf of bread."
+    },
+    {
+      "date": "1380-01-01",
+      "label": "Chaucer's Canterbury Tales",
+      "significance": "Chaucer's pilgrims are 'companions' in the original sense — fellow travellers sharing meals and the road."
+    },
+    {
+      "date": "1600-01-01",
+      "label": "Broadening to general association",
+      "significance": "By the Early Modern period, 'companion' had expanded to any form of mutual company — the bread metaphor was forgotten but the warmth persisted."
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "oed_companion_1",
+      "title": "Oxford English Dictionary — companion, n.",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase and excerpt. OED content © Oxford University Press. Used for educational commentary.",
+      "excerpt": "From medieval Latin companio, companion-: one who eats bread with another, from com- together + panis bread.",
+      "relevanceNote": "The OED's etymology is unambiguous: this word is literally built from the act of sharing bread.",
+      "confidence": 0.98
+    },
+    {
+      "sourceId": "oed_companion_2",
+      "title": "Oxford English Dictionary — companion, n. (modern senses)",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. OED content © Oxford University Press.",
+      "excerpt": "A person who associates with or accompanies another; a fellow-traveller; a comrade.",
+      "relevanceNote": "Shows the broadened modern sense — general association, not just table-sharing.",
+      "confidence": 0.96
+    },
+    {
+      "sourceId": "oed_companion_modern",
+      "title": "Merriam-Webster — companion",
+      "author": "Editorial staff",
+      "publisher": "Merriam-Webster",
+      "publishedDate": "2023-01-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase.",
+      "excerpt": "one that accompanies another; a comrade, associate.",
+      "relevanceNote": "The fully broadened modern definition — togetherness without the bread.",
+      "confidence": 0.95
+    },
+    {
+      "sourceId": "lewis_short",
+      "title": "A Latin Dictionary",
+      "author": "Charlton T. Lewis, Charles Short",
+      "publisher": "Oxford University Press",
+      "publishedDate": "1879-01-01",
+      "sourceType": "dictionary",
+      "attribution": "Public domain.",
+      "excerpt": "companio, -onis, m.: a messmate, fellow-soldier, companion (Vulg.)",
+      "relevanceNote": "Documents the original Latin sense: a mess-mate, literally one who shares rations.",
+      "confidence": 0.94
+    }
+  ],
+  "relatedWorks": [
+    {
+      "workId": "rw_chaucer_canterbury",
+      "title": "The Canterbury Tales",
+      "creator": "Geoffrey Chaucer",
+      "year": 1400,
+      "workType": "poetry",
+      "whyRelevant": "Chaucer's pilgrims form a 'companye' — a group of companions in both the older 'bread-sharing' sense and the emerging 'travel group' sense. The word is central to the poem's social fabric.",
+      "publicDomainHint": true,
+      "links": [
+        { "label": "Project Gutenberg", "url": "https://www.gutenberg.org/ebooks/2383" }
+      ]
+    },
+    {
+      "workId": "rw_tolkien_fellowship",
+      "title": "The Fellowship of the Ring",
+      "creator": "J.R.R. Tolkien",
+      "year": 1954,
+      "workType": "novel",
+      "whyRelevant": "The 'Fellowship' and its companions self-consciously echo the medieval chivalric sense — Tolkien, as a philologist, was acutely aware of the word's history of shared bread and shared danger.",
+      "publicDomainHint": false,
+      "links": []
+    }
+  ],
+  "relatedPages": [
+    {
+      "pageId": "pg_semantic_drift",
+      "title": "Semantic Drift",
+      "slug": "semantic-drift",
+      "summary": "The broad phenomenon of word meanings shifting across time.",
+      "route": "/pages/semantic-drift",
+      "tags": ["linguistics", "history"]
+    },
+    {
+      "pageId": "pg_dictionaries_vs_usage",
+      "title": "Dictionaries vs Usage",
+      "slug": "dictionaries-vs-usage",
+      "summary": "How dictionaries describe language — and why usage often leads the way.",
+      "route": "/pages/dictionaries-vs-usage",
+      "tags": ["linguistics", "lexicography"]
+    }
+  ],
+  "relatedConcepts": [
+    {
+      "conceptId": "lord",
+      "label": "lord",
+      "relationship": "parallel-food-etymology",
+      "note": "From Old English 'hlāford' (loaf-ward: bread-guardian). The lord was literally the person who guarded the bread supply."
+    },
+    {
+      "conceptId": "lady",
+      "label": "lady",
+      "relationship": "parallel-food-etymology",
+      "note": "From Old English 'hlæfdige' (loaf-kneader). The lady was literally the person who kneaded the bread."
+    },
+    {
+      "conceptId": "salary",
+      "label": "salary",
+      "relationship": "parallel-food-etymology",
+      "note": "From Latin 'salarium' (salt allowance). Another word where a basic food commodity is the origin of a social relationship."
+    }
+  ],
+  "ambiguityNotes": [
+    "In computing, a 'companion app' or 'companion piece' uses the word in its broadest sense — supplementary or associated.",
+    "The 'paid companion' of Victorian households was a social role distinct from 'friend' — a class-inflected use that has since faded.",
+    "The word 'company' shares the same bread-root, so 'keeping company' preserves the original metaphor at one remove."
+  ],
+  "timelineEvents": [
+    {
+      "eventId": "te_companion_latin",
+      "date": "1300-01-01",
+      "eraLabel": "Medieval Latin",
+      "title": "Com + panis: the bread-sharer",
+      "summary": "Latin 'companio' was built from the act of eating together — sharing bread was the foundational act of alliance and trust.",
+      "relatedSnapshotId": "companion_latin",
+      "sourceIds": ["lewis_short"]
+    },
+    {
+      "eventId": "te_companion_chaucer",
+      "date": "1380-01-01",
+      "eraLabel": "Medieval English",
+      "title": "Chaucer's 'companye'",
+      "summary": "The Canterbury pilgrims formed a 'companye' — the word carried its full warmth of shared sustenance and shared road.",
+      "relatedSnapshotId": "companion_middle_english",
+      "sourceIds": ["oed_companion_1"]
+    },
+    {
+      "eventId": "te_companion_broadening",
+      "date": "1600-01-01",
+      "eraLabel": "Early Modern English",
+      "title": "Broadened to any association",
+      "summary": "'Companion' expanded to any form of mutual company — travel, work, household employment. The bread-sharing metaphor faded but the warmth remained.",
+      "relatedSnapshotId": "companion_early_modern",
+      "sourceIds": ["oed_companion_2"]
+    },
+    {
+      "eventId": "te_companion_modern",
+      "date": "1950-01-01",
+      "eraLabel": "Modern",
+      "title": "Contemporary range",
+      "summary": "Today 'companion' spans close friendship, animal companionship, travel association, and product terminology — a fully broadened general-purpose word for togetherness.",
+      "relatedSnapshotId": "companion_current",
+      "sourceIds": ["oed_companion_modern"]
+    }
+  ]
+}

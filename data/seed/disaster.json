@@ -1,0 +1,235 @@
+{
+  "lexemeId": "disaster",
+  "query": "disaster",
+  "normalizedQuery": "disaster",
+  "supportedModes": ["word", "phrase"],
+  "currentSnapshot": {
+    "snapshotId": "disaster_current",
+    "date": "2024-01-01",
+    "eraLabel": "Contemporary",
+    "definition": "A sudden event causing great damage, destruction, or loss of life; a complete failure.",
+    "usageNote": "Used for both large-scale catastrophes (natural disasters, humanitarian disasters) and colloquially for personal or minor failures ('the dinner was a disaster'). The astrological origin is entirely forgotten.",
+    "exampleUsage": "The earthquake was a disaster for the region; the presentation was an utter disaster.",
+    "register": "neutral",
+    "sentiment": "negative",
+    "confidence": 0.98,
+    "sourceIds": ["oed_disaster_modern", "merriam_disaster"]
+  },
+  "historicalSnapshots": [
+    {
+      "snapshotId": "disaster_italian",
+      "date": "1500-01-01",
+      "eraLabel": "Renaissance Italian",
+      "definition": "An unfavourable aspect of a star or planet; a malign astrological influence.",
+      "usageNote": "Italian 'disastro' from dis- (bad, opposite) + astro (star, from Latin 'astrum'). Before modern science, catastrophes were attributed to malign planetary conjunctions. A disaster literally meant the stars were against you.",
+      "exampleUsage": "Disastro — the bad star, unfavourable celestial position.",
+      "register": "formal",
+      "sentiment": "negative",
+      "confidence": 0.89,
+      "sourceIds": ["oed_disaster_1", "etymology_online_disaster"]
+    },
+    {
+      "snapshotId": "disaster_early_english",
+      "date": "1590-01-01",
+      "eraLabel": "Late Elizabethan",
+      "definition": "An event of ruinous misfortune attributed to unfavourable stars; a calamity.",
+      "usageNote": "Entering English via French 'désastre'. The astrological framing was still active — Shakespeare uses 'disaster' in contexts where stars and fate are entwined.",
+      "exampleUsage": "In the stars lay the seeds of this disaster.",
+      "register": "formal",
+      "sentiment": "negative",
+      "confidence": 0.88,
+      "sourceIds": ["oed_disaster_1", "shakespeare_disaster"]
+    },
+    {
+      "snapshotId": "disaster_18th_century",
+      "date": "1750-01-01",
+      "eraLabel": "18th Century",
+      "definition": "A sudden calamity; a great misfortune or catastrophe.",
+      "usageNote": "As astrology declined in educated circles, 'disaster' lost its technical meaning and became a general term for severe misfortune. The star connection survived only etymologically.",
+      "exampleUsage": "The fire was a disaster from which the city scarcely recovered.",
+      "register": "neutral",
+      "sentiment": "negative",
+      "confidence": 0.93,
+      "sourceIds": ["oed_disaster_2", "johnson_disaster"]
+    }
+  ],
+  "summaryOfChange": {
+    "shortSummary": "From 'malign star alignment' to 'catastrophe' — the death of astrology as a causal framework is written into everyday vocabulary.",
+    "longSummary": "Every time someone says 'disaster', they are invoking a cosmology that no longer exists. Italian Renaissance writers attributed catastrophe to unfavourable planetary conjunctions — 'dis-astro', the bad star. The word entered English at the height of astrological belief, when events like floods, famines, and military defeats were routinely connected to celestial configurations. As scientific thinking gradually displaced astrological causation, the technical framing was lost, but the word remained. Today we speak of 'natural disasters' and 'disaster relief' with no awareness that our language still carries the ghost of a star-governed universe.",
+    "sentimentShift": "negative-to-negative",
+    "driftType": "semantic-shift",
+    "driftMagnitude": 0.70
+  },
+  "keyDates": [
+    {
+      "date": "1500-01-01",
+      "label": "Italian 'disastro'",
+      "significance": "The Italian form preserved the full astrological meaning — a catastrophe caused by a bad star or unfavourable planetary aspect."
+    },
+    {
+      "date": "1590-01-01",
+      "label": "English adoption via French",
+      "significance": "The word entered English during a period when astrology was still a serious intellectual framework. Shakespeare's use retains the cosmic dimension."
+    },
+    {
+      "date": "1700-01-01",
+      "label": "Secularisation",
+      "significance": "As Enlightenment thinking displaced astrology, 'disaster' lost its technical causal meaning and became a general synonym for catastrophe."
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "oed_disaster_1",
+      "title": "Oxford English Dictionary — disaster, n.",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase and excerpt. OED content © Oxford University Press. Used for educational commentary.",
+      "excerpt": "Originally: an unfavourable aspect of a star or planet; a malign astrological influence. Later: a sudden or great misfortune.",
+      "relevanceNote": "The OED preserves the astrological origin sense as well as tracing the secularisation of the term.",
+      "confidence": 0.98
+    },
+    {
+      "sourceId": "oed_disaster_2",
+      "title": "Oxford English Dictionary — disaster, n. (sense 2)",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. OED content © Oxford University Press.",
+      "excerpt": "A sudden or great misfortune; a calamity.",
+      "relevanceNote": "The secularised general sense that dominates modern use.",
+      "confidence": 0.97
+    },
+    {
+      "sourceId": "oed_disaster_modern",
+      "title": "Merriam-Webster — disaster",
+      "author": "Editorial staff",
+      "publisher": "Merriam-Webster",
+      "publishedDate": "2023-01-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase.",
+      "excerpt": "a sudden calamitous event bringing great damage, loss, or destruction.",
+      "relevanceNote": "Modern definition — no trace of astrology.",
+      "confidence": 0.95
+    },
+    {
+      "sourceId": "etymology_online_disaster",
+      "title": "Online Etymology Dictionary — disaster",
+      "author": "Douglas Harper",
+      "publisher": "etymonline.com",
+      "publishedDate": "2023-01-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. Educational use.",
+      "excerpt": "1590s, from Middle French désastre (1560s), from Italian disastro 'ill-starred event', from dis- (expressing negation) + astro 'star, planet', from Latin astrum.",
+      "relevanceNote": "Concise summary of the Italian astrological origin and French transmission route.",
+      "confidence": 0.92
+    }
+  ],
+  "relatedWorks": [
+    {
+      "workId": "rw_shakespeare_lear",
+      "title": "King Lear",
+      "creator": "William Shakespeare",
+      "year": 1606,
+      "workType": "play",
+      "whyRelevant": "The play contains explicit debate about whether disasters are caused by stars or human will — Edmund's 'This is the excellent foppery of the world, that when we are sick in fortune — often the surfeit of our own behaviour — we make guilty of our disasters the sun, the moon, and stars' directly interrogates the astrological worldview that 'disaster' emerged from.",
+      "publicDomainHint": true,
+      "links": [
+        { "label": "Project Gutenberg", "url": "https://www.gutenberg.org/ebooks/1532" }
+      ]
+    },
+    {
+      "workId": "rw_ptolemy_tetrabiblos",
+      "title": "Tetrabiblos",
+      "creator": "Claudius Ptolemy",
+      "year": 150,
+      "workType": "essay",
+      "whyRelevant": "Ptolemy's foundational astrological text established the framework in which 'disasters' were caused by malign planetary aspects — the technical background from which the word emerged.",
+      "publicDomainHint": true,
+      "links": []
+    }
+  ],
+  "relatedPages": [
+    {
+      "pageId": "pg_semantic_drift",
+      "title": "Semantic Drift",
+      "slug": "semantic-drift",
+      "summary": "The broad phenomenon of word meanings shifting across time.",
+      "route": "/pages/semantic-drift",
+      "tags": ["linguistics", "history"]
+    },
+    {
+      "pageId": "pg_dictionaries_vs_usage",
+      "title": "Dictionaries vs Usage",
+      "slug": "dictionaries-vs-usage",
+      "summary": "How dictionaries describe language — and why usage often leads the way.",
+      "route": "/pages/dictionaries-vs-usage",
+      "tags": ["linguistics", "lexicography"]
+    }
+  ],
+  "relatedConcepts": [
+    {
+      "conceptId": "influenza",
+      "label": "influenza",
+      "relationship": "parallel-astrology-etymology",
+      "note": "From Italian 'influenza' (influence, astrological influence) — another disease/catastrophe word rooted in the belief that celestial bodies influenced earthly events."
+    },
+    {
+      "conceptId": "consider",
+      "label": "consider",
+      "relationship": "parallel-astrology-etymology",
+      "note": "From Latin 'considerare' (to examine the stars carefully) — even the word for careful thought carries an astrological ghost."
+    },
+    {
+      "conceptId": "catastrophe",
+      "label": "catastrophe",
+      "relationship": "synonym-different-origin",
+      "note": "From Greek 'katastrophē' (overturning) — a different etymological path to the same modern meaning."
+    }
+  ],
+  "ambiguityNotes": [
+    "The colloquial 'disaster' (a failed dinner, a bad haircut) is a massive semantic weakening from the original catastrophic sense.",
+    "'Disastrous' retains the serious sense more reliably than 'disaster' itself in casual speech.",
+    "The phrase 'natural disaster' is etymologically curious — if disasters were caused by stars, there was nothing 'natural' about them."
+  ],
+  "timelineEvents": [
+    {
+      "eventId": "te_disaster_italian",
+      "date": "1500-01-01",
+      "eraLabel": "Renaissance Italy",
+      "title": "Disastro: the malign star",
+      "summary": "Italian 'disastro' meant an unfavourable celestial alignment — the causal theory behind catastrophe in a pre-scientific worldview.",
+      "relatedSnapshotId": "disaster_italian",
+      "sourceIds": ["etymology_online_disaster"]
+    },
+    {
+      "eventId": "te_disaster_shakespeare",
+      "date": "1606-01-01",
+      "eraLabel": "Elizabethan",
+      "title": "Shakespeare debates the stars",
+      "summary": "King Lear's Edmund explicitly mocks astrology as an excuse for human failures — the same worldview that gave us 'disaster' was already being questioned.",
+      "relatedSnapshotId": "disaster_early_english",
+      "sourceIds": ["oed_disaster_1"]
+    },
+    {
+      "eventId": "te_disaster_enlightenment",
+      "date": "1750-01-01",
+      "eraLabel": "Enlightenment",
+      "title": "Secularisation: the star is forgotten",
+      "summary": "As Enlightenment science replaced astrology, 'disaster' became a secular synonym for catastrophe. The cosmic origin became a purely etymological fossil.",
+      "relatedSnapshotId": "disaster_18th_century",
+      "sourceIds": ["oed_disaster_2"]
+    },
+    {
+      "eventId": "te_disaster_modern",
+      "date": "1950-01-01",
+      "eraLabel": "Modern",
+      "title": "Natural disasters and colloquial disasters",
+      "summary": "The 20th century cemented both senses: large-scale calamity ('natural disaster') and trivial failure ('the soufflé was a disaster').",
+      "relatedSnapshotId": "disaster_current",
+      "sourceIds": ["oed_disaster_modern"]
+    }
+  ]
+}

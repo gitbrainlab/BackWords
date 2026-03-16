@@ -31,21 +31,21 @@ curl http://localhost:8000/health
 ```bash
 curl -X POST http://localhost:8000/interpret \
   -H "Content-Type: application/json" \
-  -d '{"query": "awful", "mode": "word"}'
+  -d '{"query": "silly", "mode": "word"}'
 ```
 
 With a specific date:
 ```bash
 curl -X POST http://localhost:8000/interpret \
   -H "Content-Type: application/json" \
-  -d '{"query": "awful", "mode": "word", "selectedDate": "1850-01-01"}'
+  -d '{"query": "silly", "mode": "word", "selectedDate": "0900-01-01"}'
 ```
 
 ### POST /explain-source
 ```bash
 curl -X POST http://localhost:8000/explain-source \
   -H "Content-Type: application/json" \
-  -d '{"sourceId": "oed_awful_1", "query": "awful", "snapshotId": "awful_1850"}'
+  -d '{"sourceId": "oed_silly_1", "query": "silly", "snapshotId": "silly_old_english"}'
 ```
 
 ## Data Directory

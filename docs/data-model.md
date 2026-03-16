@@ -8,7 +8,7 @@ Each seed file lives in `data/seed/<word>.json` and represents a single lexeme e
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `lexemeId` | string | Stable slug, e.g. `awful`. Can be multi-part for disambiguation: `nice_foolish`. |
+| `lexemeId` | string | Stable slug, e.g. `silly`. Can be multi-part for disambiguation: `villain_serf`. |
 | `query` | string | Canonical display form of the word/phrase. |
 | `normalizedQuery` | string | Lowercase, stripped for matching. |
 | `supportedModes` | string[] | Which modes apply: `["word","phrase","paragraph"]` |
@@ -27,7 +27,7 @@ Each seed file lives in `data/seed/<word>.json` and represents a single lexeme e
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `snapshotId` | string | Unique per seed, e.g. `awful_current` |
+| `snapshotId` | string | Unique per seed, e.g. `silly_current` |
 | `date` | string (ISO8601) | Representative date for this snapshot, e.g. `2024-01-01` |
 | `eraLabel` | string | Human-readable period: "Contemporary", "Victorian Era" |
 | `definition` | string | Primary definition in this era. |
@@ -71,11 +71,11 @@ Passage highlights represent character-offset spans within an `originalText` str
 `lexemeId` uses the format: `<surface_form>[_<sense_discriminator>]`
 
 Examples:
-- `awful` — unambiguous
+- `silly` — unambiguous
 - `nice_foolish` — disambiguates the "foolish" historical sense
 - `nice_pleasant` — disambiguates the modern "pleasant" sense
-- `gay_cheerful` — historical cheerful sense
-- `gay_homosexual` — modern primary sense
+- `pretty_cunning` — early 'clever' sense
+- `villain_serf` — medieval farm-worker sense
 
 The proxy matches queries case-insensitively against `normalizedQuery`. If multiple seeds match (homonyms), all are returned in `ambiguityNotes` and the best match is selected by confidence.
 
@@ -83,7 +83,7 @@ The proxy matches queries case-insensitively against `normalizedQuery`. If multi
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `sourceId` | string | Unique, e.g. `oed_awful_1` |
+| `sourceId` | string | Unique, e.g. `oed_silly_1` |
 | `title` | string | Document/work title |
 | `author` | string? | Author name(s) |
 | `publisher` | string? | Publisher name |

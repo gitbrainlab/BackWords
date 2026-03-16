@@ -85,6 +85,6 @@ struct TimelineRowView: View {
 
 #Preview {
     NavigationStack {
-        TimelineView(events: PreviewData.timelineEvents, query: "awful")
+        TimelineView(events: PreviewData.timelineEvents, query: "silly")
     }
 }

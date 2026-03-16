@@ -1,0 +1,237 @@
+{
+  "lexemeId": "salary",
+  "query": "salary",
+  "normalizedQuery": "salary",
+  "supportedModes": ["word", "phrase"],
+  "currentSnapshot": {
+    "snapshotId": "salary_current",
+    "date": "2024-01-01",
+    "eraLabel": "Contemporary",
+    "definition": "A fixed regular payment made by an employer to an employee, especially a professional or white-collar worker.",
+    "usageNote": "Distinct from 'wages' (hourly/daily) in British usage — 'salary' implies monthly payment and salaried status. The salt origin is entirely forgotten in everyday use.",
+    "exampleUsage": "She negotiated a higher salary before accepting the job offer.",
+    "register": "formal",
+    "sentiment": "neutral",
+    "confidence": 0.98,
+    "sourceIds": ["oed_salary_modern", "merriam_salary"]
+  },
+  "historicalSnapshots": [
+    {
+      "snapshotId": "salary_latin",
+      "date": "0100-01-01",
+      "eraLabel": "Classical Latin",
+      "definition": "An allowance of salt, or money given to soldiers and officials to buy salt.",
+      "usageNote": "Latin 'salarium', from 'sal' (salt). Salt was a precious commodity in the ancient world — essential for food preservation, animal husbandry, and trade. Roman soldiers were sometimes paid partly in salt or given a 'salt money' allowance.",
+      "exampleUsage": "The legionary's salarium covered his salt ration and other provisions.",
+      "register": "formal",
+      "sentiment": "neutral",
+      "confidence": 0.88,
+      "sourceIds": ["oed_salary_1", "lewis_short_salary", "pliny_nh"]
+    },
+    {
+      "snapshotId": "salary_medieval",
+      "date": "1300-01-01",
+      "eraLabel": "Medieval",
+      "definition": "Regular payment to a servant, official, or professional for their services.",
+      "usageNote": "The salt connection had already faded. 'Salary' entered Old French and Middle English as a general term for regular official remuneration — distinct from daily wages or one-off payments.",
+      "exampleUsage": "The clerk received a salary of six shillings per year for his services.",
+      "register": "formal",
+      "sentiment": "neutral",
+      "confidence": 0.87,
+      "sourceIds": ["oed_salary_1", "middle_english_dict_salary"]
+    },
+    {
+      "snapshotId": "salary_early_modern",
+      "date": "1600-01-01",
+      "eraLabel": "Early Modern English",
+      "definition": "Fixed periodic payment to an employee or official; compensation for service.",
+      "usageNote": "The modern meaning was fully established. 'Salary' covered all professional regular payments. 'Wages' began to diverge as the term for manual and daily labour.",
+      "exampleUsage": "The Secretary of State draws a salary of five hundred pounds per annum.",
+      "register": "formal",
+      "sentiment": "neutral",
+      "confidence": 0.92,
+      "sourceIds": ["oed_salary_2", "pepys_ref"]
+    }
+  ],
+  "summaryOfChange": {
+    "shortSummary": "From a ration of salt to a monthly payslip — the most precious food commodity of the ancient world became the metaphor for all regular payment.",
+    "longSummary": "Before refrigeration, salt was irreplaceable. It preserved meat, fish, and vegetables; it was essential for animal health; it was used in religious ceremony. Its scarcity and necessity made it a form of currency. Roman soldiers received a 'salarium' — an allowance to purchase salt (or, in some accounts, partly paid in salt itself). The Latin word generalised from the salt commodity to any regular official payment, and this generalised form entered Old French and then English. By the time 'salary' appeared in English texts, the salt connection was already etymological rather than literal. Today the word is the standard term for professional remuneration, carrying no taste of the substance that named it.",
+    "sentimentShift": "neutral-to-neutral",
+    "driftType": "semantic-shift",
+    "driftMagnitude": 0.60
+  },
+  "keyDates": [
+    {
+      "date": "0100-01-01",
+      "label": "Roman salarium",
+      "significance": "Latin 'salarium' referred to the salt allowance or salt money given to Roman soldiers — salt was a monetary commodity."
+    },
+    {
+      "date": "1300-01-01",
+      "label": "Entry into Old French and English",
+      "significance": "Old French 'salaire' generalised the sense to any regular payment, losing the salt-specific connection."
+    },
+    {
+      "date": "1600-01-01",
+      "label": "Modern sense fully established",
+      "significance": "By the 17th century, 'salary' meant regular professional remuneration, distinct from wages. The salt origin was completely forgotten in common usage."
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "oed_salary_1",
+      "title": "Oxford English Dictionary — salary, n.",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase and excerpt. OED content © Oxford University Press. Used for educational commentary.",
+      "excerpt": "From Latin salarium, perhaps originally money given to soldiers to buy salt (from sal salt).",
+      "relevanceNote": "The OED preserves the Latin etymology and traces the path from salt allowance to general payment.",
+      "confidence": 0.98
+    },
+    {
+      "sourceId": "oed_salary_2",
+      "title": "Oxford English Dictionary — salary, n. (modern senses)",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. OED content © Oxford University Press.",
+      "excerpt": "Fixed regular payment made by an employer to an employee, esp. a professional or white-collar employee.",
+      "relevanceNote": "The fully generalised modern sense — professional regular pay.",
+      "confidence": 0.97
+    },
+    {
+      "sourceId": "oed_salary_modern",
+      "title": "Merriam-Webster — salary",
+      "author": "Editorial staff",
+      "publisher": "Merriam-Webster",
+      "publishedDate": "2023-01-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase.",
+      "excerpt": "fixed compensation paid regularly for services.",
+      "relevanceNote": "Modern definition — no salt.",
+      "confidence": 0.95
+    },
+    {
+      "sourceId": "pliny_nh",
+      "title": "Naturalis Historia",
+      "author": "Pliny the Elder",
+      "publisher": "Print (historical)",
+      "publishedDate": "0077-01-01",
+      "sourceType": "historical",
+      "attribution": "Public domain. Original Latin text, first century AD.",
+      "excerpt": "In salariam provinciam … Romae sale multa fiebant — 'In the salt province … many transactions at Rome were made with salt.'",
+      "relevanceNote": "Pliny's observations on salt's importance in Roman commerce provide the historical context for the salarium.",
+      "confidence": 0.82
+    }
+  ],
+  "relatedWorks": [
+    {
+      "workId": "rw_pliny_nh",
+      "title": "Naturalis Historia",
+      "creator": "Pliny the Elder",
+      "year": 77,
+      "workType": "essay",
+      "whyRelevant": "Pliny's encyclopaedia contains extensive discussion of salt's role in Roman commerce, diet, and culture — the essential context for the word 'salary'.",
+      "publicDomainHint": true,
+      "links": [
+        { "label": "Project Gutenberg", "url": "https://www.gutenberg.org/ebooks/57493" }
+      ]
+    },
+    {
+      "workId": "rw_pepys_diary",
+      "title": "The Diary of Samuel Pepys",
+      "creator": "Samuel Pepys",
+      "year": 1669,
+      "workType": "essay",
+      "whyRelevant": "Pepys records his salary as a naval administrator in obsessive detail — a primary source for the word in 17th-century professional use, by which point the salt origin was completely forgotten.",
+      "publicDomainHint": true,
+      "links": [
+        { "label": "Project Gutenberg", "url": "https://www.gutenberg.org/ebooks/4200" }
+      ]
+    }
+  ],
+  "relatedPages": [
+    {
+      "pageId": "pg_semantic_drift",
+      "title": "Semantic Drift",
+      "slug": "semantic-drift",
+      "summary": "The broad phenomenon of word meanings shifting across time.",
+      "route": "/pages/semantic-drift",
+      "tags": ["linguistics", "history"]
+    },
+    {
+      "pageId": "pg_dictionaries_vs_usage",
+      "title": "Dictionaries vs Usage",
+      "slug": "dictionaries-vs-usage",
+      "summary": "How dictionaries describe language — and why usage often leads the way.",
+      "route": "/pages/dictionaries-vs-usage",
+      "tags": ["linguistics", "lexicography"]
+    }
+  ],
+  "relatedConcepts": [
+    {
+      "conceptId": "companion",
+      "label": "companion",
+      "relationship": "parallel-food-etymology",
+      "note": "From Latin com+panis (bread-sharer) — another fundamental social relationship built from sharing a basic food commodity."
+    },
+    {
+      "conceptId": "lord",
+      "label": "lord",
+      "relationship": "parallel-food-etymology",
+      "note": "From Old English 'hlāford' (loaf-ward: guardian of the bread). Food as the basis of social hierarchy and obligation."
+    },
+    {
+      "conceptId": "wage",
+      "label": "wage",
+      "relationship": "semantic-distinction",
+      "note": "From Old French 'wage/gage' (pledge, security). Historically distinguished from 'salary' by frequency (daily/weekly vs monthly) and occupation type."
+    }
+  ],
+  "ambiguityNotes": [
+    "The phrase 'worth one's salt' (performing well enough to justify one's pay) preserves the salt-as-payment connection independently.",
+    "Some historians debate whether Roman soldiers were literally paid in salt or merely given money earmarked for salt — the etymology holds either way.",
+    "In modern usage, 'salary' vs 'wages' carries implicit class connotations (white-collar vs manual), though the distinction is fading."
+  ],
+  "timelineEvents": [
+    {
+      "eventId": "te_salary_latin",
+      "date": "0100-01-01",
+      "eraLabel": "Classical Roman",
+      "title": "Salarium: the salt allowance",
+      "summary": "Roman soldiers received a 'salarium' — money to purchase salt, or a salt ration directly. Salt was essential and expensive, making it a commodity-currency.",
+      "relatedSnapshotId": "salary_latin",
+      "sourceIds": ["pliny_nh"]
+    },
+    {
+      "eventId": "te_salary_medieval",
+      "date": "1300-01-01",
+      "eraLabel": "Medieval",
+      "title": "Old French generalisation",
+      "summary": "Old French 'salaire' generalised the sense to any regular payment for service. The salt connection was already etymological rather than literal.",
+      "relatedSnapshotId": "salary_medieval",
+      "sourceIds": ["oed_salary_1"]
+    },
+    {
+      "eventId": "te_salary_pepys",
+      "date": "1665-01-01",
+      "eraLabel": "Restoration England",
+      "title": "Pepys counts his salary",
+      "summary": "Samuel Pepys records his salary at the Navy Board in detail — a professional administrator for whom salt was just something in the kitchen.",
+      "relatedSnapshotId": "salary_early_modern",
+      "sourceIds": ["oed_salary_2"]
+    },
+    {
+      "eventId": "te_salary_modern",
+      "date": "1950-01-01",
+      "eraLabel": "Modern",
+      "title": "Salaried employment and the payslip",
+      "summary": "The 20th century entrenched 'salary' as the standard term for professional regular pay — monthly, pensionable, tax-coded. Salt is nowhere in the picture.",
+      "relatedSnapshotId": "salary_current",
+      "sourceIds": ["oed_salary_modern"]
+    }
+  ]
+}

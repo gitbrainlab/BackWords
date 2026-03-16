@@ -1,0 +1,235 @@
+{
+  "lexemeId": "villain",
+  "query": "villain",
+  "normalizedQuery": "villain",
+  "supportedModes": ["word", "phrase"],
+  "currentSnapshot": {
+    "snapshotId": "villain_current",
+    "date": "2024-01-01",
+    "eraLabel": "Contemporary",
+    "definition": "A person guilty or capable of great wickedness; the antagonist of a story.",
+    "usageNote": "Firmly established as a term for moral evil. The 'villain of the piece' is both a narrative role and a real-world accusation.",
+    "exampleUsage": "The villain of the story turned out to be the trusted adviser.",
+    "register": "neutral",
+    "sentiment": "negative",
+    "confidence": 0.98,
+    "sourceIds": ["oed_villain_modern", "merriam_villain"]
+  },
+  "historicalSnapshots": [
+    {
+      "snapshotId": "villain_latin",
+      "date": "1100-01-01",
+      "eraLabel": "Medieval Latin / Anglo-Norman",
+      "definition": "A serf or feudal tenant bound to the land; a farm worker of low social status.",
+      "usageNote": "From Medieval Latin 'villanus' (farm worker, from 'villa', country estate). The word described legal status, not moral character — a villain was simply a peasant tied to a lord's land.",
+      "exampleUsage": "The villains of the manor owed three days' labour per week to the lord.",
+      "register": "formal",
+      "sentiment": "neutral",
+      "confidence": 0.93,
+      "sourceIds": ["oed_villain_1", "domesday_ref"]
+    },
+    {
+      "snapshotId": "villain_middle_english",
+      "date": "1350-01-01",
+      "eraLabel": "Middle English",
+      "definition": "A low-born, uncouth, or boorish person; one who lacks the refinement of the nobility.",
+      "usageNote": "As feudal structures calcified into cultural prejudice, the legal term 'villain' acquired contemptuous overtones — the peasant class was assumed to be morally inferior as well as socially subordinate.",
+      "exampleUsage": "He spoke like a villain, rough and without manners.",
+      "register": "informal",
+      "sentiment": "negative",
+      "confidence": 0.88,
+      "sourceIds": ["oed_villain_1", "chaucer_ref"]
+    },
+    {
+      "snapshotId": "villain_early_modern",
+      "date": "1600-01-01",
+      "eraLabel": "Early Modern English",
+      "definition": "A deliberate scoundrel; a person whose conduct is base and criminal.",
+      "usageNote": "The class origin was forgotten as the moral condemnation intensified. Shakespeare's villains — Iago, Richard III, Shylock — cemented the theatrical archetype of calculated evil.",
+      "exampleUsage": "O villain, villain, smiling, damned villain! — Hamlet, I.v",
+      "register": "neutral",
+      "sentiment": "negative",
+      "confidence": 0.95,
+      "sourceIds": ["oed_villain_2", "shakespeare_hamlet"]
+    }
+  ],
+  "summaryOfChange": {
+    "shortSummary": "From 'serf on a farm estate' to 'epitome of moral evil' — class prejudice crystallised into a permanent moral label.",
+    "longSummary": "The journey of 'villain' is a masterclass in how social prejudice gets baked into language. In medieval law, a 'villanus' was simply a serf bound to a manor — a legal category, not a moral judgment. But as feudal society assumed the peasantry to be brutish, unlettered, and untrustworthy, the legal term acquired contemptuous overtones. By the time of Chaucer the word suggested boorishness; by Shakespeare it meant calculated wickedness. The farm worker had become the archetype of evil, carrying the stigma of a class that had long since ceased to exist legally.",
+    "sentimentShift": "neutral-to-negative",
+    "driftType": "pejoration",
+    "driftMagnitude": 0.92
+  },
+  "keyDates": [
+    {
+      "date": "1086-01-01",
+      "label": "Domesday Book",
+      "significance": "The Domesday Book of 1086 recorded 'villani' as the largest class of unfree peasants in England — a purely legal and economic category."
+    },
+    {
+      "date": "1400-01-01",
+      "label": "Chaucer's contemptuous use",
+      "significance": "Chaucer uses 'villain' to describe boorish or low-bred behaviour, marking the transition from legal status to class contempt."
+    },
+    {
+      "date": "1600-01-01",
+      "label": "Shakespeare completes the moral transformation",
+      "significance": "Shakespeare's 'villain' is a conscious, calculating schemer — no trace of the serf remains. The theatrical archetype of evil is set."
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "oed_villain_1",
+      "title": "Oxford English Dictionary — villain, n.",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase and excerpt. OED content © Oxford University Press. Used for educational commentary.",
+      "excerpt": "Originally: a feudal serf or villein; a person of low birth or social status. Later: a person guilty or capable of great wickedness.",
+      "relevanceNote": "The OED traces the full arc from feudal legal term to moral condemnation.",
+      "confidence": 0.98
+    },
+    {
+      "sourceId": "oed_villain_2",
+      "title": "Oxford English Dictionary — villain, n. (sense 3)",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. OED content © Oxford University Press.",
+      "excerpt": "A person guilty or capable of great wickedness; a person who acts from base motives.",
+      "relevanceNote": "The fully evolved modern sense — moral evil completely detached from class origin.",
+      "confidence": 0.97
+    },
+    {
+      "sourceId": "oed_villain_modern",
+      "title": "Merriam-Webster — villain",
+      "author": "Editorial staff",
+      "publisher": "Merriam-Webster",
+      "publishedDate": "2023-01-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase.",
+      "excerpt": "a character in a story or play who opposes the hero; a deliberate scoundrel or criminal.",
+      "relevanceNote": "Captures the dual modern use: narrative archetype and real-world accusation.",
+      "confidence": 0.95
+    },
+    {
+      "sourceId": "domesday_ref",
+      "title": "Domesday Book (1086)",
+      "author": null,
+      "publisher": "Royal commission, William I",
+      "publishedDate": "1086-01-01",
+      "sourceType": "historical",
+      "attribution": "Public domain. National Archives, UK.",
+      "excerpt": "Villani: unfree peasant tenants, the most numerous class. Owed labour services to the lord of the manor.",
+      "relevanceNote": "Shows the word in its original purely legal context — a census category, not a moral judgment.",
+      "confidence": 0.90
+    }
+  ],
+  "relatedWorks": [
+    {
+      "workId": "rw_shakespeare_hamlet",
+      "title": "Hamlet",
+      "creator": "William Shakespeare",
+      "year": 1603,
+      "workType": "play",
+      "whyRelevant": "Contains the pivotal moment when Hamlet calls Claudius a 'villain' in the fully moral sense — the word as a synonym for murderous evil rather than low birth.",
+      "publicDomainHint": true,
+      "links": [
+        { "label": "Project Gutenberg", "url": "https://www.gutenberg.org/ebooks/1524" }
+      ]
+    },
+    {
+      "workId": "rw_bloch_feudal_society",
+      "title": "Feudal Society",
+      "creator": "Marc Bloch",
+      "year": 1939,
+      "workType": "essay",
+      "whyRelevant": "Bloch's landmark analysis of medieval social structures explains the 'villein' class in its proper context and how feudal class assumptions shaped language.",
+      "publicDomainHint": false,
+      "links": []
+    }
+  ],
+  "relatedPages": [
+    {
+      "pageId": "pg_pejoration",
+      "title": "Pejoration",
+      "slug": "pejoration",
+      "summary": "How and why word meanings become more negative over time.",
+      "route": "/pages/pejoration",
+      "tags": ["linguistics", "semantics", "history"]
+    },
+    {
+      "pageId": "pg_register_and_slang",
+      "title": "Register and Slang",
+      "slug": "register-and-slang",
+      "summary": "How social class and register shape the meaning of words.",
+      "route": "/pages/register-and-slang",
+      "tags": ["linguistics", "social-history"]
+    }
+  ],
+  "relatedConcepts": [
+    {
+      "conceptId": "villain_legal",
+      "label": "villein (legal)",
+      "relationship": "etymology",
+      "note": "The medieval legal spelling 'villein' is still used in historical and legal contexts to distinguish the serf from the modern 'villain'."
+    },
+    {
+      "conceptId": "knave",
+      "label": "knave",
+      "relationship": "parallel-pejoration",
+      "note": "Also began as a neutral term for a boy or servant, pejorated to 'rogue/scoundrel'."
+    },
+    {
+      "conceptId": "boor",
+      "label": "boor",
+      "relationship": "parallel-pejoration",
+      "note": "From Dutch 'boer' (farmer), pejorated through class prejudice to 'unmannerly person'."
+    }
+  ],
+  "ambiguityNotes": [
+    "In English legal history, 'villein' (the alternative spelling) still appears in property law discussions of feudal tenure.",
+    "In narrative contexts, 'villain' can be used affectionately or playfully ('he's such a villain').",
+    "The word's connection to 'villa' (country estate) is a reminder that the peasant was defined entirely by the landowner's property."
+  ],
+  "timelineEvents": [
+    {
+      "eventId": "te_villain_domesday",
+      "date": "1086-01-01",
+      "eraLabel": "Norman England",
+      "title": "Domesday Book: the villani",
+      "summary": "The Domesday Book recorded 'villani' as the largest class of unfree peasants — a legal category with no moral connotation.",
+      "relatedSnapshotId": "villain_latin",
+      "sourceIds": ["domesday_ref"]
+    },
+    {
+      "eventId": "te_villain_chaucer",
+      "date": "1390-01-01",
+      "eraLabel": "Medieval",
+      "title": "Chaucer: boorish connotations emerge",
+      "summary": "By Chaucer's era, 'villain' had acquired overtones of roughness and low breeding — class contempt entering the language.",
+      "relatedSnapshotId": "villain_middle_english",
+      "sourceIds": ["oed_villain_1"]
+    },
+    {
+      "eventId": "te_villain_shakespeare",
+      "date": "1600-01-01",
+      "eraLabel": "Elizabethan",
+      "title": "Shakespeare's moral villain",
+      "summary": "Shakespeare's plays — Hamlet, Othello, Richard III — established 'villain' as the archetype of calculated moral wickedness.",
+      "relatedSnapshotId": "villain_early_modern",
+      "sourceIds": ["oed_villain_2"]
+    },
+    {
+      "eventId": "te_villain_modern",
+      "date": "1900-01-01",
+      "eraLabel": "Modern",
+      "title": "The archetypal antagonist",
+      "summary": "By the 20th century, 'villain' is standard in both fiction (narrative role) and real-world usage. The serf is entirely forgotten.",
+      "relatedSnapshotId": "villain_current",
+      "sourceIds": ["oed_villain_modern"]
+    }
+  ]
+}

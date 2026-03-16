@@ -1,0 +1,252 @@
+{
+  "lexemeId": "silly",
+  "query": "silly",
+  "normalizedQuery": "silly",
+  "supportedModes": ["word", "phrase"],
+  "currentSnapshot": {
+    "snapshotId": "silly_current",
+    "date": "2024-01-01",
+    "eraLabel": "Contemporary",
+    "definition": "Showing a lack of common sense or judgement; absurd and foolish.",
+    "usageNote": "Applied affectionately or dismissively depending on context. 'Silly season' (summer news lull) shows a residual 'trivial' sense.",
+    "exampleUsage": "Don't be silly — you can't carry all those bags at once.",
+    "register": "informal",
+    "sentiment": "negative",
+    "confidence": 0.97,
+    "sourceIds": ["oed_silly_modern", "merriam_silly"]
+  },
+  "historicalSnapshots": [
+    {
+      "snapshotId": "silly_old_english",
+      "date": "0900-01-01",
+      "eraLabel": "Old English",
+      "definition": "Blessed; happy; fortunate; spiritually worthy.",
+      "usageNote": "From Old English 'sælig', meaning 'blessed by God'. The word carried the highest positive valence — to be silly was to be in God's favour.",
+      "exampleUsage": "Sælig mann — blessed man.",
+      "register": "formal",
+      "sentiment": "positive",
+      "confidence": 0.92,
+      "sourceIds": ["bosworth_toller_silly", "oed_silly_1"]
+    },
+    {
+      "snapshotId": "silly_middle_english",
+      "date": "1300-01-01",
+      "eraLabel": "Middle English",
+      "definition": "Innocent; harmless; pitiable; simple (without negative connotation).",
+      "usageNote": "The 'blessed' sense widened to include the innocent and the helpless — 'a silly child' meant a pitiable or defenceless child, not a foolish one.",
+      "exampleUsage": "The silly sheep wandered from the flock.",
+      "register": "neutral",
+      "sentiment": "neutral",
+      "confidence": 0.87,
+      "sourceIds": ["middle_english_dict_silly", "oed_silly_1"]
+    },
+    {
+      "snapshotId": "silly_early_modern",
+      "date": "1570-01-01",
+      "eraLabel": "Early Modern English",
+      "definition": "Feeble of mind; lacking good judgement; simple to the point of being easily deceived.",
+      "usageNote": "The 'innocent/helpless' sense darkened — to be simple and easily led became associated with foolishness. Shakespeare used it in this transitional register.",
+      "exampleUsage": "A silly fellow, easily gulled.",
+      "register": "informal",
+      "sentiment": "negative",
+      "confidence": 0.89,
+      "sourceIds": ["oed_silly_1", "shakespeare_ref"]
+    },
+    {
+      "snapshotId": "silly_18th_century",
+      "date": "1750-01-01",
+      "eraLabel": "18th Century",
+      "definition": "Absurd; trivially foolish; lacking sense or substance.",
+      "usageNote": "Fully pejorated. 'Silly' now reliably conveyed frivolity and lack of intellect, though still milder than 'idiotic' or 'stupid'.",
+      "exampleUsage": "What a silly notion — you cannot drain the Thames with a teacup.",
+      "register": "informal",
+      "sentiment": "negative",
+      "confidence": 0.94,
+      "sourceIds": ["oed_silly_modern"]
+    }
+  ],
+  "summaryOfChange": {
+    "shortSummary": "From 'blessed by God' to 'foolishly trivial' — one of the most dramatic reversals in English.",
+    "longSummary": "Few words in English have fallen further than 'silly'. In Old English 'sælig' was a term of the highest spiritual praise: to be silly was to be blessed by God. Through Middle English the sense widened to 'innocent and helpless', then darkened — the innocent became the simple-minded, the simple-minded became the easily-gulled, and by Early Modern English the word had fully pejorated into 'foolish'. Today it sits at the mild end of a spectrum of intellectual dismissal, all memory of its blessed origins lost to most speakers.",
+    "sentimentShift": "positive-to-negative",
+    "driftType": "pejoration",
+    "driftMagnitude": 0.95
+  },
+  "keyDates": [
+    {
+      "date": "0900-01-01",
+      "label": "Old English 'sælig'",
+      "significance": "The word in its original form meant 'blessed/happy' — cognate with German 'selig' (blessed), which still retains the positive meaning today."
+    },
+    {
+      "date": "1300-01-01",
+      "label": "Shift to 'innocent/pitiable'",
+      "significance": "Middle English broadened the sense from 'blessed' to 'innocent and helpless' — the first step in the downward drift."
+    },
+    {
+      "date": "1570-01-01",
+      "label": "Shakespeare's usage",
+      "significance": "By Shakespeare's era 'silly' could mean 'simple-minded' or 'easily deceived', marking the transition to its modern pejorative sense."
+    },
+    {
+      "date": "1750-01-01",
+      "label": "Pejoration complete",
+      "significance": "By the mid-18th century dictionaries recorded 'silly' exclusively as 'foolish' or 'trivial', the blessed origin fully forgotten in common use."
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "oed_silly_1",
+      "title": "Oxford English Dictionary — silly, adj.",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase and excerpt. OED content © Oxford University Press. Used for educational commentary.",
+      "excerpt": "Originally: blessed, happy, fortunate. Later: innocent, harmless; simple, unsophisticated. Now chiefly: foolish, showing a lack of sense or judgement.",
+      "relevanceNote": "The OED's historical quotations trace the full arc from 'blessed' to 'foolish' across twelve centuries.",
+      "confidence": 0.98
+    },
+    {
+      "sourceId": "oed_silly_modern",
+      "title": "Oxford English Dictionary — silly, adj. (modern senses)",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2023-09-01",
+      "sourceType": "dictionary",
+      "attribution": "Paraphrase. OED content © Oxford University Press.",
+      "excerpt": "Exhibiting or characterized by a lack of common sense, judgement, or sobriety; foolish, senseless.",
+      "relevanceNote": "Documents the fully pejorated modern sense.",
+      "confidence": 0.97
+    },
+    {
+      "sourceId": "bosworth_toller_silly",
+      "title": "An Anglo-Saxon Dictionary",
+      "author": "Joseph Bosworth, T. Northcote Toller",
+      "publisher": "Oxford University Press",
+      "publishedDate": "1898-01-01",
+      "sourceType": "dictionary",
+      "attribution": "Public domain.",
+      "excerpt": "sælig: happy, fortunate, blessed; spiritually prosperous.",
+      "relevanceNote": "Documents the original Old English 'blessed' meaning, cognate with German 'selig'.",
+      "confidence": 0.93
+    },
+    {
+      "sourceId": "middle_english_dict_silly",
+      "title": "Middle English Dictionary — seli/seely",
+      "author": null,
+      "publisher": "University of Michigan",
+      "publishedDate": "2013-01-01",
+      "sourceType": "dictionary",
+      "attribution": "© University of Michigan. Used for educational commentary.",
+      "excerpt": "seli: (1) blessed, happy; (2) innocent, pitiable, weak; (3) simple, foolish.",
+      "relevanceNote": "Shows all three stages of meaning coexisting in Middle English texts.",
+      "confidence": 0.91
+    }
+  ],
+  "relatedWorks": [
+    {
+      "workId": "rw_shakespeare_midsummer",
+      "title": "A Midsummer Night's Dream",
+      "creator": "William Shakespeare",
+      "year": 1600,
+      "workType": "play",
+      "whyRelevant": "Contains uses of 'silly' in its transitional phase — sometimes meaning 'simple/harmless', sometimes 'foolish' — illustrating the word mid-drift.",
+      "publicDomainHint": true,
+      "links": [
+        { "label": "Project Gutenberg", "url": "https://www.gutenberg.org/ebooks/1514" }
+      ]
+    },
+    {
+      "workId": "rw_german_selig",
+      "title": "Comparative note: German 'selig'",
+      "creator": null,
+      "year": null,
+      "workType": "essay",
+      "whyRelevant": "German 'selig' (blessed, blissful) is a direct cognate of Old English 'sælig' and has retained the original positive meaning, providing a living counterpoint to the English pejoration.",
+      "publicDomainHint": true,
+      "links": []
+    }
+  ],
+  "relatedPages": [
+    {
+      "pageId": "pg_pejoration",
+      "title": "Pejoration",
+      "slug": "pejoration",
+      "summary": "How and why word meanings become more negative over time.",
+      "route": "/pages/pejoration",
+      "tags": ["linguistics", "semantics", "history"]
+    },
+    {
+      "pageId": "pg_semantic_drift",
+      "title": "Semantic Drift",
+      "slug": "semantic-drift",
+      "summary": "The broad phenomenon of word meanings shifting across time.",
+      "route": "/pages/semantic-drift",
+      "tags": ["linguistics", "history"]
+    }
+  ],
+  "relatedConcepts": [
+    {
+      "conceptId": "sælig",
+      "label": "sælig (Old English)",
+      "relationship": "etymology",
+      "note": "The Old English root, still preserved in German 'selig' (blessed)."
+    },
+    {
+      "conceptId": "awful",
+      "label": "awful",
+      "relationship": "parallel-pejoration",
+      "note": "Underwent similar pejoration: from 'awe-inspiring' to 'very bad'."
+    },
+    {
+      "conceptId": "nice",
+      "label": "nice",
+      "relationship": "parallel-pejoration",
+      "note": "Also began with a negative sense ('foolish') before ameliorating — the mirror journey."
+    }
+  ],
+  "ambiguityNotes": [
+    "In cricket, 'silly mid-on' uses 'silly' to mean 'dangerously close' — a survival of the 'foolishly exposed/vulnerable' sense.",
+    "The 'silly season' (slow news summer) preserves the 'trivial/insubstantial' sub-sense.",
+    "Affectionate uses ('you silly thing') are milder than dismissive ones ('what a silly idea') — register matters."
+  ],
+  "timelineEvents": [
+    {
+      "eventId": "te_silly_oe",
+      "date": "0900-01-01",
+      "eraLabel": "Old English",
+      "title": "Sælig: blessed by God",
+      "summary": "Old English 'sælig' meant divinely blessed and fortunate — one of the highest compliments in the language.",
+      "relatedSnapshotId": "silly_old_english",
+      "sourceIds": ["bosworth_toller_silly"]
+    },
+    {
+      "eventId": "te_silly_me",
+      "date": "1300-01-01",
+      "eraLabel": "Middle English",
+      "title": "Innocent and pitiable",
+      "summary": "The sense of 'blessed' drifted toward 'innocent and helpless' — 'silly sheep' or 'a silly child' meant vulnerable, not foolish.",
+      "relatedSnapshotId": "silly_middle_english",
+      "sourceIds": ["middle_english_dict_silly"]
+    },
+    {
+      "eventId": "te_silly_shakespeare",
+      "date": "1600-01-01",
+      "eraLabel": "Elizabethan",
+      "title": "Shakespeare bridges the gap",
+      "summary": "In Shakespeare's plays, 'silly' wavers between 'simple/harmless' and 'foolish' — a word caught mid-drift.",
+      "relatedSnapshotId": "silly_early_modern",
+      "sourceIds": ["oed_silly_1"]
+    },
+    {
+      "eventId": "te_silly_18c",
+      "date": "1750-01-01",
+      "eraLabel": "18th Century",
+      "title": "Pejoration complete",
+      "summary": "By the mid-18th century, 'silly' had stabilised as a mild term of intellectual dismissal. The blessed origin was forgotten.",
+      "relatedSnapshotId": "silly_18th_century",
+      "sourceIds": ["oed_silly_modern"]
+    }
+  ]
+}

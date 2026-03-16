@@ -94,7 +94,7 @@ struct SourceDetailView: View {
 
 #Preview {
     NavigationStack {
-        SourceDetailView(source: PreviewData.source1, query: "awful", snapshotId: "awful_current")
+        SourceDetailView(source: PreviewData.source1, query: "silly", snapshotId: "silly_current")
     }
     .environmentObject(AppContainer())
 }

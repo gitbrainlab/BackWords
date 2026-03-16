@@ -26,7 +26,7 @@ MVP: Internal TestFlight build, single device family (iPhone), no user accounts.
 | **Paragraph** | Paste passage → highlight historically significant spans. |
 
 ### Data
-- 6 seed words bundled in app (awful, nice, gay, charity, artificial, woke)
+- 6 seed words bundled in app (silly, villain, pretty, companion, disaster, salary)
 - 5 knowledge pages (semantic-drift, pejoration, amelioration, register-and-slang, dictionaries-vs-usage)
 - 1 sample passage with highlights
 
@@ -109,7 +109,7 @@ MVP: Internal TestFlight build, single device family (iPhone), no user accounts.
 
 ## Definition of Done
 - All acceptance criteria above passing on device or simulator
-- No crashes on the verify flow: search "awful" → Result Compare → Timeline → Source Detail → Settings
-- Proxy starts with `uvicorn app.main:app --reload --port 8000` and returns valid JSON for awful seed
+- No crashes on the verify flow: search "silly" → Result Compare → Timeline → Source Detail → Settings
+- Proxy starts with `uvicorn app.main:app --reload --port 8000` and returns valid JSON for silly seed
 - Code review passed
 - No secrets committed

@@ -16,14 +16,12 @@ final class HomeViewModel: ObservableObject {
 
     /// Curated example queries shown on the home screen.
     let examples: [ExampleQuery] = [
-        ExampleQuery(text: "awful", mode: .word, eraHint: "Try: Victorian Era"),
-        ExampleQuery(text: "nice", mode: .word, eraHint: "Try: Regency Era"),
-        ExampleQuery(text: "gay", mode: .word, eraHint: "Try: 1920s"),
-        ExampleQuery(text: "charity", mode: .word, eraHint: "Try: Medieval"),
-        ExampleQuery(text: "artificial", mode: .word, eraHint: "Try: Renaissance"),
-        ExampleQuery(text: "woke", mode: .word, eraHint: "Try: 1940s"),
-        ExampleQuery(text: "terrible", mode: .word, eraHint: "Try: 1600s"),
+        ExampleQuery(text: "silly", mode: .word, eraHint: "Try: Old English"),
         ExampleQuery(text: "villain", mode: .word, eraHint: "Try: Medieval"),
+        ExampleQuery(text: "pretty", mode: .word, eraHint: "Try: Elizabethan"),
+        ExampleQuery(text: "companion", mode: .word, eraHint: "Try: Medieval"),
+        ExampleQuery(text: "disaster", mode: .word, eraHint: "Try: Renaissance"),
+        ExampleQuery(text: "salary", mode: .word, eraHint: "Try: Roman"),
     ]
 
     // MARK: - Dependencies
