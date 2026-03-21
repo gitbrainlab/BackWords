@@ -327,8 +327,10 @@ CRITICAL RULES:
 - sentiment MUST be exactly one of: positive | negative | neutral
 - sentimentShift MUST be exactly one of: positive-to-negative | negative-to-positive | neutral-to-negative | neutral-to-positive | positive-to-neutral | negative-to-neutral | stable | complex
 - Include 2–5 historicalSnapshots; every definition field must be a non-empty string
-- keyDates MUST include 2–5 entries marking significant moments; every label and significance must be non-empty
+- keyDates MUST include 2–5 entries marking significant moments; every label MUST be a specific non-empty string — NEVER use "?" or leave a label blank
 - sources MUST include 2–4 real reference works; every title must be a non-empty string
+- For informal, slang, or dialectal words: newspapers, the Online Etymology Dictionary, Merriam-Webster, word-study archives, and regional dialect records are all acceptable sources — do NOT leave sources empty just because the word is non-standard
+- currentSnapshot.definition MUST be at least 2 meaningful sentences describing current usage — never a single vague phrase like "current usage" or a one-word gloss
 - relatedConcepts MUST include 2–4 entries; every label must be a non-empty string`
 
 export default async function handler(req: Request): Promise<Response> {
@@ -362,8 +364,44 @@ export default async function handler(req: Request): Promise<Response> {
 
   // LIVE mode — call xAI
   try {
-    const userPrompt = `Analyse the semantic drift of the ${mode === 'word' ? 'word' : mode} "${query}"${requestedDate ? ` at the period around ${requestedDate}` : ''}.
+    const eraClause = requestedDate ? ` with particular focus on the period around ${requestedDate}` : ''
+
+    let userPrompt: string
+    if (mode === 'phrase') {
+      userPrompt = `Analyse the semantic drift of the phrase "${query}"${eraClause}.
+Treat the phrase as a unified expression — trace how its meaning as a WHOLE has changed, not the individual words.
+Requirements:
+- Provide 2–5 historicalSnapshots showing the phrase's evolution across different eras
+- Include 2–5 keyDates: earliest documented use, significant usage shifts, and any modern pop-culture or register change
+- Identify 2–4 REAL sources (newspapers, dictionaries, corpus studies, literary works) that document this phrase's usage
+- currentSnapshot.definition must describe in 2+ sentences HOW this phrase is used today, by whom, and in what register
+- summaryOfChange.shortSummary must explain the phrase's semantic journey in plain language (minimum 20 words)
+- Include 2–4 relatedConcepts (related idioms, phrases, or linguistic phenomena)
 Return a complete InterpretationResult JSON object.`
+    } else if (mode === 'paragraph') {
+      userPrompt = `Analyse the semantic drift of the most historically significant word or phrase found in this passage: "${query}"${eraClause}.
+Select the single word or phrase from the passage that has the richest documented history of meaning change.
+Requirements:
+- Set query and normalizedQuery to the selected word or phrase
+- Provide 2–5 historicalSnapshots contextualised to the passage period
+- Include 2–5 keyDates marking important moments in the selected term's semantic history
+- Identify 2–4 REAL sources documenting the term's historical usage
+- currentSnapshot.definition must describe how the term is understood TODAY (minimum 2 sentences)
+- summaryOfChange.longSummary must explain how the term's meaning in the passage differs from its modern meaning
+Return a complete InterpretationResult JSON object.`
+    } else {
+      userPrompt = `Analyse the semantic drift of the word "${query}"${eraClause}.
+Even if this word is informal, slang, dialectal, or colloquial, provide thorough scholarly context.
+Requirements:
+- Earliest documented appearance: when and where the word/spelling first appeared (etymology, dialect origin, first print record)
+- 2–5 historicalSnapshots tracing meaning change across clearly labelled eras
+- 2–5 keyDates: first attestation, major usage shifts, dictionary inclusion, any reclamation or stigma events — use non-empty specific labels, never a bare "?" placeholder
+- 2–4 REAL sources: standard dictionaries (OED, Merriam-Webster), newspapers, corpus studies, or dialect records.
+  For informal or slang words acceptable sources include: Merriam-Webster slang section, news archives, Online Etymology Dictionary, or dialect/regional word studies
+- currentSnapshot.definition: at least 2 sentences describing HOW the word is used TODAY — tone, register, typical contexts, and who uses it
+- 2–4 relatedConcepts (synonyms, related slang, or linguistic phenomena)
+Return a complete InterpretationResult JSON object.`
+    }
 
     const raw = await chatComplete(
       [

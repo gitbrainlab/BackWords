@@ -37,6 +37,17 @@ export default defineConfig({
       testMatch: ['**/live-smoke.spec.ts'],
       // No webServer: live tests target the deployed site.
     },
+    {
+      // Live matrix tests — expanded quality coverage: unfeatured words, phrase mode,
+      // paragraph mode, all three AI models, and deep UI drill-downs.
+      // Intentionally slow/expensive — run deliberately, not in CI smoke tier.
+      // Run with: npm run test:matrix
+      name: 'live-matrix',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      testMatch: ['**/live-matrix.spec.ts'],
+    },
   ],
   outputDir: 'test-results',
   webServer: {
