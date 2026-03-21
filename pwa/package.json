@@ -24,7 +24,7 @@
     "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "^9.39.4",
     "@netlify/functions": "^5.1.5",
     "@playwright/test": "^1.49.1",
     "@testing-library/jest-dom": "^6.6.3",
