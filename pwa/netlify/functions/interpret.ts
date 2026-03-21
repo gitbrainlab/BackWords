@@ -172,13 +172,15 @@ function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: s
     obj.currentSnapshot = normalizeSnapshot(obj.currentSnapshot as Record<string, unknown>, `${prefix}-current`)
   }
 
-  // Normalize historicalSnapshots
+  // Normalize historicalSnapshots — guarantee array is always present
   if (Array.isArray(obj.historicalSnapshots)) {
     obj.historicalSnapshots = obj.historicalSnapshots.map((s: unknown) =>
       typeof s === 'object' && s !== null
         ? normalizeSnapshot(s as Record<string, unknown>, prefix)
         : s,
     )
+  } else {
+    obj.historicalSnapshots = []
   }
 
   // Normalize summaryOfChange — the AI sometimes places fields at root level
@@ -221,6 +223,24 @@ function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: s
         ? normalizeSource(s as Record<string, unknown>, prefix)
         : s,
     )
+  }
+
+  // Normalize relatedConcepts — AI often omits conceptId or uses alternate label fields
+  let _conceptCounter = 0
+  if (Array.isArray(obj.relatedConcepts)) {
+    obj.relatedConcepts = obj.relatedConcepts
+      .filter((c: unknown) => typeof c === 'object' && c !== null)
+      .map((c: unknown) => {
+        _conceptCounter++
+        const rc = c as Record<string, unknown>
+        const label = String(rc.label ?? rc.name ?? rc.concept ?? rc.term ?? rc.word ?? '')
+        return {
+          conceptId: String(rc.conceptId ?? rc.id ?? `${prefix}-concept-${_conceptCounter}`),
+          label,
+          confidence: typeof rc.confidence === 'number' ? rc.confidence : 0.8,
+        }
+      })
+      .filter((c: { label: string }) => c.label.length > 0)
   }
 
   // Ensure required top-level fields

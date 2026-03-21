@@ -164,6 +164,12 @@
   line-height: 1.6;
 }
 
+.definitionMissing {
+  font-style: italic;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
 .example {
   margin: 0;
   padding: var(--space-sm) var(--space-md);

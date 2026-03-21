@@ -13,7 +13,9 @@ function buildEvents(
   if (timelineEvents && timelineEvents.length > 0) return timelineEvents
 
   // Synthesize events from snapshots as fallback
-  const snaps = [...historicalSnapshots, currentSnapshot]
+  const allSnaps = Array.isArray(historicalSnapshots) ? historicalSnapshots : []
+  const snaps = [...allSnaps, currentSnapshot].filter((s): s is SnapshotInterpretation => s != null)
+  if (snaps.length === 0) return []
   return snaps.map((s, i) => ({
     eventId: s.snapshotId,
     date: s.date,

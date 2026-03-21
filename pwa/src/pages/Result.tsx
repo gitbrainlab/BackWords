@@ -25,7 +25,7 @@ function SnapshotCard({ snapshot, label }: { snapshot: SnapshotInterpretation; l
         </time>
       </header>
 
-      <p className={styles.definition}>{snapshot.definition}</p>
+      <p className={styles.definition}>{snapshot.definition || <em className={styles.definitionMissing}>Definition not recorded</em>}</p>
 
       {snapshot.exampleUsage && (
         <blockquote className={styles.example}>
