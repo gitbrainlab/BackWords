@@ -1,0 +1,16 @@
+.banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #4a4a4a;
+  color: #fff;
+  font-size: 0.8125rem;
+  padding: var(--space-sm) var(--space-lg);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  z-index: 1000;
+}

@@ -1,0 +1,131 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.modePicker {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.modeBtn {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-card-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  min-height: 44px;
+}
+
+.modeBtnActive {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  color: var(--color-text-primary);
+  min-height: 52px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+.textarea {
+  composes: input;
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.dateToggle {
+  align-self: flex-start;
+  padding: var(--space-xs) var(--space-md);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  color: var(--color-accent);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.dateToggleActive {
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+
+.datePicker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-card-secondary);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.dateLabel {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.rangeInput {
+  flex: 1;
+  min-width: 120px;
+  accent-color: var(--color-accent);
+}
+
+.dateValue {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  min-width: 3rem;
+  text-align: center;
+}
+
+.clearDate {
+  padding: 2px var(--space-sm);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  cursor: pointer;
+  min-height: 28px;
+}
+
+.submitBtn {
+  padding: var(--space-md) var(--space-xl);
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 52px;
+  letter-spacing: 0.01em;
+  transition: opacity 0.15s;
+}
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

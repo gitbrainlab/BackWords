@@ -1,0 +1,37 @@
+# BackWords — Netlify Functions (API only)
+# The PWA static frontend is hosted on GitHub Pages.
+# This config deploys the Netlify Functions that power the API endpoints.
+# XAI_API_KEY must be set in the Netlify UI under Site → Environment Variables.
+# NEVER put secrets in this file.
+
+[build]
+  base    = "pwa"
+  command = "echo 'API functions only — PWA hosted on GitHub Pages'"
+  # publish points at an empty placeholder so Netlify does not error on missing dist
+  publish = "dist-placeholder"
+
+[functions]
+  directory    = "netlify/functions"
+  node_bundler = "esbuild"
+  # Make seed data + schemas available to bundled functions at runtime
+  included_files = ["../data/**", "../packages/shared-schema/**"]
+
+# ---------------------------------------------------------------------------
+# CORS: allow the GitHub Pages frontend and local dev to call functions
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin  = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+# ---------------------------------------------------------------------------
+# Security headers — TODO: tighten in production
+# TODO: Restrict Access-Control-Allow-Origin to https://gitbrainlab.github.io
+# TODO: Add Content-Security-Policy default-src 'self'
+# TODO: Add X-Frame-Options: DENY
+# TODO: Add X-Content-Type-Options: nosniff
+# TODO: Add Referrer-Policy: strict-origin-when-cross-origin
+# TODO: Add Permissions-Policy: geolocation=(), microphone=()
+# ---------------------------------------------------------------------------
