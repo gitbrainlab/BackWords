@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // GitHub Pages SPA routing: redirect back to the app with the path stored in the URL
+      (function () {
+        var l = window.location;
+        if (l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function (s) {
+            return s.replace(/~and~/g, '&');
+          }).join('?');
+          window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      })();
+    </script>
+    <meta http-equiv="refresh" content="0;url=/BackWords/" />
+    <title>BackWords</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href="/BackWords/">BackWords</a>…</p>
+  </body>
+</html>
