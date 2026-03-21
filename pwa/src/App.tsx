@@ -34,8 +34,8 @@ function Loading() {
   )
 }
 
-// GitHub Pages deploys under /BackWords/
-const BASENAME = import.meta.env.VITE_BASE_PATH ?? '/BackWords'
+// Custom domain (backwords.art) serves at root /; GitHub Pages fallback uses /BackWords
+const BASENAME = import.meta.env.VITE_BASE_PATH ?? '/'
 
 export default function App() {
   return (
