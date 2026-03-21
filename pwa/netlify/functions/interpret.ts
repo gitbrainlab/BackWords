@@ -11,6 +11,7 @@ interface InterpretRequest {
   mode?: string
   requestedDate?: string
   useMock?: boolean
+  model?: string
 }
 
 const DRIFT_TYPE_MAP: Record<string, string> = {
@@ -45,6 +46,7 @@ const VALID_SENTIMENT_SHIFTS = new Set([
   'positive-to-negative', 'negative-to-positive', 'neutral-to-negative',
   'neutral-to-positive', 'positive-to-neutral', 'negative-to-neutral', 'stable', 'complex',
 ])
+const VALID_SOURCE_TYPES = new Set(['dictionary', 'literary', 'academic', 'historical', 'newspaper', 'other'])
 
 function normalizeDriftMagnitude(raw: unknown): number {
   if (typeof raw === 'number' && raw >= 0 && raw <= 1) return raw
@@ -111,6 +113,53 @@ function normalizeSnapshot(raw: Record<string, unknown>, prefix: string): Record
   }
 }
 
+let _keyDateCounter = 0
+function normalizeKeyDate(raw: Record<string, unknown>): Record<string, unknown> {
+  _keyDateCounter++
+  const rawYear = raw.year ?? raw.date ?? raw.period
+  const date = raw.date && typeof raw.date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(raw.date)
+    ? raw.date
+    : yearToDate(rawYear)
+  return {
+    date,
+    label: String(raw.label ?? raw.title ?? raw.event ?? raw.name ?? raw.heading ?? `Key Moment ${_keyDateCounter}`),
+    significance: String(raw.significance ?? raw.description ?? raw.importance ?? raw.note ?? raw.detail ?? ''),
+  }
+}
+
+let _sourceCounter = 0
+function normalizeSource(raw: Record<string, unknown>, prefix: string): Record<string, unknown> {
+  _sourceCounter++
+  const title = String(raw.title ?? raw.name ?? raw.work ?? raw.source ?? raw.reference ?? 'Unnamed Source')
+  const rawType = String(raw.sourceType ?? raw.source_type ?? raw.type ?? '').toLowerCase()
+  let sourceType = 'other'
+  if (VALID_SOURCE_TYPES.has(rawType)) sourceType = rawType
+  else if (rawType.includes('dict')) sourceType = 'dictionary'
+  else if (rawType.includes('book') || rawType.includes('novel') || rawType.includes('lit')) sourceType = 'literary'
+  else if (rawType.includes('acad') || rawType.includes('journal') || rawType.includes('study')) sourceType = 'academic'
+  else if (rawType.includes('hist')) sourceType = 'historical'
+  else if (rawType.includes('news') || rawType.includes('paper')) sourceType = 'newspaper'
+  const author = raw.author ?? raw.by ?? raw.creator ?? null
+  const publisher = raw.publisher ?? raw.publication ?? null
+  const rawPubDate = raw.publishedDate ?? raw.published_date ?? raw.date ?? raw.year
+  const publishedDate = rawPubDate != null ? yearToDate(rawPubDate) : null
+  const excerpt = String(raw.excerpt ?? raw.quote ?? raw.text ?? raw.passage ?? raw.citation ?? '')
+  const attribution = String(raw.attribution ?? (title + (author ? `, ${String(author)}` : '')))
+  const relevanceNote = String(raw.relevanceNote ?? raw.relevance_note ?? raw.relevance ?? raw.note ?? '')
+  return {
+    sourceId: String(raw.sourceId ?? raw.id ?? raw.source_id ?? `${prefix}-src-${_sourceCounter}`),
+    title,
+    author: author !== null ? String(author) : null,
+    publisher: publisher !== null ? String(publisher) : null,
+    publishedDate,
+    sourceType,
+    attribution,
+    excerpt,
+    relevanceNote,
+    confidence: typeof raw.confidence === 'number' ? raw.confidence : 0.8,
+  }
+}
+
 function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: string, mode: string): unknown {
   if (typeof parsed !== 'object' || parsed === null) return parsed
   _snapshotCounter = 0
@@ -152,6 +201,26 @@ function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: s
       driftType: normalizeDriftType(rootDriftType),
       driftMagnitude: normalizeDriftMagnitude(rootDriftMagnitude),
     }
+  }
+
+  // Normalize keyDates
+  if (Array.isArray(obj.keyDates)) {
+    _keyDateCounter = 0
+    obj.keyDates = obj.keyDates.map((kd: unknown) =>
+      typeof kd === 'object' && kd !== null
+        ? normalizeKeyDate(kd as Record<string, unknown>)
+        : kd,
+    )
+  }
+
+  // Normalize sources
+  if (Array.isArray(obj.sources)) {
+    _sourceCounter = 0
+    obj.sources = obj.sources.map((s: unknown) =>
+      typeof s === 'object' && s !== null
+        ? normalizeSource(s as Record<string, unknown>, prefix)
+        : s,
+    )
   }
 
   // Ensure required top-level fields
@@ -228,7 +297,7 @@ export default async function handler(req: Request): Promise<Response> {
     return errorResponse('Invalid JSON body', 400)
   }
 
-  const { query, mode = 'word', requestedDate, useMock } = body
+  const { query, mode = 'word', requestedDate, useMock, model } = body
   if (!query || typeof query !== 'string' || query.trim().length === 0) {
     return errorResponse('query is required', 400)
   }
@@ -256,7 +325,7 @@ Return a complete InterpretationResult JSON object.`
         { role: 'system', content: INTERPRET_SYSTEM_PROMPT },
         { role: 'user', content: userPrompt },
       ],
-      INTERPRET_MODEL,
+      model ?? INTERPRET_MODEL,
     )
 
     const extracted = extractJson(raw)

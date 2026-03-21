@@ -7,6 +7,7 @@ import { useResult } from '@/context/ResultContext'
 import { useTheme } from '@/design/theme'
 import { interpret } from '@/lib/api'
 import { addHistoryItem, loadHistory } from '@/lib/history'
+import { recordTiming } from '@/lib/timings'
 import type { SearchMode } from '@/types'
 import styles from './Home.module.css'
 
@@ -32,8 +33,17 @@ export default function Home() {
       setSearchError(null)
       // Navigate immediately — user sees the loading screen while API runs
       navigate('/searching')
+      const startMs = Date.now()
       try {
-        const result = await interpret({ query, mode, requestedDate: selectedDate, useMock: settings.mockMode })
+        const result = await interpret({
+          query,
+          mode,
+          requestedDate: selectedDate,
+          useMock: settings.mockMode,
+          model: settings.mockMode ? undefined : settings.preferredModel,
+        })
+        const durationMs = Date.now() - startMs
+        recordTiming(settings.preferredModel, durationMs)
         setResult(result, query, mode)
         addHistoryItem({ query, normalizedQuery: query.trim().toLowerCase(), mode, timestamp: Date.now() })
         setSearchStatus('done')
@@ -42,7 +52,7 @@ export default function Home() {
         setSearchStatus('error')
       }
     },
-    [navigate, setResult, setSearchStatus, setSearchError, searchStatus, settings.mockMode],
+    [navigate, setResult, setSearchStatus, setSearchError, searchStatus, settings.mockMode, settings.preferredModel],
   )
 
   return (

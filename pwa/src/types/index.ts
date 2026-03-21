@@ -26,6 +26,7 @@ export type {
   ColorScheme,
   PaletteChoice,
   CachePolicy,
+  ModelChoice,
   AppSettings,
 } from './settings'
 

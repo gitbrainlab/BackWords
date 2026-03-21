@@ -193,3 +193,113 @@
 .version {
   margin: 0;
 }
+
+/* ── Model picker ── */
+.modelGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.modelCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-card-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.modelCardActive {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-card));
+}
+
+.modelCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.modelName {
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+}
+
+.modelBadge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 99px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badgeFast {
+  background: color-mix(in srgb, var(--color-accent2) 18%, transparent);
+  color: var(--color-accent2);
+}
+
+.badgeBalanced {
+  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  color: var(--color-accent);
+}
+
+.badgeDeep {
+  background: color-mix(in srgb, var(--color-text-secondary) 14%, transparent);
+  color: var(--color-text-secondary);
+}
+
+.modelDesc {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.modelTiming {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.timingValue {
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+.timingSamples {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.timingNone {
+  font-size: 0.75rem;
+  color: color-mix(in srgb, var(--color-muted) 60%, transparent);
+  font-style: italic;
+}
+
+.clearTimingsBtn {
+  align-self: flex-start;
+  margin-top: var(--space-xs);
+  padding: 0;
+  background: none;
+  border: none;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.clearTimingsBtn:hover {
+  color: var(--color-text-secondary);
+}

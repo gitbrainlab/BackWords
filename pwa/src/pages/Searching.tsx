@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useResult } from '@/context/ResultContext'
 import styles from './Searching.module.css'
-
 interface Phase {
   message: (q: string) => string
   progress: number
@@ -23,6 +22,7 @@ export default function Searching() {
   const { searchStatus, searchError, query } = useResult()
   const [phaseIndex, setPhaseIndex] = useState(0)
   const [progress, setProgress] = useState(PHASES[0].progress)
+  const [elapsed, setElapsed] = useState(0)
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
 
   // Guard: if navigated here with no search in flight, go home
@@ -42,6 +42,14 @@ export default function Searching() {
     })
     return () => { timersRef.current.forEach(clearTimeout); timersRef.current = [] }
   }, [])
+
+  // Live elapsed timer
+  useEffect(() => {
+    if (searchStatus !== 'loading') return
+    const start = Date.now()
+    const id = setInterval(() => setElapsed(Date.now() - start), 250)
+    return () => clearInterval(id)
+  }, [searchStatus])
 
   // React to API resolution
   useEffect(() => {
@@ -100,7 +108,12 @@ export default function Searching() {
           />
         </div>
 
-        <p className={styles.hint}>This may take 15–30 seconds for live analysis</p>
+        <p className={styles.hint}>
+          {searchStatus === 'loading'
+            ? <><span className={styles.timer}>{(elapsed / 1000).toFixed(1)}s</span> · This may take 15–30 seconds</>
+            : 'Complete'
+          }
+        </p>
       </div>
     </div>
   )

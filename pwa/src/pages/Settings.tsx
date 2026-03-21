@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import NavBar from '@/components/NavBar'
 import { useTheme } from '@/design/theme'
 import { clearHistory } from '@/lib/history'
-import type { AppSettings } from '@/types'
+import { getAverageMs, getTimings, clearTimings } from '@/lib/timings'
+import type { AppSettings, ModelChoice } from '@/types'
 import styles from './Settings.module.css'
 
 const PALETTE_OPTIONS: Array<{ value: AppSettings['palette']; label: string; desc: string }> = [
@@ -17,14 +18,59 @@ const SCHEME_OPTIONS: Array<{ value: AppSettings['colorScheme']; label: string }
   { value: 'dark', label: 'Dark' },
 ]
 
+interface ModelOption {
+  value: ModelChoice
+  label: string
+  desc: string
+  badge: string
+  badgeClass: string
+}
+
+const MODEL_OPTIONS: ModelOption[] = [
+  {
+    value: 'grok-3-mini-fast',
+    label: 'Fast',
+    desc: 'Grok 3 Mini Fast · Quick responses, slightly less depth',
+    badge: 'Fastest',
+    badgeClass: 'badgeFast',
+  },
+  {
+    value: 'grok-3-mini',
+    label: 'Balanced',
+    desc: 'Grok 3 Mini · Better accuracy, moderate speed',
+    badge: 'Balanced',
+    badgeClass: 'badgeBalanced',
+  },
+  {
+    value: 'grok-3',
+    label: 'Deep Dive',
+    desc: 'Grok 3 · Most thorough analysis, slower response',
+    badge: 'Best Quality',
+    badgeClass: 'badgeDeep',
+  },
+]
+
 export default function Settings() {
   const { settings, updateSettings } = useTheme()
   const [historyCleared, setHistoryCleared] = useState(false)
+  // Re-render when timings change (after returning from a search)
+  const [, setTick] = useState(0)
+  useEffect(() => { setTick(t => t + 1) }, [])
 
   function handleClearHistory() {
     clearHistory()
     setHistoryCleared(true)
     setTimeout(() => setHistoryCleared(false), 2000)
+  }
+
+  function handleClearTimings() {
+    clearTimings()
+    setTick(t => t + 1)
+  }
+
+  function formatMs(ms: number | null): string {
+    if (ms === null) return '—'
+    return ms >= 1000 ? `${(ms / 1000).toFixed(1)}s` : `${ms}ms`
   }
 
   return (
@@ -117,6 +163,52 @@ export default function Settings() {
               ))}
             </select>
           </div>
+        </section>
+
+        {/* AI Model */}
+        <section aria-labelledby="model-heading" className={styles.section}>
+          <h2 id="model-heading" className={styles.sectionTitle}>AI Model</h2>
+          <p className={styles.settingDesc} style={{ marginBottom: 4 }}>
+            Choose the xAI model used for live analysis. Timings update as you search.
+          </p>
+          <div className={styles.modelGrid}>
+            {MODEL_OPTIONS.map(opt => {
+              const avgMs = getAverageMs(opt.value)
+              const samples = getTimings(opt.value).length
+              const isActive = settings.preferredModel === opt.value
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={isActive}
+                  className={`${styles.modelCard} ${isActive ? styles.modelCardActive : ''}`}
+                  onClick={() => updateSettings({ preferredModel: opt.value })}
+                >
+                  <div className={styles.modelCardTop}>
+                    <strong className={styles.modelName}>{opt.label}</strong>
+                    <span className={`${styles.modelBadge} ${styles[opt.badgeClass]}`}>{opt.badge}</span>
+                  </div>
+                  <p className={styles.modelDesc}>{opt.desc}</p>
+                  <div className={styles.modelTiming}>
+                    {avgMs !== null ? (
+                      <>
+                        <span className={styles.timingValue}>{formatMs(avgMs)}</span>
+                        <span className={styles.timingSamples}>avg · {samples} {samples === 1 ? 'search' : 'searches'}</span>
+                      </>
+                    ) : (
+                      <span className={styles.timingNone}>No data yet</span>
+                    )}
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+          {MODEL_OPTIONS.some(o => getTimings(o.value).length > 0) && (
+            <button type="button" className={styles.clearTimingsBtn} onClick={handleClearTimings}>
+              Clear timing history
+            </button>
+          )}
         </section>
 
         {/* History */}

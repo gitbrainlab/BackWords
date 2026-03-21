@@ -49,6 +49,7 @@ export interface InterpretRequest {
   mode?: string
   requestedDate?: string
   useMock?: boolean
+  model?: string
 }
 
 // POST /explain-source request

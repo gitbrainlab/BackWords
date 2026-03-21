@@ -2,6 +2,7 @@
 export type ColorScheme = 'system' | 'light' | 'dark'
 export type PaletteChoice = 'scholarly' | 'modernPremium' | 'consumerFriendly'
 export type CachePolicy = 'always' | 'networkFirst' | 'never'
+export type ModelChoice = 'grok-3-mini-fast' | 'grok-3-mini' | 'grok-3'
 
 export interface AppSettings {
   apiBaseURL: string
@@ -9,6 +10,7 @@ export interface AppSettings {
   palette: PaletteChoice
   maxSources: number
   mockMode: boolean
+  preferredModel: ModelChoice
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
@@ -17,4 +19,5 @@ export const DEFAULT_SETTINGS: AppSettings = {
   palette: 'scholarly',
   maxSources: 4,
   mockMode: false,
+  preferredModel: 'grok-3-mini-fast',
 }
