@@ -427,8 +427,8 @@ test.describe('Block C — API richness: unfeatured words & phrases', () => {
 // BLOCK D — Model Quality Matrix
 // ─────────────────────────────────────────────────────────────────────────────
 
-test.describe('Block D — Model quality matrix: grok-3-mini-fast | grok-3-mini | grok-3', () => {
-  // Add 60 s to handle grok-3 responses that can approach 90 s
+test.describe('Block D — Model quality matrix: grok-4-1-fast-non-reasoning | grok-4-1-fast-reasoning | grok-4.20-0309-non-reasoning', () => {
+  // Add 60 s to handle grok-4.20 responses
   test.setTimeout(RESULT_WAIT_MS + 60_000)
 
   test.beforeEach(() => {
@@ -441,9 +441,9 @@ test.describe('Block D — Model quality matrix: grok-3-mini-fast | grok-3-mini 
   const MATRIX_WORD = 'doggone'
 
   const MODELS = [
-    { id: 'grok-3-mini-fast', label: 'D01' },
-    { id: 'grok-3-mini',      label: 'D02' },
-    { id: 'grok-3',           label: 'D03' },
+    { id: 'grok-4-1-fast-non-reasoning', label: 'D01' },
+    { id: 'grok-4-1-fast-reasoning',     label: 'D02' },
+    { id: 'grok-4.20-0309-non-reasoning',label: 'D03' },
   ] as const
 
   for (const { id: modelId, label } of MODELS) {
@@ -633,7 +633,7 @@ test.describe('Block E — Deep UI journeys', () => {
   })
 
   test('E04 — Model selector: change to Balanced in settings → search → result loads', async ({ page }) => {
-    // Navigate to settings and select the "Balanced" (grok-3-mini) model card
+    // Navigate to settings and select the "Balanced" (grok-4-1-fast-reasoning) model card
     await page.goto(`${SITE}/settings`)
     await shot(page, 'E04-settings')
 

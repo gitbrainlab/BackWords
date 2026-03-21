@@ -30,34 +30,34 @@ interface ModelOption {
 
 const MODEL_OPTIONS: ModelOption[] = [
   {
-    value: 'grok-3-mini-fast',
+    value: 'grok-4-1-fast-non-reasoning',
     label: 'Fast',
-    desc: 'Grok 3 Mini Fast · Quick responses, slightly less depth',
+    desc: 'Grok 4.1 Fast · Quick responses, slightly less depth',
     badge: 'Fastest',
     badgeClass: 'badgeFast',
-    estWait: '5–15 s',
-    // ~825 in × $0.60/1M + ~900 out × $4.00/1M ≈ $0.004
-    estCost: '~0.4¢/search',
-  },
-  {
-    value: 'grok-3-mini',
-    label: 'Balanced',
-    desc: 'Grok 3 Mini · Better accuracy, moderate speed',
-    badge: 'Balanced',
-    badgeClass: 'badgeBalanced',
-    estWait: '15–30 s',
-    // ~825 in × $0.30/1M + ~900 out × $0.50/1M ≈ $0.0007
+    estWait: '3–10 s',
+    // ~825 in × $0.20/1M + ~900 out × $0.50/1M ≈ $0.00062
     estCost: '<0.1¢/search',
   },
   {
-    value: 'grok-3',
+    value: 'grok-4-1-fast-reasoning',
+    label: 'Balanced',
+    desc: 'Grok 4.1 Fast (reasoning) · Better depth, same speed tier',
+    badge: 'Balanced',
+    badgeClass: 'badgeBalanced',
+    estWait: '5–20 s',
+    // ~825 in × $0.20/1M + ~900 out × $0.50/1M ≈ $0.00062
+    estCost: '<0.1¢/search',
+  },
+  {
+    value: 'grok-4.20-0309-non-reasoning',
     label: 'Deep Dive',
-    desc: 'Grok 3 · Most thorough analysis, slower response',
+    desc: 'Grok 4.20 · Most thorough analysis, slower response',
     badge: 'Best Quality',
     badgeClass: 'badgeDeep',
-    estWait: '30–90 s',
-    // ~825 in × $3.00/1M + ~1500 out × $15.00/1M ≈ $0.025
-    estCost: '~2.5¢/search',
+    estWait: '20–60 s',
+    // ~825 in × $2.00/1M + ~900 out × $6.00/1M ≈ $0.007
+    estCost: '~0.7¢/search',
   },
 ]
 

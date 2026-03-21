@@ -34,7 +34,7 @@ const SITE    = process.env.LIVE_URL ?? 'https://backwords.art'
 const API_URL = process.env.API_URL  ?? 'https://backwords-api.netlify.app/.netlify/functions'
 
 // How long to wait for the AI API to respond and /result to appear
-const RESULT_WAIT_MS = 120_000  // 2 min (Grok-3 can take 90 s)
+const RESULT_WAIT_MS = 120_000  // 2 min (grok-4.20 worst-case)
 
 // Words with well-known drift histories — rotate randomly per run for variety
 const TEST_WORDS = ['gone', 'nice', 'awful'] as const
