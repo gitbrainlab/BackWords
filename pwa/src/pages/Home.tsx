@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SearchBar from '@/components/SearchBar'
 import ConceptChip from '@/components/ConceptChip'
@@ -21,28 +21,28 @@ const CURATED_SEEDS = [
 
 export default function Home() {
   const navigate = useNavigate()
-  const { setResult } = useResult()
+  const { setResult, setSearchStatus, setSearchError, searchStatus } = useResult()
   const { settings } = useTheme()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
   const history = loadHistory().slice(0, 5)
 
   const runSearch = useCallback(
     async (query: string, mode: SearchMode, selectedDate?: string) => {
-      setLoading(true)
-      setError(null)
+      if (searchStatus === 'loading') return
+      setSearchStatus('loading')
+      setSearchError(null)
+      // Navigate immediately — user sees the loading screen while API runs
+      navigate('/searching')
       try {
         const result = await interpret({ query, mode, requestedDate: selectedDate, useMock: settings.mockMode })
         setResult(result, query, mode)
         addHistoryItem({ query, normalizedQuery: query.trim().toLowerCase(), mode, timestamp: Date.now() })
-        navigate('/result')
+        setSearchStatus('done')
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Search failed')
-      } finally {
-        setLoading(false)
+        setSearchError(err instanceof Error ? err.message : 'Search failed')
+        setSearchStatus('error')
       }
     },
-    [navigate, setResult, settings.mockMode],
+    [navigate, setResult, setSearchStatus, setSearchError, searchStatus, settings.mockMode],
   )
 
   return (
@@ -56,12 +56,7 @@ export default function Home() {
 
       <main id="main" className={styles.main}>
         <section aria-label="Search" className={styles.searchSection}>
-          <SearchBar onSearch={runSearch} loading={loading} />
-          {error && (
-            <div role="alert" className={styles.error}>
-              <strong>Error:</strong> {error}
-            </div>
-          )}
+          <SearchBar onSearch={runSearch} loading={searchStatus === 'loading'} />
         </section>
 
         {/* Curated seed words */}
@@ -74,7 +69,7 @@ export default function Home() {
                 type="button"
                 className={styles.seedCard}
                 onClick={() => runSearch(word, 'word')}
-                disabled={loading}
+                disabled={searchStatus === 'loading'}
                 data-testid={`seed-${word}`}
               >
                 <span className={`${styles.seedWord} serif`}>{word}</span>

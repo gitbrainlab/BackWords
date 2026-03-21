@@ -1,0 +1,136 @@
+.page {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-background);
+  padding: var(--space-xl);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+/* ── Word display ── */
+.wordDisplay {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.word {
+  font-size: clamp(2rem, 9vw, 3.5rem);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.cursor {
+  display: inline-block;
+  width: 3px;
+  height: 0.85em;
+  background: var(--color-accent);
+  border-radius: 2px;
+  animation: blink 1s step-end infinite;
+  margin-top: 0.05em;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Phase message ── */
+.phaseMessage {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  min-height: 1.4em;
+  animation: fadeSlideIn 0.35s ease both;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Progress bar ── */
+.progressTrack {
+  width: 100%;
+  height: 3px;
+  background: var(--color-border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 99px;
+  transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progressComplete {
+  transition: width 0.25s ease;
+}
+
+/* ── Hint text ── */
+.hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: color-mix(in srgb, var(--color-muted) 60%, transparent);
+  letter-spacing: 0.01em;
+}
+
+/* ── Error state ── */
+.errorBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  max-width: 360px;
+  text-align: center;
+}
+
+.errorTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--color-text-primary);
+}
+
+.errorMsg {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.retryBtn {
+  margin-top: var(--space-sm);
+  padding: var(--space-sm) var(--space-xl);
+  border: 1px solid var(--color-border);
+  border-radius: var(--card-radius);
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.retryBtn:hover {
+  background: var(--color-card);
+}
+
+/* Honour reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cursor           { animation: none; opacity: 1; }
+  .phaseMessage     { animation: none; }
+  .progressFill,
+  .progressComplete { transition: none; }
+}

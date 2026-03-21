@@ -6,6 +6,7 @@ import OfflineBanner from './components/OfflineBanner'
 
 // Route-level code splitting for performance
 const Home        = lazy(() => import('./pages/Home'))
+const Searching   = lazy(() => import('./pages/Searching'))
 const Result      = lazy(() => import('./pages/Result'))
 const Timeline    = lazy(() => import('./pages/Timeline'))
 const SourceDetail = lazy(() => import('./pages/SourceDetail'))
@@ -48,6 +49,7 @@ export default function App() {
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/"                  element={<Home />} />
+              <Route path="/searching"         element={<Searching />} />
               <Route path="/result"            element={<Result />} />
               <Route path="/timeline"          element={<Timeline />} />
               <Route path="/passages"          element={<PassageView />} />
