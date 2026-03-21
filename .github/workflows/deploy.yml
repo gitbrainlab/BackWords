@@ -41,7 +41,8 @@ jobs:
         run: npm run build
         env:
           VITE_BASE_PATH: /BackWords
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          # VITE_API_BASE_URL falls back to the live Netlify URL baked into settings.ts
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL || 'https://backwords-api.netlify.app/.netlify/functions' }}
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4

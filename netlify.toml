@@ -5,16 +5,15 @@
 # NEVER put secrets in this file.
 
 [build]
-  base    = "pwa"
   command = "echo 'API functions only — PWA hosted on GitHub Pages'"
   # publish points at an empty placeholder so Netlify does not error on missing dist
   publish = "dist-placeholder"
 
 [functions]
-  directory    = "netlify/functions"
+  directory    = "pwa/netlify/functions"
   node_bundler = "esbuild"
   # Make seed data + schemas available to bundled functions at runtime
-  included_files = ["../data/**", "../packages/shared-schema/**"]
+  included_files = ["data/**", "packages/shared-schema/**"]
 
 # ---------------------------------------------------------------------------
 # CORS: allow the GitHub Pages frontend and local dev to call functions
