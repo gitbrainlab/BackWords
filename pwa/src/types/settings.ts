@@ -16,7 +16,7 @@ export interface AppSettings {
 export const DEFAULT_SETTINGS: AppSettings = {
   apiBaseURL: (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'https://backwords-api.netlify.app/.netlify/functions',
   colorScheme: 'system',
-  palette: 'scholarly',
+  palette: 'modernPremium',
   maxSources: 4,
   mockMode: false,
   preferredModel: 'grok-3-mini-fast',
