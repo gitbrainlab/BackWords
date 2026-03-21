@@ -1,9 +1,31 @@
-import { useEffect, useState } from 'react'
+import { Component, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import NavBar from '@/components/NavBar'
 import { useResult } from '@/context/ResultContext'
 import type { TimelineEvent, SnapshotInterpretation } from '@/types'
 import styles from './Timeline.module.css'
+
+class TimelineErrorBoundary extends Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props)
+    this.state = { hasError: false }
+  }
+  static getDerivedStateFromError() { return { hasError: true } }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
+          <p>Could not build the timeline for this result.</p>
+          <button type="button" onClick={() => history.back()} style={{ marginTop: '1rem', cursor: 'pointer' }}>← Back</button>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
 
 function buildEvents(
   historicalSnapshots: SnapshotInterpretation[],
@@ -28,7 +50,7 @@ function buildEvents(
   }))
 }
 
-export default function Timeline() {
+function TimelineInner() {
   const navigate = useNavigate()
   const { result } = useResult()
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null)
@@ -141,6 +163,14 @@ export default function Timeline() {
 
       <NavBar />
     </div>
+  )
+}
+
+export default function Timeline() {
+  return (
+    <TimelineErrorBoundary>
+      <TimelineInner />
+    </TimelineErrorBoundary>
   )
 }
 

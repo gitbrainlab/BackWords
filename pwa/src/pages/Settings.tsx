@@ -24,9 +24,8 @@ interface ModelOption {
   desc: string
   badge: string
   badgeClass: string
-  estWait: string      // e.g. '5–15 s'
-  inputCost: string    // per 1M tokens
-  outputCost: string   // per 1M tokens
+  estWait: string    // e.g. '5–15 s'
+  estCost: string    // estimated per-request cost (~825 input + ~900 output tokens)
 }
 
 const MODEL_OPTIONS: ModelOption[] = [
@@ -37,8 +36,8 @@ const MODEL_OPTIONS: ModelOption[] = [
     badge: 'Fastest',
     badgeClass: 'badgeFast',
     estWait: '5–15 s',
-    inputCost: '$0.60 / 1M',
-    outputCost: '$4.00 / 1M',
+    // ~825 in × $0.60/1M + ~900 out × $4.00/1M ≈ $0.004
+    estCost: '~0.4¢/search',
   },
   {
     value: 'grok-3-mini',
@@ -47,8 +46,8 @@ const MODEL_OPTIONS: ModelOption[] = [
     badge: 'Balanced',
     badgeClass: 'badgeBalanced',
     estWait: '15–30 s',
-    inputCost: '$0.30 / 1M',
-    outputCost: '$0.50 / 1M',
+    // ~825 in × $0.30/1M + ~900 out × $0.50/1M ≈ $0.0007
+    estCost: '<0.1¢/search',
   },
   {
     value: 'grok-3',
@@ -57,8 +56,8 @@ const MODEL_OPTIONS: ModelOption[] = [
     badge: 'Best Quality',
     badgeClass: 'badgeDeep',
     estWait: '30–90 s',
-    inputCost: '$3.00 / 1M',
-    outputCost: '$15.00 / 1M',
+    // ~825 in × $3.00/1M + ~1500 out × $15.00/1M ≈ $0.025
+    estCost: '~2.5¢/search',
   },
 ]
 
@@ -206,11 +205,8 @@ export default function Settings() {
                     <span className={styles.modelMetaChip} title="Estimated wait time">
                       ⏱ {opt.estWait}
                     </span>
-                    <span className={styles.modelMetaChip} title="Input token cost (xAI pricing)">
-                      ↓ {opt.inputCost}
-                    </span>
-                    <span className={styles.modelMetaChip} title="Output token cost (xAI pricing)">
-                      ↑ {opt.outputCost}
+                    <span className={styles.modelMetaChip} title="Estimated cost per search (~825 input + ~900 output tokens at xAI pricing)">
+                      💰 {opt.estCost}
                     </span>
                   </div>
                   <div className={styles.modelTiming}>

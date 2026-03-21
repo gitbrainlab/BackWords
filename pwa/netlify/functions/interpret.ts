@@ -74,8 +74,12 @@ function yearToDate(year: unknown): string {
   if (typeof year === 'number') return `${String(Math.abs(year)).padStart(4, '0')}-01-01`
   if (typeof year === 'string') {
     if (/^\d{4}-\d{2}-\d{2}/.test(year)) return year
+    // Leading digits (e.g. "1300" or "1300s")
     const n = parseInt(year, 10)
     if (!isNaN(n)) return `${String(Math.abs(n)).padStart(4, '0')}-01-01`
+    // Embedded digits (e.g. "circa 1300", "c. 1300", "~1300", "late 14th century")
+    const m = year.match(/\b(\d{3,4})\b/)
+    if (m) return `${m[1].padStart(4, '0')}-01-01`
   }
   return '2024-01-01'
 }
@@ -100,12 +104,12 @@ function normalizeSnapshot(raw: Record<string, unknown>, prefix: string): Record
     : yearToDate(year)
 
   return {
-    snapshotId: raw.snapshotId ?? raw.id ?? `${prefix}-snap-${_snapshotCounter}`,
+    snapshotId: raw.snapshotId || raw.id || `${prefix}-snap-${_snapshotCounter}`,
     date,
-    eraLabel: raw.eraLabel ?? raw.era ?? raw.period_label ?? eraLabelFromDate(date),
-    definition: raw.definition ?? raw.description ?? raw.meaning ?? raw.sense ?? '',
-    usageNote: raw.usageNote ?? raw.usage_note ?? raw.note ?? undefined,
-    exampleUsage: raw.exampleUsage ?? raw.example ?? raw.example_usage ?? undefined,
+    eraLabel: String(raw.eraLabel || raw.era || raw.period_label || eraLabelFromDate(date)),
+    definition: String(raw.definition || raw.description || raw.meaning || raw.sense || ''),
+    usageNote: (raw.usageNote || raw.usage_note || raw.note) ?? undefined,
+    exampleUsage: (raw.exampleUsage || raw.example || raw.example_usage) ?? undefined,
     register: VALID_REGISTERS.has(String(raw.register)) ? raw.register : 'neutral',
     sentiment: VALID_SENTIMENTS.has(String(raw.sentiment)) ? raw.sentiment : 'neutral',
     confidence: typeof raw.confidence === 'number' ? raw.confidence : 0.8,
@@ -122,15 +126,15 @@ function normalizeKeyDate(raw: Record<string, unknown>): Record<string, unknown>
     : yearToDate(rawYear)
   return {
     date,
-    label: String(raw.label ?? raw.title ?? raw.event ?? raw.name ?? raw.heading ?? `Key Moment ${_keyDateCounter}`),
-    significance: String(raw.significance ?? raw.description ?? raw.importance ?? raw.note ?? raw.detail ?? ''),
+    label: String(raw.label || raw.title || raw.event || raw.name || raw.heading || `Key Moment ${_keyDateCounter}`),
+    significance: String(raw.significance || raw.description || raw.importance || raw.note || raw.detail || ''),
   }
 }
 
 let _sourceCounter = 0
 function normalizeSource(raw: Record<string, unknown>, prefix: string): Record<string, unknown> {
   _sourceCounter++
-  const title = String(raw.title ?? raw.name ?? raw.work ?? raw.source ?? raw.reference ?? 'Unnamed Source')
+  const title = String(raw.title || raw.name || raw.work || raw.source || raw.reference || 'Unnamed Source')
   const rawType = String(raw.sourceType ?? raw.source_type ?? raw.type ?? '').toLowerCase()
   let sourceType = 'other'
   if (VALID_SOURCE_TYPES.has(rawType)) sourceType = rawType
@@ -143,9 +147,9 @@ function normalizeSource(raw: Record<string, unknown>, prefix: string): Record<s
   const publisher = raw.publisher ?? raw.publication ?? null
   const rawPubDate = raw.publishedDate ?? raw.published_date ?? raw.date ?? raw.year
   const publishedDate = rawPubDate != null ? yearToDate(rawPubDate) : null
-  const excerpt = String(raw.excerpt ?? raw.quote ?? raw.text ?? raw.passage ?? raw.citation ?? '')
-  const attribution = String(raw.attribution ?? (title + (author ? `, ${String(author)}` : '')))
-  const relevanceNote = String(raw.relevanceNote ?? raw.relevance_note ?? raw.relevance ?? raw.note ?? '')
+  const excerpt = String(raw.excerpt || raw.quote || raw.text || raw.passage || raw.citation || '')
+  const attribution = String(raw.attribution || (title + (author ? `, ${String(author)}` : '')))
+  const relevanceNote = String(raw.relevanceNote || raw.relevance_note || raw.relevance || raw.note || '')
   return {
     sourceId: String(raw.sourceId ?? raw.id ?? raw.source_id ?? `${prefix}-src-${_sourceCounter}`),
     title,
@@ -233,10 +237,12 @@ function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: s
       .map((c: unknown) => {
         _conceptCounter++
         const rc = c as Record<string, unknown>
-        const label = String(rc.label ?? rc.name ?? rc.concept ?? rc.term ?? rc.word ?? '')
+        const label = String(rc.label || rc.name || rc.concept || rc.term || rc.word || '')
         return {
-          conceptId: String(rc.conceptId ?? rc.id ?? `${prefix}-concept-${_conceptCounter}`),
+          conceptId: String(rc.conceptId || rc.id || `${prefix}-concept-${_conceptCounter}`),
           label,
+          relationship: String(rc.relationship || rc.type || rc.relation || 'related'),
+          note: (rc.note && typeof rc.note === 'string') ? rc.note : null,
           confidence: typeof rc.confidence === 'number' ? rc.confidence : 0.8,
         }
       })
@@ -290,21 +296,40 @@ The object MUST match this exact structure:
     "driftType": "broadening",
     "driftMagnitude": 0.6
   },
-  "keyDates": [],
-  "sources": [],
-  "relatedConcepts": [],
+  "keyDates": [
+    { "date": "1400-01-01", "label": "Earliest attestation", "significance": "First recorded use in Middle English texts." }
+  ],
+  "sources": [
+    {
+      "sourceId": "src-1",
+      "title": "Oxford English Dictionary",
+      "author": null,
+      "publisher": "Oxford University Press",
+      "publishedDate": "2024-01-01",
+      "sourceType": "dictionary",
+      "attribution": "OED Online",
+      "excerpt": "",
+      "relevanceNote": "Primary etymological reference.",
+      "confidence": 0.95
+    }
+  ],
+  "relatedConcepts": [
+    { "conceptId": "concept-1", "label": "semantic broadening", "relationship": "illustrates", "note": null }
+  ],
   "timelineEvents": []
 }
 
 CRITICAL RULES:
-- date fields MUST be ISO8601 strings like "1400-01-01", NEVER bare year numbers
+- date fields MUST be ISO8601 strings like "1400-01-01", NEVER bare year numbers or strings like "circa 1300"
 - driftMagnitude MUST be a decimal number 0–1 (e.g. 0.5), NEVER a string like "Moderate"
 - driftType MUST be exactly one of: pejoration | amelioration | narrowing | broadening | semantic-shift | stable | reclamation
 - register MUST be exactly one of: formal | informal | neutral | technical | vulgar | archaic
 - sentiment MUST be exactly one of: positive | negative | neutral
 - sentimentShift MUST be exactly one of: positive-to-negative | negative-to-positive | neutral-to-negative | neutral-to-positive | positive-to-neutral | negative-to-neutral | stable | complex
-- Include 2–5 historicalSnapshots
-- currentSnapshot.definition and each historicalSnapshot.definition must be non-empty strings`
+- Include 2–5 historicalSnapshots; every definition field must be a non-empty string
+- keyDates MUST include 2–5 entries marking significant moments; every label and significance must be non-empty
+- sources MUST include 2–4 real reference works; every title must be a non-empty string
+- relatedConcepts MUST include 2–4 entries; every label must be a non-empty string`
 
 export default async function handler(req: Request): Promise<Response> {
   if (req.method === 'OPTIONS') return optionsResponse()
