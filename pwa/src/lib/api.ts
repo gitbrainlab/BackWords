@@ -44,8 +44,9 @@ export async function get<T>(path: string, signal?: AbortSignal): Promise<T> {
 }
 
 // POST /interpret
+export type InterpretResponse = InterpretationResult & { cacheHit?: boolean }
 export function interpret(req: InterpretRequest, signal?: AbortSignal) {
-  return post<InterpretationResult>('interpret', req, signal)
+  return post<InterpretResponse>('interpret', req, signal)
 }
 
 // POST /explain-source

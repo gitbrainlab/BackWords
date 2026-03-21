@@ -5,6 +5,7 @@ import {
 } from './_shared/seed-loader.js'
 import { chatComplete, extractJson, INTERPRET_MODEL } from './_shared/xai-client.js'
 import { jsonResponse, errorResponse, optionsResponse } from './_shared/response.js'
+import { getCached, setCached } from './_shared/cache.js'
 
 interface InterpretRequest {
   query: string
@@ -185,6 +186,18 @@ function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: s
   // Normalize currentSnapshot
   if (obj.currentSnapshot && typeof obj.currentSnapshot === 'object') {
     obj.currentSnapshot = normalizeSnapshot(obj.currentSnapshot as Record<string, unknown>, `${prefix}-current`)
+  } else if (typeof obj.currentSnapshot === 'string' && obj.currentSnapshot.trim().length > 0) {
+    // AI returned the current definition as a plain string — rescue it into a proper object
+    obj.currentSnapshot = {
+      snapshotId: `${prefix}-current`,
+      date: '2024-01-01',
+      eraLabel: 'Contemporary',
+      definition: obj.currentSnapshot.trim(),
+      register: 'neutral',
+      sentiment: 'neutral',
+      confidence: 0.8,
+      sourceIds: [],
+    }
   }
 
   // Normalize historicalSnapshots — filter out non-objects (plain strings crash Timeline's
@@ -227,25 +240,41 @@ function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: s
       .map((kd: unknown) => normalizeKeyDate(kd as Record<string, unknown>))
   }
 
-  // Normalize timelineEvents — previously unnormalized; a null/undefined date causes
-  // formatYear() in Timeline.tsx to throw, which fires the error boundary.
+  // Normalize timelineEvents — a null/undefined date causes formatYear() in Timeline.tsx to
+  // throw, firing the error boundary.  Also rescue events where the AI returned only
+  // snapshotIndex+description by cross-referencing normalised historicalSnapshots for real dates.
   let _eventCounter = 0
   if (Array.isArray(obj.timelineEvents)) {
+    const normSnaps = Array.isArray(obj.historicalSnapshots)
+      ? (obj.historicalSnapshots as Array<Record<string, unknown>>)
+      : []
     obj.timelineEvents = obj.timelineEvents
       .filter((e: unknown) => typeof e === 'object' && e !== null)
       .map((e: unknown) => {
         _eventCounter++
         const ev = e as Record<string, unknown>
-        const rawDate = ev.date ?? ev.year ?? ev.period
+
+        // Cross-reference snapshotIndex → pick up real date / era from the already-normalised snapshot
+        const snapIdx = typeof ev.snapshotIndex === 'number' ? ev.snapshotIndex : null
+        const refSnap = snapIdx != null ? normSnaps[snapIdx - 1] ?? null : null
+
+        const rawDate = ev.date ?? ev.year ?? ev.period ?? refSnap?.date
         const date = ev.date && typeof ev.date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(ev.date as string)
           ? ev.date
           : yearToDate(rawDate)
+
+        // Title: prefer explicit field, fall back to referenced snapshot era label
+        const title = String(
+          ev.title ?? ev.label ?? ev.name ?? ev.heading ??
+          (refSnap?.eraLabel ?? refSnap?.eraLabel ?? ''),
+        )
+
         return {
           ...ev,
           eventId: String(ev.eventId ?? ev.id ?? `${prefix}-event-${_eventCounter}`),
           date,
-          eraLabel: String(ev.eraLabel ?? ev.era ?? eraLabelFromDate(date as string)),
-          title: String(ev.title ?? ev.label ?? ev.name ?? ev.heading ?? ''),
+          eraLabel: String(ev.eraLabel ?? ev.era ?? refSnap?.eraLabel ?? eraLabelFromDate(date as string)),
+          title,
           summary: String(ev.summary ?? ev.description ?? ev.content ?? ''),
           sourceIds: Array.isArray(ev.sourceIds) ? ev.sourceIds : [],
         }
@@ -395,6 +424,12 @@ export default async function handler(req: Request): Promise<Response> {
     return errorResponse(`No seed data for "${normalized}". Use live mode.`, 404)
   }
 
+  // Check Netlify Blobs cache before calling xAI
+  const cached = await getCached(normalized, mode)
+  if (cached) {
+    return jsonResponse({ ...(cached as Record<string, unknown>), mode, cacheHit: true })
+  }
+
   // LIVE mode — call xAI
   try {
     const eraClause = requestedDate ? ` with particular focus on the period around ${requestedDate}` : ''
@@ -442,11 +477,15 @@ Return a complete InterpretationResult JSON object.`
         { role: 'user', content: userPrompt },
       ],
       model ?? INTERPRET_MODEL,
+      undefined,
+      { jsonMode: true, maxTokens: 4096 },
     )
 
     const extracted = extractJson(raw)
     const parsed: unknown = JSON.parse(extracted)
     const normResult = normalizeXaiResponse(parsed, query, normalized, mode)
+    // Store in cache for future requests (non-blocking, failures are swallowed)
+    void setCached(normalized, mode, normResult)
     return jsonResponse(normResult)
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)

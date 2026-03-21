@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import NavBar from '@/components/NavBar'
 import { useTheme } from '@/design/theme'
 import { clearHistory } from '@/lib/history'
-import { getAverageMs, getTimings, clearTimings } from '@/lib/timings'
+import { getAverageMs, getTimings, clearTimings, getCacheStats, clearCacheStats } from '@/lib/timings'
 import type { AppSettings, ModelChoice } from '@/types'
 import styles from './Settings.module.css'
 
@@ -64,7 +64,7 @@ const MODEL_OPTIONS: ModelOption[] = [
 export default function Settings() {
   const { settings, updateSettings } = useTheme()
   const [historyCleared, setHistoryCleared] = useState(false)
-  // Re-render when timings change (after returning from a search)
+  // Re-render when timings/stats change (after returning from a search)
   const [, setTick] = useState(0)
   useEffect(() => { setTick(t => t + 1) }, [])
 
@@ -76,8 +76,13 @@ export default function Settings() {
 
   function handleClearTimings() {
     clearTimings()
+    clearCacheStats()
     setTick(t => t + 1)
   }
+
+  const cacheStats = getCacheStats()
+  const cacheTotal = cacheStats.hits + cacheStats.misses
+  const cacheHitPct = cacheTotal > 0 ? Math.round((cacheStats.hits / cacheTotal) * 100) : null
 
   function formatMs(ms: number | null): string {
     if (ms === null) return '—'
@@ -223,9 +228,15 @@ export default function Settings() {
               )
             })}
           </div>
+          {cacheTotal > 0 && (
+            <p className={styles.settingDesc} style={{ marginTop: 8, marginBottom: 0 }}>
+              Cache: <strong>{cacheStats.hits} hit{cacheStats.hits !== 1 ? 's' : ''}</strong> / {cacheTotal} searches
+              {cacheHitPct !== null && ` (${cacheHitPct}% served instantly from cache)`}
+            </p>
+          )}
           {MODEL_OPTIONS.some(o => getTimings(o.value).length > 0) && (
             <button type="button" className={styles.clearTimingsBtn} onClick={handleClearTimings}>
-              Clear timing history
+              Clear timing &amp; cache history
             </button>
           )}
         </section>

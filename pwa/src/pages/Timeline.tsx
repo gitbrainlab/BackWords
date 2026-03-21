@@ -2,7 +2,7 @@ import { Component, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import NavBar from '@/components/NavBar'
 import { useResult } from '@/context/ResultContext'
-import type { TimelineEvent, SnapshotInterpretation } from '@/types'
+import type { TimelineEvent, SnapshotInterpretation, KeyDate } from '@/types'
 import styles from './Timeline.module.css'
 
 class TimelineErrorBoundary extends Component<
@@ -31,10 +31,32 @@ function buildEvents(
   historicalSnapshots: SnapshotInterpretation[],
   currentSnapshot: SnapshotInterpretation,
   timelineEvents?: TimelineEvent[],
+  keyDates?: KeyDate[],
 ): Array<TimelineEvent & { definition?: string }> {
-  if (timelineEvents && timelineEvents.length > 0) return timelineEvents
+  // 1. Try timelineEvents — but only if they carry meaningful content (non-empty title).
+  //    Events produced by the model with only snapshotIndex+description have empty titles
+  //    and a fallback "2024-01-01" date; discard them so richer sources can take over.
+  if (timelineEvents && timelineEvents.length > 0) {
+    const usable = timelineEvents.filter(ev => ev.title?.trim().length > 0)
+    if (usable.length > 0) {
+      return usable.map(ev => ({ ...ev, sourceIds: Array.isArray(ev.sourceIds) ? ev.sourceIds : [] }))
+    }
+  }
 
-  // Synthesize events from snapshots as fallback
+  // 2. Synthesize from keyDates (Result page already shows these; reuse them for Timeline).
+  if (keyDates && keyDates.length > 0) {
+    return keyDates.map((kd, i) => ({
+      eventId: `kd-${i}`,
+      date: kd.date || '2024-01-01',
+      eraLabel: eraLabelFromDate(kd.date || '2024-01-01'),
+      title: kd.label || `Key Moment ${i + 1}`,
+      summary: kd.significance || '',
+      relatedSnapshotId: null,
+      sourceIds: [],
+    }))
+  }
+
+  // 3. Synthesize from snapshots as last resort.
   const allSnaps = Array.isArray(historicalSnapshots) ? historicalSnapshots : []
   const snaps = [...allSnaps, currentSnapshot].filter((s): s is SnapshotInterpretation => s != null)
   if (snaps.length === 0) return []
@@ -61,11 +83,56 @@ function TimelineInner() {
 
   if (!result) return <div aria-hidden="true" />
 
+  // Guard: backend may have returned currentSnapshot as a plain string before normalization
+  // landed on the deployed function. Coerce to a minimal SnapshotInterpretation so the
+  // snapshot fallback in buildEvents() never crashes.
+  const currentSnap: SnapshotInterpretation =
+    typeof result.currentSnapshot === 'object' && result.currentSnapshot !== null
+      ? result.currentSnapshot
+      : {
+          snapshotId: 'fallback-current',
+          date: '2024-01-01',
+          eraLabel: 'Contemporary',
+          definition: typeof result.currentSnapshot === 'string' ? result.currentSnapshot : '',
+          register: 'neutral',
+          sentiment: 'neutral',
+          confidence: 0.8,
+          sourceIds: [],
+        }
+
   const events = buildEvents(
     result.historicalSnapshots,
-    result.currentSnapshot,
+    currentSnap,
     result.timelineEvents,
+    result.keyDates,
   )
+
+  if (events.length === 0) {
+    return (
+      <div className={styles.page}>
+        <a href="#main" className="skip-link">Skip to main content</a>
+        <header className={styles.header}>
+          <button
+            type="button"
+            className={styles.backBtn}
+            onClick={() => navigate('/result')}
+            aria-label="Back to results"
+          >
+            ← Results
+          </button>
+          <h1 className={`${styles.title} serif`}>
+            Timeline: <em>{result.query}</em>
+          </h1>
+        </header>
+        <main id="main" className={styles.main}>
+          <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: '2rem' }}>
+            Timeline events are not yet available for this word. Try the <strong>Deep Dive</strong> model for richer historical data.
+          </p>
+        </main>
+        <NavBar />
+      </div>
+    )
+  }
 
   const selectedEvent = events.find(e => e.eventId === selectedEventId) ?? events[0]
 
@@ -140,7 +207,7 @@ function TimelineInner() {
 
                 <div className={`${styles.eventBody} ${selectedEvent?.eventId === event.eventId ? styles.eventBodyOpen : ''}`}>
                   <p className={styles.eventSummary}>{event.summary}</p>
-                  {event.sourceIds.length > 0 && (
+                  {(event.sourceIds?.length ?? 0) > 0 && (
                     <div className={styles.sourceBtns}>
                       {event.sourceIds.map(sid => (
                         <button
@@ -180,4 +247,16 @@ function formatYear(isoDate: string | null | undefined): string {
   if (isNaN(year)) return isoDate
   if (year < 1000) return `${year} CE`
   return String(year)
+}
+
+function eraLabelFromDate(isoDate: string): string {
+  const year = parseInt(isoDate.slice(0, 4), 10)
+  if (isNaN(year)) return 'Unknown'
+  if (year <= 500) return 'Ancient'
+  if (year <= 1100) return 'Old English'
+  if (year <= 1500) return 'Middle English'
+  if (year <= 1700) return 'Early Modern English'
+  if (year <= 1900) return 'Modern English'
+  if (year <= 1999) return '20th Century'
+  return 'Contemporary'
 }

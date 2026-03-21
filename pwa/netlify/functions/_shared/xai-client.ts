@@ -16,13 +16,34 @@ interface ChatResponse {
   }>
 }
 
+export interface ChatOptions {
+  /** Force the model to respond with a valid JSON object (no markdown fences). */
+  jsonMode?: boolean
+  /** Hard token ceiling. Defaults to 4096. */
+  maxTokens?: number
+}
+
 export async function chatComplete(
   messages: ChatMessage[],
   model: string,
   signal?: AbortSignal,
+  options?: ChatOptions,
 ): Promise<string> {
   const apiKey = process.env.XAI_API_KEY
   if (!apiKey) throw new Error('XAI_API_KEY not set')
+
+  // Reasoning-tier models support a reasoning_effort hint — default to medium
+  // to balance quality vs latency without over-spending on budget.
+  const isReasoningModel = model.includes('reasoning')
+
+  const body: Record<string, unknown> = {
+    model,
+    messages,
+    temperature: 0.3,
+    max_tokens: options?.maxTokens ?? 4096,
+    ...(options?.jsonMode && { response_format: { type: 'json_object' } }),
+    ...(isReasoningModel && { reasoning_effort: 'medium' }),
+  }
 
   const response = await fetch(`${XAI_BASE_URL}/chat/completions`, {
     method: 'POST',
@@ -30,7 +51,7 @@ export async function chatComplete(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${apiKey}`,
     },
-    body: JSON.stringify({ model, messages, temperature: 0.3 }),
+    body: JSON.stringify(body),
     signal,
   })
 
