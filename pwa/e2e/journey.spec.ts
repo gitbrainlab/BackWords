@@ -128,6 +128,7 @@ test.describe('BackWords PWA — search flow with mock API', () => {
   test('06 – Search "awful" navigates to result page', async ({ page }) => {
     await page.goto(`${BASE}/`)
     await page.getByRole('searchbox').fill('awful')
+    await expect(page.getByRole('searchbox')).toHaveValue('awful')
     await shot(page, '06-before-search-submit')
     await page.getByRole('button', { name: 'Search' }).click()
     await page.waitForURL(`**${BASE}/result`, { waitUntil: 'commit' })
@@ -137,6 +138,7 @@ test.describe('BackWords PWA — search flow with mock API', () => {
   test('07 – Result page shows word title', async ({ page }) => {
     await page.goto(`${BASE}/`)
     await page.getByRole('searchbox').fill('awful')
+    await expect(page.getByRole('searchbox')).toHaveValue('awful')
     await page.getByRole('button', { name: 'Search' }).click()
     await page.waitForURL(`**${BASE}/result`, { waitUntil: 'commit' })
     await expect(page.getByRole('heading', { name: 'awful' })).toBeVisible()
@@ -146,6 +148,7 @@ test.describe('BackWords PWA — search flow with mock API', () => {
   test('08 – Result page shows summary banner', async ({ page }) => {
     await page.goto(`${BASE}/`)
     await page.getByRole('searchbox').fill('awful')
+    await expect(page.getByRole('searchbox')).toHaveValue('awful')
     await page.getByRole('button', { name: 'Search' }).click()
     await page.waitForURL(`**${BASE}/result`, { waitUntil: 'commit' })
     await expect(page.getByTestId('summary-banner')).toBeVisible()
@@ -155,6 +158,7 @@ test.describe('BackWords PWA — search flow with mock API', () => {
   test('09 – Result page shows Then/Now snapshots', async ({ page }) => {
     await page.goto(`${BASE}/`)
     await page.getByRole('searchbox').fill('awful')
+    await expect(page.getByRole('searchbox')).toHaveValue('awful')
     await page.getByRole('button', { name: 'Search' }).click()
     await page.waitForURL(`**${BASE}/result`, { waitUntil: 'commit' })
     await expect(page.getByTestId('snapshot-now')).toBeVisible()
@@ -165,6 +169,7 @@ test.describe('BackWords PWA — search flow with mock API', () => {
   test('10 – Navigate to Timeline from Result', async ({ page }) => {
     await page.goto(`${BASE}/`)
     await page.getByRole('searchbox').fill('awful')
+    await expect(page.getByRole('searchbox')).toHaveValue('awful')
     await page.getByRole('button', { name: 'Search' }).click()
     await page.waitForURL(`**${BASE}/result`, { waitUntil: 'commit' })
     await page.getByTestId('view-timeline-btn').click()
@@ -176,6 +181,7 @@ test.describe('BackWords PWA — search flow with mock API', () => {
   test('11 – Timeline scrubber shows eras', async ({ page }) => {
     await page.goto(`${BASE}/`)
     await page.getByRole('searchbox').fill('awful')
+    await expect(page.getByRole('searchbox')).toHaveValue('awful')
     await page.getByRole('button', { name: 'Search' }).click()
     await page.waitForURL(`**${BASE}/result`, { waitUntil: 'commit' })
     await page.getByTestId('view-timeline-btn').click()
@@ -187,6 +193,7 @@ test.describe('BackWords PWA — search flow with mock API', () => {
   test('12 – Navigate to Source Detail from Result', async ({ page }) => {
     await page.goto(`${BASE}/`)
     await page.getByRole('searchbox').fill('awful')
+    await expect(page.getByRole('searchbox')).toHaveValue('awful')
     await page.getByRole('button', { name: 'Search' }).click()
     await page.waitForURL(`**${BASE}/result`, { waitUntil: 'commit' })
     await page.getByTestId('source-card').first().getByText('Details →').click()
@@ -198,6 +205,7 @@ test.describe('BackWords PWA — search flow with mock API', () => {
   test('13 – "Ask BackWords" explain button appears', async ({ page }) => {
     await page.goto(`${BASE}/`)
     await page.getByRole('searchbox').fill('awful')
+    await expect(page.getByRole('searchbox')).toHaveValue('awful')
     await page.getByRole('button', { name: 'Search' }).click()
     await page.waitForURL(`**${BASE}/result`, { waitUntil: 'commit' })
     await page.getByTestId('source-card').first().getByText('Details →').click()
@@ -209,6 +217,7 @@ test.describe('BackWords PWA — search flow with mock API', () => {
   test('14 – Back navigation returns to result', async ({ page }) => {
     await page.goto(`${BASE}/`)
     await page.getByRole('searchbox').fill('awful')
+    await expect(page.getByRole('searchbox')).toHaveValue('awful')
     await page.getByRole('button', { name: 'Search' }).click()
     await page.waitForURL(`**${BASE}/result`, { waitUntil: 'commit' })
     await page.getByRole('button', { name: 'Back to search' }).click()
