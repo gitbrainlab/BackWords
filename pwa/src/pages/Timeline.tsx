@@ -174,7 +174,8 @@ export default function Timeline() {
   )
 }
 
-function formatYear(isoDate: string): string {
+function formatYear(isoDate: string | null | undefined): string {
+  if (!isoDate) return '?'
   const year = parseInt(isoDate.slice(0, 4))
   if (isNaN(year)) return isoDate
   if (year < 1000) return `${year} CE`

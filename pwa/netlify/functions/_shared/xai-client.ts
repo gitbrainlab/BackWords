@@ -1,8 +1,8 @@
 // XAI API client — reads XAI_API_KEY from environment (server-side only, never exposed to browser)
 const XAI_BASE_URL = 'https://api.x.ai/v1'
 
-export const INTERPRET_MODEL = process.env.XAI_MODEL_INTERPRET ?? 'grok-3-mini-fast'
-export const EXPLAIN_MODEL = process.env.XAI_MODEL_EXPLAIN ?? 'grok-3-mini-fast'
+export const INTERPRET_MODEL = process.env.XAI_MODEL_INTERPRET ?? 'grok-4-1-fast-non-reasoning'
+export const EXPLAIN_MODEL = process.env.XAI_MODEL_EXPLAIN ?? 'grok-4-1-fast-non-reasoning'
 
 interface ChatMessage {
   role: 'system' | 'user' | 'assistant'

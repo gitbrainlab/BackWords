@@ -11,9 +11,15 @@
     "typecheck": "tsc --noEmit",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:headed": "playwright test --headed"
+    "test:e2e": "playwright test --project=chromium --project=mobile-safari",
+    "test:e2e:ui": "playwright test --project=chromium --project=mobile-safari --ui",
+    "test:e2e:headed": "playwright test --project=chromium --project=mobile-safari --headed",
+    "test:live": "playwright test --project=live-smoke",
+    "test:live:headed": "playwright test --project=live-smoke --headed",
+    "test:live:debug": "playwright test --project=live-smoke --debug",
+    "test:matrix": "playwright test --project=live-matrix",
+    "test:matrix:headed": "playwright test --project=live-matrix --headed",
+    "test:matrix:debug": "playwright test --project=live-matrix --debug"
   },
   "dependencies": {
     "ajv": "^8.17.1",

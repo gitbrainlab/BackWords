@@ -5,10 +5,22 @@ import { DEFAULT_SETTINGS } from '@/types'
 
 const SETTINGS_KEY = 'backwords:settings'
 
+const VALID_MODELS = new Set<string>([
+  'grok-4-1-fast-non-reasoning',
+  'grok-4-1-fast-reasoning',
+  'grok-4.20-0309-non-reasoning',
+])
+
 function loadSettings(): AppSettings {
   try {
     const raw = localStorage.getItem(SETTINGS_KEY)
-    if (raw) return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) as Partial<AppSettings> }
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<AppSettings>
+      if (parsed.preferredModel && !VALID_MODELS.has(parsed.preferredModel)) {
+        parsed.preferredModel = DEFAULT_SETTINGS.preferredModel
+      }
+      return { ...DEFAULT_SETTINGS, ...parsed }
+    }
   } catch { /* ignore */ }
   return DEFAULT_SETTINGS
 }
