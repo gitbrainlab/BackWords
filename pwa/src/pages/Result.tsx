@@ -21,7 +21,7 @@ function SnapshotCard({ snapshot, label }: { snapshot: SnapshotInterpretation; l
           {label === 'now' ? 'Today' : snapshot.eraLabel}
         </span>
         <time className={styles.snapshotDate} dateTime={snapshot.date}>
-          {snapshot.date.slice(0, 4) === '0000' ? 'Ancient' : snapshot.date.slice(0, 4)}
+          {(snapshot.date ?? '').slice(0, 4) === '0000' ? 'Ancient' : ((snapshot.date ?? '').slice(0, 4) || '?')}
         </time>
       </header>
 
@@ -140,7 +140,7 @@ export default function Result() {
               {result.keyDates.map(kd => (
                 <li key={kd.date} className={styles.keyDateItem}>
                   <time className={styles.keyDateYear} dateTime={kd.date}>
-                    {kd.date.slice(0, 4)}
+                    {(kd.date ?? '').slice(0, 4) || '?'}
                   </time>
                   <div>
                     <strong>{kd.label}</strong>
