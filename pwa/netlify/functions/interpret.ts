@@ -124,9 +124,15 @@ function normalizeKeyDate(raw: Record<string, unknown>): Record<string, unknown>
   const date = raw.date && typeof raw.date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(raw.date)
     ? raw.date
     : yearToDate(rawYear)
+  // Strip '?' placeholder labels — AI sometimes returns '?' when it can't determine the value.
+  // A label that is only '?' characters or whitespace is treated as missing.
+  const rawLabel = String(raw.label || raw.title || raw.event || raw.name || raw.heading || '')
+  const label = rawLabel.trim().replace(/\?/g, '').trim().length > 0
+    ? rawLabel.trim()
+    : `Key Moment ${_keyDateCounter}`
   return {
     date,
-    label: String(raw.label || raw.title || raw.event || raw.name || raw.heading || `Key Moment ${_keyDateCounter}`),
+    label,
     significance: String(raw.significance || raw.description || raw.importance || raw.note || raw.detail || ''),
   }
 }
@@ -134,7 +140,12 @@ function normalizeKeyDate(raw: Record<string, unknown>): Record<string, unknown>
 let _sourceCounter = 0
 function normalizeSource(raw: Record<string, unknown>, prefix: string): Record<string, unknown> {
   _sourceCounter++
-  const title = String(raw.title || raw.name || raw.work || raw.source || raw.reference || 'Unnamed Source')
+  // Trim and reject whitespace-only or '?'-only titles — the AI sometimes returns '   ' or '?'
+  const rawTitle = String(raw.title || raw.name || raw.work || raw.source || raw.reference || '')
+  const titleCleaned = rawTitle.trim()
+  const title = titleCleaned.length > 0 && titleCleaned.replace(/\?/g, '').trim().length > 0
+    ? titleCleaned
+    : 'Unnamed Source'
   const rawType = String(raw.sourceType ?? raw.source_type ?? raw.type ?? '').toLowerCase()
   let sourceType = 'other'
   if (VALID_SOURCE_TYPES.has(rawType)) sourceType = rawType
@@ -176,13 +187,12 @@ function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: s
     obj.currentSnapshot = normalizeSnapshot(obj.currentSnapshot as Record<string, unknown>, `${prefix}-current`)
   }
 
-  // Normalize historicalSnapshots — guarantee array is always present
+  // Normalize historicalSnapshots — filter out non-objects (plain strings crash Timeline's
+  // formatYear() because they produce events with date: undefined).
   if (Array.isArray(obj.historicalSnapshots)) {
-    obj.historicalSnapshots = obj.historicalSnapshots.map((s: unknown) =>
-      typeof s === 'object' && s !== null
-        ? normalizeSnapshot(s as Record<string, unknown>, prefix)
-        : s,
-    )
+    obj.historicalSnapshots = obj.historicalSnapshots
+      .filter((s: unknown) => typeof s === 'object' && s !== null)
+      .map((s: unknown) => normalizeSnapshot(s as Record<string, unknown>, prefix))
   } else {
     obj.historicalSnapshots = []
   }
@@ -209,14 +219,37 @@ function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: s
     }
   }
 
-  // Normalize keyDates
+  // Normalize keyDates — filter non-objects just like historicalSnapshots
   if (Array.isArray(obj.keyDates)) {
     _keyDateCounter = 0
-    obj.keyDates = obj.keyDates.map((kd: unknown) =>
-      typeof kd === 'object' && kd !== null
-        ? normalizeKeyDate(kd as Record<string, unknown>)
-        : kd,
-    )
+    obj.keyDates = obj.keyDates
+      .filter((kd: unknown) => typeof kd === 'object' && kd !== null)
+      .map((kd: unknown) => normalizeKeyDate(kd as Record<string, unknown>))
+  }
+
+  // Normalize timelineEvents — previously unnormalized; a null/undefined date causes
+  // formatYear() in Timeline.tsx to throw, which fires the error boundary.
+  let _eventCounter = 0
+  if (Array.isArray(obj.timelineEvents)) {
+    obj.timelineEvents = obj.timelineEvents
+      .filter((e: unknown) => typeof e === 'object' && e !== null)
+      .map((e: unknown) => {
+        _eventCounter++
+        const ev = e as Record<string, unknown>
+        const rawDate = ev.date ?? ev.year ?? ev.period
+        const date = ev.date && typeof ev.date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(ev.date as string)
+          ? ev.date
+          : yearToDate(rawDate)
+        return {
+          ...ev,
+          eventId: String(ev.eventId ?? ev.id ?? `${prefix}-event-${_eventCounter}`),
+          date,
+          eraLabel: String(ev.eraLabel ?? ev.era ?? eraLabelFromDate(date as string)),
+          title: String(ev.title ?? ev.label ?? ev.name ?? ev.heading ?? ''),
+          summary: String(ev.summary ?? ev.description ?? ev.content ?? ''),
+          sourceIds: Array.isArray(ev.sourceIds) ? ev.sourceIds : [],
+        }
+      })
   }
 
   // Normalize sources
