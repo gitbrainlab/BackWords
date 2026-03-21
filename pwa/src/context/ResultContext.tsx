@@ -15,6 +15,7 @@ interface ResultState {
 interface ResultContextValue extends ResultState {
   setResult: (result: InterpretationResult, query: string, mode: SearchMode) => void
   clearResult: () => void
+  startSearch: (query: string, mode: SearchMode) => void
   setSearchStatus: (status: SearchStatus) => void
   setSearchError: (error: string | null) => void
 }
@@ -38,6 +39,11 @@ export function ResultProvider({ children }: { children: React.ReactNode }) {
     setState({ result: null, query: '', mode: 'word', searchStatus: 'idle', searchError: null })
   }
 
+  /** Call this at search start — stores query immediately so loading screen shows the right word */
+  function startSearch(query: string, mode: SearchMode) {
+    setState(s => ({ ...s, query, mode, searchStatus: 'loading', searchError: null }))
+  }
+
   function setSearchStatus(searchStatus: SearchStatus) {
     setState(s => ({ ...s, searchStatus }))
   }
@@ -47,7 +53,7 @@ export function ResultProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <ResultContext.Provider value={{ ...state, setResult, clearResult, setSearchStatus, setSearchError }}>
+    <ResultContext.Provider value={{ ...state, setResult, clearResult, startSearch, setSearchStatus, setSearchError }}>
       {children}
     </ResultContext.Provider>
   )

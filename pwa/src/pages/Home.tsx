@@ -22,16 +22,15 @@ const CURATED_SEEDS = [
 
 export default function Home() {
   const navigate = useNavigate()
-  const { setResult, setSearchStatus, setSearchError, searchStatus } = useResult()
+  const { setResult, setSearchStatus, setSearchError, searchStatus, startSearch } = useResult()
   const { settings } = useTheme()
   const history = loadHistory().slice(0, 5)
 
   const runSearch = useCallback(
     async (query: string, mode: SearchMode, selectedDate?: string) => {
       if (searchStatus === 'loading') return
-      setSearchStatus('loading')
-      setSearchError(null)
-      // Navigate immediately — user sees the loading screen while API runs
+      // Store query + mode in context immediately so loading screen shows the right word
+      startSearch(query, mode)
       navigate('/searching')
       const startMs = Date.now()
       try {
@@ -52,7 +51,7 @@ export default function Home() {
         setSearchStatus('error')
       }
     },
-    [navigate, setResult, setSearchStatus, setSearchError, searchStatus, settings.mockMode, settings.preferredModel],
+    [navigate, setResult, setSearchStatus, setSearchError, startSearch, searchStatus, settings.mockMode, settings.preferredModel],
   )
 
   return (

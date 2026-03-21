@@ -14,7 +14,11 @@ const PHASES: Phase[] = [
   { message: () => 'Analysing semantic shifts…',         progress: 44, delay:  5500 },
   { message: () => 'Cross-referencing etymologies…',     progress: 60, delay:  8500 },
   { message: () => 'Mapping meaning across centuries…',  progress: 75, delay: 12500 },
-  { message: () => 'Almost there…',                      progress: 88, delay: 17000 },
+  { message: () => 'Almost there…',                              progress: 88, delay: 17000 },
+  { message: () => 'Language history is complex — still working…', progress: 91, delay: 22000 },
+  { message: () => 'Deep analysis takes time…',                    progress: 94, delay: 30000 },
+  { message: () => 'Finalising the timeline…',                     progress: 97, delay: 45000 },
+  { message: () => 'Just a moment more…',                          progress: 99, delay: 65000 },
 ]
 
 export default function Searching() {
@@ -110,7 +114,7 @@ export default function Searching() {
 
         <p className={styles.hint}>
           {searchStatus === 'loading'
-            ? <><span className={styles.timer}>{(elapsed / 1000).toFixed(1)}s</span> · This may take 15–30 seconds</>
+            ? <><span className={styles.timer}>{(elapsed / 1000).toFixed(1)}s</span> · This may take up to 90 seconds</>
             : 'Complete'
           }
         </p>

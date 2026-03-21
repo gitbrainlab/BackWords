@@ -24,6 +24,9 @@ interface ModelOption {
   desc: string
   badge: string
   badgeClass: string
+  estWait: string      // e.g. '5–15 s'
+  inputCost: string    // per 1M tokens
+  outputCost: string   // per 1M tokens
 }
 
 const MODEL_OPTIONS: ModelOption[] = [
@@ -33,6 +36,9 @@ const MODEL_OPTIONS: ModelOption[] = [
     desc: 'Grok 3 Mini Fast · Quick responses, slightly less depth',
     badge: 'Fastest',
     badgeClass: 'badgeFast',
+    estWait: '5–15 s',
+    inputCost: '$0.60 / 1M',
+    outputCost: '$4.00 / 1M',
   },
   {
     value: 'grok-3-mini',
@@ -40,6 +46,9 @@ const MODEL_OPTIONS: ModelOption[] = [
     desc: 'Grok 3 Mini · Better accuracy, moderate speed',
     badge: 'Balanced',
     badgeClass: 'badgeBalanced',
+    estWait: '15–30 s',
+    inputCost: '$0.30 / 1M',
+    outputCost: '$0.50 / 1M',
   },
   {
     value: 'grok-3',
@@ -47,6 +56,9 @@ const MODEL_OPTIONS: ModelOption[] = [
     desc: 'Grok 3 · Most thorough analysis, slower response',
     badge: 'Best Quality',
     badgeClass: 'badgeDeep',
+    estWait: '30–90 s',
+    inputCost: '$3.00 / 1M',
+    outputCost: '$15.00 / 1M',
   },
 ]
 
@@ -190,6 +202,17 @@ export default function Settings() {
                     <span className={`${styles.modelBadge} ${styles[opt.badgeClass]}`}>{opt.badge}</span>
                   </div>
                   <p className={styles.modelDesc}>{opt.desc}</p>
+                  <div className={styles.modelMeta}>
+                    <span className={styles.modelMetaChip} title="Estimated wait time">
+                      ⏱ {opt.estWait}
+                    </span>
+                    <span className={styles.modelMetaChip} title="Input token cost (xAI pricing)">
+                      ↓ {opt.inputCost}
+                    </span>
+                    <span className={styles.modelMetaChip} title="Output token cost (xAI pricing)">
+                      ↑ {opt.outputCost}
+                    </span>
+                  </div>
                   <div className={styles.modelTiming}>
                     {avgMs !== null ? (
                       <>

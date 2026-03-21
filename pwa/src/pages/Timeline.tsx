@@ -35,7 +35,7 @@ export default function Timeline() {
     if (!result) navigate('/', { replace: true })
   }, [result, navigate])
 
-  if (!result) return null
+  if (!result) return <div aria-hidden="true" />
 
   const events = buildEvents(
     result.historicalSnapshots,
