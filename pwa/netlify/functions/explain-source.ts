@@ -34,17 +34,18 @@ export default async function handler(req: Request): Promise<Response> {
 
   const isMock = useMock === true || process.env.MOCK_MODE === 'true'
 
+  const effectiveModel = model ?? EXPLAIN_MODEL
+
   if (isMock) {
     return jsonResponse({
       sourceId,
       explanation: `"${sourceTitle}" (${sourceDate ?? 'date unknown'}) is significant because it documents the usage of "${word}" in its historical context, providing lexicographic evidence of meaning at that time.`,
+      effectiveModel,
     })
   }
 
   try {
     const userPrompt = `Explain why the source "${sourceTitle}" (${sourceDate ?? 'date unknown'}) is significant evidence for the semantic history of the word "${word}".${quote ? `\n\nRelevant quote: "${quote}"` : ''}${context ? `\n\nContext: ${context}` : ''}`
-
-    const effectiveModel = model ?? EXPLAIN_MODEL
 
     const explanation = await chatComplete(
       [
@@ -62,6 +63,7 @@ export default async function handler(req: Request): Promise<Response> {
     return jsonResponse({
       sourceId,
       explanation: `${sourceTitle} provides historical evidence for the meaning of "${word}" during this period.`,
+      effectiveModel,
     })
   }
 }

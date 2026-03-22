@@ -72,7 +72,7 @@ function buildEvents(
     date: s.date,
     eraLabel: s.eraLabel,
     title: s.eraLabel,
-    summary: s.definition || s.usageNote || '',
+    summary: s.definition || (typeof s.usageNote === 'string' ? s.usageNote : '') || '',
     sourceIds: s.sourceIds ?? [],
     definition: s.definition,
     relatedSnapshotId: i < snaps.length - 1 ? s.snapshotId : null,

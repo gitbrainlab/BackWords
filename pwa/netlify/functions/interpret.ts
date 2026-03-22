@@ -117,6 +117,15 @@ function extractDefinitionText(raw: unknown): string {
   return ''
 }
 
+/** Coerce a value to a trimmed non-empty string, or undefined. */
+function coerceString(v: unknown): string | undefined {
+  if (typeof v === 'string') {
+    const trimmed = v.trim()
+    return trimmed || undefined
+  }
+  return undefined
+}
+
 let _snapshotCounter = 0
 function normalizeSnapshot(raw: Record<string, unknown>, prefix: string): Record<string, unknown> {
   _snapshotCounter++
@@ -140,8 +149,8 @@ function normalizeSnapshot(raw: Record<string, unknown>, prefix: string): Record
     date,
     eraLabel: String(raw.eraLabel || raw.era || raw.period_label || eraLabelFromDate(date)),
     definition,
-    usageNote: (raw.usageNote || raw.usage_note || raw.note) ?? undefined,
-    exampleUsage: (raw.exampleUsage || raw.example || raw.example_usage) ?? undefined,
+    usageNote: coerceString(raw.usageNote ?? raw.usage_note ?? raw.note),
+    exampleUsage: coerceString(raw.exampleUsage ?? raw.example ?? raw.example_usage),
     register: VALID_REGISTERS.has(String(raw.register)) ? raw.register : 'neutral',
     sentiment: VALID_SENTIMENTS.has(String(raw.sentiment)) ? raw.sentiment : 'neutral',
     confidence: typeof raw.confidence === 'number' ? raw.confidence : 0.8,

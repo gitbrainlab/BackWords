@@ -27,11 +27,11 @@ function SnapshotCard({ snapshot, label }: { snapshot: SnapshotInterpretation; l
 
       <p className={styles.definition}>{snapshot.definition || <em className={styles.definitionMissing}>Definition not recorded</em>}</p>
 
-      {snapshot.usageNote && (
+      {typeof snapshot.usageNote === 'string' && snapshot.usageNote.trim() && (
         <p className={styles.usageNote}>{snapshot.usageNote}</p>
       )}
 
-      {snapshot.exampleUsage && (
+      {typeof snapshot.exampleUsage === 'string' && snapshot.exampleUsage.trim() && (
         <blockquote className={styles.example}>
           <p>"{snapshot.exampleUsage}"</p>
         </blockquote>
