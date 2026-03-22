@@ -111,7 +111,7 @@ function eraLabelFromDate(date: string): string {
 
 function extractDefinitionText(raw: unknown): string {
   if (typeof raw === 'string') return raw
-  if (Array.isArray(raw)) return raw.filter(d => typeof d === 'string' && d.trim()).join('. ')
+  if (Array.isArray(raw)) return raw.filter(d => typeof d === 'string' && d.trim()).map(d => d.replace(/\.\s*$/, '')).join('. ')
   if (typeof raw === 'object' && raw !== null) {
     const obj = raw as Record<string, unknown>
     return String(obj.text ?? obj.value ?? obj.content ?? obj.primary ?? '')
@@ -503,8 +503,8 @@ CRITICAL RULES:
 - For informal, slang, or dialectal words: newspapers, the Online Etymology Dictionary, Merriam-Webster, word-study archives, and regional dialect records are all acceptable sources — do NOT leave sources empty just because the word is non-standard
 - currentSnapshot.definition MUST be at least 2 meaningful sentences describing current usage — never a single vague phrase like "current usage" or a one-word gloss
 - relatedConcepts MUST include 2–4 entries; every label must be a non-empty string
-- timelineEvents MUST include 3–5 entries marking the most significant historical moments; every entry needs a non-empty title and a summary of at least one sentence explaining what happened and why it matters
-- Every historicalSnapshot definition MUST be at least 1–2 sentences — never an empty string or a one-word gloss`
+- Every historicalSnapshot definition MUST be at least 1–2 sentences — never an empty string or a one-word gloss
+- timelineEvents MUST include 3–5 entries marking the most significant historical moments; every entry needs a non-empty title and a summary of at least one sentence explaining what happened and why it matters`
 
 export default async function handler(req: Request): Promise<Response> {
   if (req.method === 'OPTIONS') return optionsResponse()
