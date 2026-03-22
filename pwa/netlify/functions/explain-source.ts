@@ -10,6 +10,7 @@ interface ExplainSourceRequest {
   word: string
   context?: string
   useMock?: boolean
+  model?: string
 }
 
 const EXPLAIN_SYSTEM_PROMPT = `You are BackWords, a scholarly language assistant. Your task is to explain, in 2-4 sentences,
@@ -28,7 +29,7 @@ export default async function handler(req: Request): Promise<Response> {
     return errorResponse('Invalid JSON body', 400)
   }
 
-  const { sourceId, sourceTitle, sourceDate, quote, word, context, useMock } = body
+  const { sourceId, sourceTitle, sourceDate, quote, word, context, useMock, model } = body
   if (!sourceId || !word) return errorResponse('sourceId and word are required', 400)
 
   const isMock = useMock === true || process.env.MOCK_MODE === 'true'
@@ -43,15 +44,17 @@ export default async function handler(req: Request): Promise<Response> {
   try {
     const userPrompt = `Explain why the source "${sourceTitle}" (${sourceDate ?? 'date unknown'}) is significant evidence for the semantic history of the word "${word}".${quote ? `\n\nRelevant quote: "${quote}"` : ''}${context ? `\n\nContext: ${context}` : ''}`
 
+    const effectiveModel = model ?? EXPLAIN_MODEL
+
     const explanation = await chatComplete(
       [
         { role: 'system', content: EXPLAIN_SYSTEM_PROMPT },
         { role: 'user', content: userPrompt },
       ],
-      EXPLAIN_MODEL,
+      effectiveModel,
     )
 
-    return jsonResponse({ sourceId, explanation: explanation.trim() })
+    return jsonResponse({ sourceId, explanation: explanation.trim(), effectiveModel })
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     console.error('[explain-source] xAI error:', msg)

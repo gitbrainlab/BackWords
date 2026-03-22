@@ -3,7 +3,7 @@ import {
   getSeedByQuery,
   normaliseQuery,
 } from './_shared/seed-loader.js'
-import { chatComplete, extractJson, INTERPRET_MODEL } from './_shared/xai-client.js'
+import { chatComplete, extractJson, INTERPRET_MODEL, DEEP_DIVE_MODEL } from './_shared/xai-client.js'
 import { jsonResponse, errorResponse, optionsResponse } from './_shared/response.js'
 import { getCached, setCached } from './_shared/cache.js'
 
@@ -14,8 +14,6 @@ interface InterpretRequest {
   useMock?: boolean
   model?: string
 }
-
-const DEEP_DIVE_MODEL = 'grok-4.20-0309-non-reasoning'
 
 const DRIFT_TYPE_MAP: Record<string, string> = {
   pejoration: 'pejoration',

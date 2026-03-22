@@ -3,6 +3,7 @@ const XAI_BASE_URL = 'https://api.x.ai/v1'
 
 export const INTERPRET_MODEL = process.env.XAI_MODEL_INTERPRET ?? 'grok-4-1-fast-non-reasoning'
 export const EXPLAIN_MODEL = process.env.XAI_MODEL_EXPLAIN ?? 'grok-4-1-fast-non-reasoning'
+export const DEEP_DIVE_MODEL = 'grok-4.20-0309-non-reasoning'
 
 interface ChatMessage {
   role: 'system' | 'user' | 'assistant'

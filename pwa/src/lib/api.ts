@@ -63,6 +63,7 @@ export interface HealthResponse {
   models?: {
     interpret: string
     explain: string
+    deepDive: string
   }
 }
 

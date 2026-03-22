@@ -65,24 +65,14 @@ describe('xai-client model defaults', () => {
   })
 })
 
-// ─── interpret.ts DEEP_DIVE_MODEL ────────────────────────────────────────────
+// ─── DEEP_DIVE_MODEL ─────────────────────────────────────────────────────────
 
-describe('interpret DEEP_DIVE_MODEL', () => {
+describe('DEEP_DIVE_MODEL', () => {
   it('DEEP_DIVE_MODEL is a grok-4 model', async () => {
-    // DEEP_DIVE_MODEL is a non-exported module-level const in interpret.ts.
-    // We parse the source file directly because the constant cannot be imported.
-    const fs = await import('fs')
-    const path = await import('path')
-    const interpretSrc = fs.readFileSync(
-      path.resolve(__dirname, '..', 'interpret.ts'),
-      'utf-8',
-    )
-    const match = interpretSrc.match(/const DEEP_DIVE_MODEL\s*=\s*['"]([^'"]+)['"]/)
-    expect(match, 'Could not find DEEP_DIVE_MODEL constant in interpret.ts').toBeTruthy()
-    const model = match![1]
-    expect(model).toMatch(EXPECTED_MODEL_PATTERN)
+    const { DEEP_DIVE_MODEL } = await import('../_shared/xai-client')
+    expect(DEEP_DIVE_MODEL).toMatch(EXPECTED_MODEL_PATTERN)
     for (const legacy of LEGACY_MODELS) {
-      expect(model, `DEEP_DIVE_MODEL should not be ${legacy}`).not.toBe(legacy)
+      expect(DEEP_DIVE_MODEL, `DEEP_DIVE_MODEL should not be ${legacy}`).not.toBe(legacy)
     }
   })
 })
