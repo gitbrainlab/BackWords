@@ -135,7 +135,45 @@ test.describe('Block A — API endpoint checks', () => {
     expect(typeof b.mode).toBe('string')
     expect(typeof b.timestamp).toBe('string')
 
+    // Verify configured models are grok-4 (not legacy grok-3-mini)
+    const models = b.models as Record<string, string> | undefined
+    if (models) {
+      expect(models.interpret, 'interpret model should be grok-4.x').toMatch(/^grok-4/)
+      expect(models.explain, 'explain model should be grok-4.x').toMatch(/^grok-4/)
+      expect(models.interpret, 'interpret model should NOT be grok-3-mini').not.toContain('grok-3')
+      expect(models.explain, 'explain model should NOT be grok-3-mini').not.toContain('grok-3')
+    }
+
     test.info().annotations.push({ type: 'response', description: JSON.stringify(body) })
+  })
+
+  test('A01b — /health reports correct model configuration (no legacy models)', async () => {
+    const { status, body } = await apiFetch('health')
+    const b = body as Record<string, unknown>
+
+    expect(status).toBe(200)
+
+    // The models field is required — if missing, the health endpoint needs updating
+    const models = b.models as Record<string, string> | undefined
+    expect(models, '/health response should include a "models" field').toBeTruthy()
+
+    if (models) {
+      // Must be grok-4.x family
+      expect(models.interpret).toMatch(/^grok-4/)
+      expect(models.explain).toMatch(/^grok-4/)
+
+      // Must not be any known legacy model
+      const legacyModels = ['grok-3-mini', 'grok-3-mini-fast', 'grok-2', 'grok-1']
+      for (const legacy of legacyModels) {
+        expect(models.interpret, `interpret model "${models.interpret}" should not be legacy`).not.toBe(legacy)
+        expect(models.explain, `explain model "${models.explain}" should not be legacy`).not.toBe(legacy)
+      }
+
+      test.info().annotations.push({
+        type: 'configured-models',
+        description: `interpret=${models.interpret}, explain=${models.explain}`,
+      })
+    }
   })
 
   test('A02 — POST /interpret with seed word (useMock) returns valid shape', async () => {
@@ -244,6 +282,14 @@ test.describe('Block A — API endpoint checks', () => {
         `relatedConcepts:${Array.isArray(b.relatedConcepts) ? (b.relatedConcepts as unknown[]).length : 'missing'}`,
       ].join(' '),
     })
+
+    // effectiveModel — verify no legacy model was used
+    const effectiveModel = b.effectiveModel as string | undefined
+    if (effectiveModel) {
+      expect(effectiveModel, 'effectiveModel should be grok-4.x').toMatch(/^grok-4/)
+      expect(effectiveModel, 'effectiveModel should NOT be grok-3-mini').not.toContain('grok-3')
+      test.info().annotations.push({ type: 'effective-model', description: effectiveModel })
+    }
   })
 
   test('A04 — POST /interpret rejects empty query with 400', async () => {

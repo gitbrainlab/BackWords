@@ -34,7 +34,8 @@ export async function chatComplete(
 
   // Reasoning-tier models support a reasoning_effort hint — default to medium
   // to balance quality vs latency without over-spending on budget.
-  const isReasoningModel = model.includes('reasoning')
+  // Match models that end with "-reasoning" but not "-non-reasoning".
+  const isReasoningModel = /(?<!non-)reasoning$/.test(model)
 
   const body: Record<string, unknown> = {
     model,

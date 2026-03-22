@@ -464,9 +464,23 @@ test.describe('Block D — Model quality matrix: grok-4-1-fast-non-reasoning | g
         // Every model must clear the same baseline richness bar
         assertRichness(b, `${label}:${modelId}`)
 
+        // Verify the API actually used the requested model (not a legacy fallback)
+        const effectiveModel = b.effectiveModel as string | undefined
+        if (effectiveModel) {
+          expect(
+            effectiveModel,
+            `${label} effectiveModel "${effectiveModel}" should start with grok-4`,
+          ).toMatch(/^grok-4/)
+          expect(
+            effectiveModel,
+            `${label} effectiveModel "${effectiveModel}" should NOT be grok-3-mini`,
+          ).not.toContain('grok-3')
+        }
+
         const counts = countFields(b)
         test.info().annotations.push(
           { type: 'model',        description: modelId },
+          { type: 'effective-model', description: effectiveModel ?? 'not-reported' },
           { type: 'latency-ms',   description: String(latencyMs) },
           { type: 'field-counts', description: JSON.stringify(counts) },
         )
@@ -474,6 +488,7 @@ test.describe('Block D — Model quality matrix: grok-4-1-fast-non-reasoning | g
         // Print a single comparable summary line visible in the console output
         const summary = [
           `model=${modelId}`,
+          `effective=${effectiveModel ?? '?'}`,
           `latency=${latencyMs}ms`,
           ...Object.entries(counts).map(([k, v]) => `${k}=${v}`),
         ].join(' | ')
