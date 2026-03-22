@@ -69,8 +69,8 @@ describe('xai-client model defaults', () => {
 
 describe('interpret DEEP_DIVE_MODEL', () => {
   it('DEEP_DIVE_MODEL is a grok-4 model', async () => {
-    // DEEP_DIVE_MODEL is a module-level const in interpret.ts.
-    // We read the source directly to verify the hardcoded value.
+    // DEEP_DIVE_MODEL is a non-exported module-level const in interpret.ts.
+    // We parse the source file directly because the constant cannot be imported.
     const fs = await import('fs')
     const path = await import('path')
     const interpretSrc = fs.readFileSync(
@@ -231,6 +231,8 @@ describe('chatComplete sends the correct model in request body', () => {
 
 describe('frontend model options consistency', () => {
   it('all three expected models are defined as valid ModelChoice types', async () => {
+    // ModelChoice is a TypeScript type (erased at runtime), so we parse the source.
+    // This catches accidental addition of legacy models to the allowed set.
     const fs = await import('fs')
     const path = await import('path')
     const settingsTypeSrc = fs.readFileSync(
