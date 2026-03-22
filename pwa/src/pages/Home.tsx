@@ -7,7 +7,7 @@ import { useResult } from '@/context/ResultContext'
 import { useTheme } from '@/design/theme'
 import { interpret } from '@/lib/api'
 import { addHistoryItem, loadHistory } from '@/lib/history'
-import { recordTiming } from '@/lib/timings'
+import { recordTiming, recordCacheHit, recordCacheMiss } from '@/lib/timings'
 import type { SearchMode } from '@/types'
 import styles from './Home.module.css'
 
@@ -42,7 +42,13 @@ export default function Home() {
           model: settings.mockMode ? undefined : settings.preferredModel,
         })
         const durationMs = Date.now() - startMs
-        recordTiming(settings.preferredModel, durationMs)
+        // Only record model timing for real AI calls — cache hits would skew averages
+        if (!result.cacheHit) {
+          recordTiming(settings.preferredModel, durationMs)
+          recordCacheMiss()
+        } else {
+          recordCacheHit()
+        }
         setResult(result, query, mode)
         addHistoryItem({ query, normalizedQuery: query.trim().toLowerCase(), mode, timestamp: Date.now() })
         setSearchStatus('done')

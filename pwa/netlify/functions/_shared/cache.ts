@@ -1,0 +1,40 @@
+/**
+ * Netlify Blobs cache wrapper for interpret results.
+ *
+ * Cache key format: `interpret:<normalizedQuery>:<mode>`
+ * Errors are swallowed — a cache failure must never break a live request.
+ *
+ * The SITE_ID / token are wired automatically by the Netlify runtime.
+ * Locally the store is a no-op (getStore throws MissingBlobsEnvironmentError,
+ * which we catch and treat as a miss).
+ */
+import { getStore } from '@netlify/blobs'
+
+const STORE_NAME = 'interpret-cache'
+
+function cacheKey(normalizedQuery: string, mode: string): string {
+  return `${normalizedQuery}:${mode}`
+}
+
+/** Returns the cached result or null on miss / any error. */
+export async function getCached(normalizedQuery: string, mode: string): Promise<unknown | null> {
+  try {
+    const store = getStore(STORE_NAME)
+    const result = await store.get(cacheKey(normalizedQuery, mode), { type: 'json' })
+    return result ?? null
+  } catch {
+    return null
+  }
+}
+
+/** Stores the result. Failures are silently ignored. */
+export async function setCached(normalizedQuery: string, mode: string, value: unknown): Promise<void> {
+  try {
+    const store = getStore(STORE_NAME)
+    await store.setJSON(cacheKey(normalizedQuery, mode), value, {
+      metadata: { cachedAt: new Date().toISOString() },
+    })
+  } catch {
+    // Non-fatal — proceed without caching
+  }
+}
