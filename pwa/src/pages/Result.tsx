@@ -56,6 +56,10 @@ const DRIFT_LABELS: Record<string, string> = {
   tabooisation: '⚠ Tabooisation',
 }
 
+function hasMeaningfulText(raw: string | null | undefined): boolean {
+  return typeof raw === 'string' && raw.replace(/\?/g, '').trim().length > 0
+}
+
 export default function Result() {
   const navigate = useNavigate()
   const { result, mode } = useResult()
@@ -71,6 +75,11 @@ export default function Result() {
   const driftLabel = result.summaryOfChange?.driftType
     ? DRIFT_LABELS[result.summaryOfChange.driftType] ?? result.summaryOfChange.driftType
     : null
+  const visibleKeyDates = (result.keyDates ?? []).filter(kd =>
+    hasMeaningfulText(kd.label) || hasMeaningfulText(kd.significance) || ((kd.date ?? '') !== '2024-01-01' && hasMeaningfulText(kd.date)),
+  )
+  const visibleSources = (result.sources ?? []).filter(source => hasMeaningfulText(source.title) && source.title !== 'Unnamed Source')
+  const visibleConcepts = (result.relatedConcepts ?? []).filter(concept => hasMeaningfulText(concept.label))
 
   return (
     <div className={styles.page}>
@@ -133,11 +142,11 @@ export default function Result() {
         )}
 
         {/* Key dates */}
-        {result.keyDates && result.keyDates.length > 0 && (
+        {visibleKeyDates.length > 0 && (
           <section aria-label="Key dates" className={styles.keyDatesSection}>
             <h2 className={styles.sectionTitle}>Key Moments</h2>
             <ol className={styles.keyDatesList}>
-              {result.keyDates.map(kd => (
+              {visibleKeyDates.map(kd => (
                 <li key={kd.date} className={styles.keyDateItem}>
                   <time className={styles.keyDateYear} dateTime={kd.date}>
                     {(kd.date ?? '').slice(0, 4) || '?'}
@@ -153,11 +162,11 @@ export default function Result() {
         )}
 
         {/* Sources */}
-        {result.sources && result.sources.length > 0 && (
+        {visibleSources.length > 0 && (
           <section aria-label="Historical sources" className={styles.sourcesSection}>
             <h2 className={styles.sectionTitle}>Sources</h2>
             <div className={styles.sourcesList}>
-              {result.sources.slice(0, 4).map(source => (
+              {visibleSources.slice(0, 4).map(source => (
                 <SourceCard
                   key={source.sourceId}
                   source={source}
@@ -170,11 +179,11 @@ export default function Result() {
         )}
 
         {/* Related concepts */}
-        {result.relatedConcepts && result.relatedConcepts.length > 0 && (
+        {visibleConcepts.length > 0 && (
           <section aria-label="Related concepts" className={styles.conceptsSection}>
             <h2 className={styles.sectionTitle}>Related Concepts</h2>
             <div className={styles.conceptChips}>
-              {result.relatedConcepts.map(c => (
+              {visibleConcepts.map(c => (
                 <ConceptChip
                   key={c.conceptId}
                   label={c.label}

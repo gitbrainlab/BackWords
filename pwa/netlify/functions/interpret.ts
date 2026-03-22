@@ -15,6 +15,8 @@ interface InterpretRequest {
   model?: string
 }
 
+const DEEP_DIVE_MODEL = 'grok-4.20-0309-non-reasoning'
+
 const DRIFT_TYPE_MAP: Record<string, string> = {
   pejoration: 'pejoration',
   amelioration: 'amelioration',
@@ -48,6 +50,17 @@ const VALID_SENTIMENT_SHIFTS = new Set([
   'neutral-to-positive', 'positive-to-neutral', 'negative-to-neutral', 'stable', 'complex',
 ])
 const VALID_SOURCE_TYPES = new Set(['dictionary', 'literary', 'academic', 'historical', 'newspaper', 'other'])
+
+function hasMeaningfulText(raw: unknown): boolean {
+  return typeof raw === 'string' && raw.replace(/\?/g, '').trim().length > 0
+}
+
+function trimToSentence(raw: string, fallback: string): string {
+  const text = raw.replace(/\s+/g, ' ').trim()
+  if (!text) return fallback
+  if (text.length <= 180) return text
+  return `${text.slice(0, 177).trimEnd()}...`
+}
 
 function normalizeDriftMagnitude(raw: unknown): number {
   if (typeof raw === 'number' && raw >= 0 && raw <= 1) return raw
@@ -319,6 +332,80 @@ function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: s
   return obj
 }
 
+function synthesizeKeyDatesFromSnapshots(result: Record<string, unknown>): Array<Record<string, unknown>> {
+  const snapshots = Array.isArray(result.historicalSnapshots)
+    ? result.historicalSnapshots as Array<Record<string, unknown>>
+    : []
+
+  return snapshots
+    .filter(snapshot => hasMeaningfulText(snapshot.definition))
+    .slice(0, 4)
+    .map((snapshot, index) => ({
+      date: String(snapshot.date ?? '2024-01-01'),
+      label: String(snapshot.eraLabel ?? `Historical Phase ${index + 1}`),
+      significance: trimToSentence(
+        String(snapshot.definition ?? ''),
+        `Meaning documented for ${String(snapshot.eraLabel ?? `phase ${index + 1}`)}.`,
+      ),
+    }))
+}
+
+function filterMeaningfulKeyDates(result: Record<string, unknown>): Array<Record<string, unknown>> {
+  const keyDates = Array.isArray(result.keyDates)
+    ? result.keyDates as Array<Record<string, unknown>>
+    : []
+
+  const filtered = keyDates.filter((keyDate, index) => {
+    const label = String(keyDate.label ?? '')
+    const significance = String(keyDate.significance ?? '')
+    const isGeneratedLabel = new RegExp(`^Key Moment ${index + 1}$`).test(label.trim())
+    const isFallbackDate = String(keyDate.date ?? '') === '2024-01-01'
+    return hasMeaningfulText(label) && (!isGeneratedLabel || hasMeaningfulText(significance) || !isFallbackDate)
+  })
+
+  return filtered.length > 0 ? filtered : synthesizeKeyDatesFromSnapshots(result)
+}
+
+function filterMeaningfulSources(result: Record<string, unknown>): Array<Record<string, unknown>> {
+  const sources = Array.isArray(result.sources)
+    ? result.sources as Array<Record<string, unknown>>
+    : []
+
+  return sources.filter(source => {
+    const title = String(source.title ?? '')
+    if (!hasMeaningfulText(title) || title === 'Unnamed Source') return false
+    return [source.author, source.publisher, source.publishedDate, source.excerpt, source.relevanceNote]
+      .some(value => hasMeaningfulText(value) || value !== null && value !== undefined)
+  })
+}
+
+function isLowQualityResult(raw: unknown): boolean {
+  if (typeof raw !== 'object' || raw === null) return true
+  const result = raw as Record<string, unknown>
+  const currentSnapshot = result.currentSnapshot as Record<string, unknown> | undefined
+  const keyDates = filterMeaningfulKeyDates(result)
+  const sources = filterMeaningfulSources(result)
+  const historicalSnapshots = Array.isArray(result.historicalSnapshots) ? result.historicalSnapshots : []
+
+  return !hasMeaningfulText(currentSnapshot?.definition)
+    || historicalSnapshots.length === 0
+    || keyDates.length === 0
+    || sources.length === 0
+}
+
+function withResultMeta(raw: unknown, meta: Record<string, unknown>): unknown {
+  if (typeof raw !== 'object' || raw === null) return raw
+  return { ...(raw as Record<string, unknown>), ...meta }
+}
+
+function finalizeResult(raw: unknown): unknown {
+  if (typeof raw !== 'object' || raw === null) return raw
+  const result = raw as Record<string, unknown>
+  result.keyDates = filterMeaningfulKeyDates(result)
+  result.sources = filterMeaningfulSources(result)
+  return result
+}
+
 const INTERPRET_SYSTEM_PROMPT = `You are BackWords, a scholarly assistant specialising in the historical evolution of language.
 You produce detailed, academically rigorous JSON objects describing how a word or phrase has changed in meaning over time.
 
@@ -416,6 +503,7 @@ export default async function handler(req: Request): Promise<Response> {
 
   const normalized = normaliseQuery(query)
   const isMock = useMock === true || process.env.MOCK_MODE === 'true'
+  const requestedModel = model ?? INTERPRET_MODEL
 
   // Always try cache/seed first
   const seed = getSeedByQuery(normalized)
@@ -425,7 +513,7 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   // Check Netlify Blobs cache before calling xAI
-  const cached = await getCached(normalized, mode)
+  const cached = await getCached(normalized, mode, requestedModel)
   if (cached) {
     return jsonResponse({ ...(cached as Record<string, unknown>), mode, cacheHit: true })
   }
@@ -471,22 +559,58 @@ Requirements:
 Return a complete InterpretationResult JSON object.`
     }
 
-    const raw = await chatComplete(
-      [
-        { role: 'system', content: INTERPRET_SYSTEM_PROMPT },
-        { role: 'user', content: userPrompt },
-      ],
-      model ?? INTERPRET_MODEL,
-      undefined,
-      { jsonMode: true, maxTokens: 4096 },
-    )
+    const messages = [
+      { role: 'system' as const, content: INTERPRET_SYSTEM_PROMPT },
+      { role: 'user' as const, content: userPrompt },
+    ]
 
-    const extracted = extractJson(raw)
-    const parsed: unknown = JSON.parse(extracted)
-    const normResult = normalizeXaiResponse(parsed, query, normalized, mode)
-    // Store in cache for future requests (non-blocking, failures are swallowed)
-    void setCached(normalized, mode, normResult)
-    return jsonResponse(normResult)
+    const attemptGeneration = async (attemptModel: string, retry: boolean): Promise<unknown> => {
+      const retryMessages = retry
+        ? [
+            ...messages,
+            {
+              role: 'user' as const,
+              content: 'Regenerate the JSON with stronger evidence density. Do not use blank dates, empty source titles, placeholder labels, or generic fallback entries. If exact day is unknown, use January 1 of the best-supported historical year or century. If a source title is unknown, choose a different real source instead of returning an unnamed source.',
+            },
+          ]
+        : messages
+
+      const raw = await chatComplete(
+        retryMessages,
+        attemptModel,
+        undefined,
+        { jsonMode: true, maxTokens: 4096 },
+      )
+
+      const extracted = extractJson(raw)
+      const parsed: unknown = JSON.parse(extracted)
+      return withResultMeta(
+        finalizeResult(normalizeXaiResponse(parsed, query, normalized, mode)),
+        {
+          effectiveModel: attemptModel,
+          qualityGuardTriggered: retry || attemptModel !== requestedModel,
+        },
+      )
+    }
+
+    let normResult = await attemptGeneration(requestedModel, false)
+    if (isLowQualityResult(normResult)) {
+      normResult = await attemptGeneration(requestedModel, true)
+    }
+
+    if (isLowQualityResult(normResult) && requestedModel !== DEEP_DIVE_MODEL) {
+      normResult = await attemptGeneration(DEEP_DIVE_MODEL, true)
+    }
+
+    if (!isLowQualityResult(normResult)) {
+      void setCached(normalized, mode, requestedModel, normResult)
+      return jsonResponse(normResult)
+    }
+
+    return errorResponse(
+      'The AI returned too little usable historical evidence for this query. Please try again or switch to Deep Dive.',
+      502,
+    )
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     console.error('[interpret] xAI error:', msg)
