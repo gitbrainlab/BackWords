@@ -15,6 +15,8 @@ interface InterpretRequest {
   model?: string
 }
 
+const DEEP_DIVE_MODEL = 'grok-4.20-0309-non-reasoning'
+
 const DRIFT_TYPE_MAP: Record<string, string> = {
   pejoration: 'pejoration',
   amelioration: 'amelioration',
@@ -391,6 +393,11 @@ function isLowQualityResult(raw: unknown): boolean {
     || sources.length === 0
 }
 
+function withResultMeta(raw: unknown, meta: Record<string, unknown>): unknown {
+  if (typeof raw !== 'object' || raw === null) return raw
+  return { ...(raw as Record<string, unknown>), ...meta }
+}
+
 function finalizeResult(raw: unknown): unknown {
   if (typeof raw !== 'object' || raw === null) return raw
   const result = raw as Record<string, unknown>
@@ -496,6 +503,7 @@ export default async function handler(req: Request): Promise<Response> {
 
   const normalized = normaliseQuery(query)
   const isMock = useMock === true || process.env.MOCK_MODE === 'true'
+  const requestedModel = model ?? INTERPRET_MODEL
 
   // Always try cache/seed first
   const seed = getSeedByQuery(normalized)
@@ -505,7 +513,7 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   // Check Netlify Blobs cache before calling xAI
-  const cached = await getCached(normalized, mode)
+  const cached = await getCached(normalized, mode, requestedModel)
   if (cached) {
     return jsonResponse({ ...(cached as Record<string, unknown>), mode, cacheHit: true })
   }
@@ -556,7 +564,7 @@ Return a complete InterpretationResult JSON object.`
       { role: 'user' as const, content: userPrompt },
     ]
 
-    const attemptGeneration = async (retry: boolean): Promise<unknown> => {
+    const attemptGeneration = async (attemptModel: string, retry: boolean): Promise<unknown> => {
       const retryMessages = retry
         ? [
             ...messages,
@@ -569,26 +577,40 @@ Return a complete InterpretationResult JSON object.`
 
       const raw = await chatComplete(
         retryMessages,
-        model ?? INTERPRET_MODEL,
+        attemptModel,
         undefined,
         { jsonMode: true, maxTokens: 4096 },
       )
 
       const extracted = extractJson(raw)
       const parsed: unknown = JSON.parse(extracted)
-      return finalizeResult(normalizeXaiResponse(parsed, query, normalized, mode))
+      return withResultMeta(
+        finalizeResult(normalizeXaiResponse(parsed, query, normalized, mode)),
+        {
+          effectiveModel: attemptModel,
+          qualityGuardTriggered: retry || attemptModel !== requestedModel,
+        },
+      )
     }
 
-    let normResult = await attemptGeneration(false)
+    let normResult = await attemptGeneration(requestedModel, false)
     if (isLowQualityResult(normResult)) {
-      normResult = await attemptGeneration(true)
+      normResult = await attemptGeneration(requestedModel, true)
+    }
+
+    if (isLowQualityResult(normResult) && requestedModel !== DEEP_DIVE_MODEL) {
+      normResult = await attemptGeneration(DEEP_DIVE_MODEL, true)
     }
 
     if (!isLowQualityResult(normResult)) {
-      void setCached(normalized, mode, normResult)
+      void setCached(normalized, mode, requestedModel, normResult)
+      return jsonResponse(normResult)
     }
 
-    return jsonResponse(normResult)
+    return errorResponse(
+      'The AI returned too little usable historical evidence for this query. Please try again or switch to Deep Dive.',
+      502,
+    )
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     console.error('[interpret] xAI error:', msg)
