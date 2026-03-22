@@ -61,6 +61,7 @@ export interface ExplainSourceRequest {
   word: string
   context?: string
   useMock?: boolean
+  model?: string
 }
 
 // POST /explain-source response

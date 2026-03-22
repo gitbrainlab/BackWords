@@ -1,5 +1,6 @@
 import type { Config } from '@netlify/functions'
 import { getSeedCount } from './_shared/seed-loader.js'
+import { INTERPRET_MODEL, EXPLAIN_MODEL, DEEP_DIVE_MODEL } from './_shared/xai-client.js'
 import { jsonResponse, optionsResponse } from './_shared/response.js'
 
 export default async function handler(req: Request): Promise<Response> {
@@ -11,6 +12,11 @@ export default async function handler(req: Request): Promise<Response> {
     mode: process.env.MOCK_MODE === 'true' ? 'mock' : 'live',
     seedCount: getSeedCount(),
     timestamp: new Date().toISOString(),
+    models: {
+      interpret: INTERPRET_MODEL,
+      explain: EXPLAIN_MODEL,
+      deepDive: DEEP_DIVE_MODEL,
+    },
   })
 }
 

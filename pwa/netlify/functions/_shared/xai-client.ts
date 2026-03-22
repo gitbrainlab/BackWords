@@ -3,6 +3,7 @@ const XAI_BASE_URL = 'https://api.x.ai/v1'
 
 export const INTERPRET_MODEL = process.env.XAI_MODEL_INTERPRET ?? 'grok-4-1-fast-non-reasoning'
 export const EXPLAIN_MODEL = process.env.XAI_MODEL_EXPLAIN ?? 'grok-4-1-fast-non-reasoning'
+export const DEEP_DIVE_MODEL = 'grok-4.20-0309-non-reasoning'
 
 interface ChatMessage {
   role: 'system' | 'user' | 'assistant'
@@ -34,7 +35,8 @@ export async function chatComplete(
 
   // Reasoning-tier models support a reasoning_effort hint — default to medium
   // to balance quality vs latency without over-spending on budget.
-  const isReasoningModel = model.includes('reasoning')
+  // Match models that end with "-reasoning" but not "-non-reasoning".
+  const isReasoningModel = /(?<!non-)reasoning$/.test(model)
 
   const body: Record<string, unknown> = {
     model,

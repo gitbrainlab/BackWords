@@ -3,7 +3,7 @@ import {
   getSeedByQuery,
   normaliseQuery,
 } from './_shared/seed-loader.js'
-import { chatComplete, extractJson, INTERPRET_MODEL } from './_shared/xai-client.js'
+import { chatComplete, extractJson, INTERPRET_MODEL, DEEP_DIVE_MODEL } from './_shared/xai-client.js'
 import { jsonResponse, errorResponse, optionsResponse } from './_shared/response.js'
 import { getCached, setCached } from './_shared/cache.js'
 
@@ -14,8 +14,6 @@ interface InterpretRequest {
   useMock?: boolean
   model?: string
 }
-
-const DEEP_DIVE_MODEL = 'grok-4.20-0309-non-reasoning'
 
 const DRIFT_TYPE_MAP: Record<string, string> = {
   pejoration: 'pejoration',
@@ -109,6 +107,25 @@ function eraLabelFromDate(date: string): string {
   return 'Contemporary'
 }
 
+function extractDefinitionText(raw: unknown): string {
+  if (typeof raw === 'string') return raw
+  if (Array.isArray(raw)) return raw.filter(d => typeof d === 'string' && d.trim()).map(d => d.replace(/\.\s*$/, '')).join('. ')
+  if (typeof raw === 'object' && raw !== null) {
+    const obj = raw as Record<string, unknown>
+    return String(obj.text ?? obj.value ?? obj.content ?? obj.primary ?? '')
+  }
+  return ''
+}
+
+/** Coerce a value to a trimmed non-empty string, or undefined. */
+function coerceString(v: unknown): string | undefined {
+  if (typeof v === 'string') {
+    const trimmed = v.trim()
+    return trimmed || undefined
+  }
+  return undefined
+}
+
 let _snapshotCounter = 0
 function normalizeSnapshot(raw: Record<string, unknown>, prefix: string): Record<string, unknown> {
   _snapshotCounter++
@@ -117,13 +134,23 @@ function normalizeSnapshot(raw: Record<string, unknown>, prefix: string): Record
     ? raw.date
     : yearToDate(year)
 
+  // Try primary field names, then alternatives; handle arrays/objects via extractDefinitionText
+  const defCandidate = raw.definition ?? raw.definitions ?? raw.description ?? raw.meaning
+    ?? raw.sense ?? raw.summary ?? raw.text ?? raw.explanation ?? raw.gloss ?? ''
+  let definition = extractDefinitionText(defCandidate)
+  // Last resort: use usageNote if definition is still empty
+  if (!definition.trim()) {
+    const usageNote = raw.usageNote ?? raw.usage_note ?? raw.note
+    if (typeof usageNote === 'string' && usageNote.trim()) definition = usageNote
+  }
+
   return {
     snapshotId: raw.snapshotId || raw.id || `${prefix}-snap-${_snapshotCounter}`,
     date,
     eraLabel: String(raw.eraLabel || raw.era || raw.period_label || eraLabelFromDate(date)),
-    definition: String(raw.definition || raw.description || raw.meaning || raw.sense || ''),
-    usageNote: (raw.usageNote || raw.usage_note || raw.note) ?? undefined,
-    exampleUsage: (raw.exampleUsage || raw.example || raw.example_usage) ?? undefined,
+    definition,
+    usageNote: coerceString(raw.usageNote ?? raw.usage_note ?? raw.note),
+    exampleUsage: coerceString(raw.exampleUsage ?? raw.example ?? raw.example_usage),
     register: VALID_REGISTERS.has(String(raw.register)) ? raw.register : 'neutral',
     sentiment: VALID_SENTIMENTS.has(String(raw.sentiment)) ? raw.sentiment : 'neutral',
     confidence: typeof raw.confidence === 'number' ? raw.confidence : 0.8,
@@ -288,7 +315,7 @@ function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: s
           date,
           eraLabel: String(ev.eraLabel ?? ev.era ?? refSnap?.eraLabel ?? eraLabelFromDate(date as string)),
           title,
-          summary: String(ev.summary ?? ev.description ?? ev.content ?? ''),
+          summary: String(ev.summary ?? ev.description ?? ev.content ?? ev.significance ?? ev.detail ?? ev.explanation ?? ''),
           sourceIds: Array.isArray(ev.sourceIds) ? ev.sourceIds : [],
         }
       })
@@ -465,7 +492,9 @@ The object MUST match this exact structure:
   "relatedConcepts": [
     { "conceptId": "concept-1", "label": "semantic broadening", "relationship": "illustrates", "note": null }
   ],
-  "timelineEvents": []
+  "timelineEvents": [
+    { "eventId": "evt-1", "date": "1400-01-01", "eraLabel": "Middle English", "title": "First recorded usage", "summary": "The word first appears in written records with this meaning…", "relatedSnapshotId": "word-snap-1", "sourceIds": ["src-1"] }
+  ]
 }
 
 CRITICAL RULES:
@@ -480,7 +509,9 @@ CRITICAL RULES:
 - sources MUST include 2–4 real reference works; every title must be a non-empty string
 - For informal, slang, or dialectal words: newspapers, the Online Etymology Dictionary, Merriam-Webster, word-study archives, and regional dialect records are all acceptable sources — do NOT leave sources empty just because the word is non-standard
 - currentSnapshot.definition MUST be at least 2 meaningful sentences describing current usage — never a single vague phrase like "current usage" or a one-word gloss
-- relatedConcepts MUST include 2–4 entries; every label must be a non-empty string`
+- relatedConcepts MUST include 2–4 entries; every label must be a non-empty string
+- Every historicalSnapshot definition MUST be at least 1–2 sentences — never an empty string or a one-word gloss
+- timelineEvents MUST include 3–5 entries marking the most significant historical moments; every entry needs a non-empty title and a summary of at least one sentence explaining what happened and why it matters`
 
 export default async function handler(req: Request): Promise<Response> {
   if (req.method === 'OPTIONS') return optionsResponse()
@@ -527,35 +558,38 @@ export default async function handler(req: Request): Promise<Response> {
       userPrompt = `Analyse the semantic drift of the phrase "${query}"${eraClause}.
 Treat the phrase as a unified expression — trace how its meaning as a WHOLE has changed, not the individual words.
 Requirements:
-- Provide 2–5 historicalSnapshots showing the phrase's evolution across different eras
+- Provide 2–5 historicalSnapshots showing the phrase's evolution across different eras; every definition MUST be 1–2 substantive sentences, never empty
 - Include 2–5 keyDates: earliest documented use, significant usage shifts, and any modern pop-culture or register change
 - Identify 2–4 REAL sources (newspapers, dictionaries, corpus studies, literary works) that document this phrase's usage
 - currentSnapshot.definition must describe in 2+ sentences HOW this phrase is used today, by whom, and in what register
 - summaryOfChange.shortSummary must explain the phrase's semantic journey in plain language (minimum 20 words)
 - Include 2–4 relatedConcepts (related idioms, phrases, or linguistic phenomena)
+- 3–5 timelineEvents: each with a specific date, a descriptive title, and a summary sentence explaining the significance of that moment in the phrase's history
 Return a complete InterpretationResult JSON object.`
     } else if (mode === 'paragraph') {
       userPrompt = `Analyse the semantic drift of the most historically significant word or phrase found in this passage: "${query}"${eraClause}.
 Select the single word or phrase from the passage that has the richest documented history of meaning change.
 Requirements:
 - Set query and normalizedQuery to the selected word or phrase
-- Provide 2–5 historicalSnapshots contextualised to the passage period
+- Provide 2–5 historicalSnapshots contextualised to the passage period; every definition MUST be 1–2 substantive sentences, never empty
 - Include 2–5 keyDates marking important moments in the selected term's semantic history
 - Identify 2–4 REAL sources documenting the term's historical usage
 - currentSnapshot.definition must describe how the term is understood TODAY (minimum 2 sentences)
 - summaryOfChange.longSummary must explain how the term's meaning in the passage differs from its modern meaning
+- 3–5 timelineEvents: each with a specific date, a descriptive title, and a summary sentence explaining the significance of that moment
 Return a complete InterpretationResult JSON object.`
     } else {
       userPrompt = `Analyse the semantic drift of the word "${query}"${eraClause}.
 Even if this word is informal, slang, dialectal, or colloquial, provide thorough scholarly context.
 Requirements:
 - Earliest documented appearance: when and where the word/spelling first appeared (etymology, dialect origin, first print record)
-- 2–5 historicalSnapshots tracing meaning change across clearly labelled eras
+- 2–5 historicalSnapshots tracing meaning change across clearly labelled eras; every definition MUST be 1–2 substantive sentences, never empty
 - 2–5 keyDates: first attestation, major usage shifts, dictionary inclusion, any reclamation or stigma events — use non-empty specific labels, never a bare "?" placeholder
 - 2–4 REAL sources: standard dictionaries (OED, Merriam-Webster), newspapers, corpus studies, or dialect records.
   For informal or slang words acceptable sources include: Merriam-Webster slang section, news archives, Online Etymology Dictionary, or dialect/regional word studies
 - currentSnapshot.definition: at least 2 sentences describing HOW the word is used TODAY — tone, register, typical contexts, and who uses it
 - 2–4 relatedConcepts (synonyms, related slang, or linguistic phenomena)
+- 3–5 timelineEvents: each with a specific date, a descriptive title, and a summary sentence explaining the significance of that moment in the word's history
 Return a complete InterpretationResult JSON object.`
     }
 

@@ -44,6 +44,7 @@ export default function SourceDetail() {
         quote: source.excerpt,
         word: result.query,
         useMock: settings.mockMode,
+        model: settings.mockMode ? undefined : settings.preferredModel,
       })
       setExplanation(resp.explanation)
     } catch (err) {
@@ -51,7 +52,7 @@ export default function SourceDetail() {
     } finally {
       setLoadingExplanation(false)
     }
-  }, [source, result, settings.mockMode])
+  }, [source, result, settings.mockMode, settings.preferredModel])
 
   if (!result) return null
   if (!source) {

@@ -170,6 +170,13 @@
   font-size: 0.875rem;
 }
 
+.usageNote {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
 .example {
   margin: 0;
   padding: var(--space-sm) var(--space-md);

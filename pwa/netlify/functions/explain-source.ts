@@ -10,6 +10,7 @@ interface ExplainSourceRequest {
   word: string
   context?: string
   useMock?: boolean
+  model?: string
 }
 
 const EXPLAIN_SYSTEM_PROMPT = `You are BackWords, a scholarly language assistant. Your task is to explain, in 2-4 sentences,
@@ -28,15 +29,18 @@ export default async function handler(req: Request): Promise<Response> {
     return errorResponse('Invalid JSON body', 400)
   }
 
-  const { sourceId, sourceTitle, sourceDate, quote, word, context, useMock } = body
+  const { sourceId, sourceTitle, sourceDate, quote, word, context, useMock, model } = body
   if (!sourceId || !word) return errorResponse('sourceId and word are required', 400)
 
   const isMock = useMock === true || process.env.MOCK_MODE === 'true'
+
+  const effectiveModel = model ?? EXPLAIN_MODEL
 
   if (isMock) {
     return jsonResponse({
       sourceId,
       explanation: `"${sourceTitle}" (${sourceDate ?? 'date unknown'}) is significant because it documents the usage of "${word}" in its historical context, providing lexicographic evidence of meaning at that time.`,
+      effectiveModel,
     })
   }
 
@@ -48,10 +52,10 @@ export default async function handler(req: Request): Promise<Response> {
         { role: 'system', content: EXPLAIN_SYSTEM_PROMPT },
         { role: 'user', content: userPrompt },
       ],
-      EXPLAIN_MODEL,
+      effectiveModel,
     )
 
-    return jsonResponse({ sourceId, explanation: explanation.trim() })
+    return jsonResponse({ sourceId, explanation: explanation.trim(), effectiveModel })
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     console.error('[explain-source] xAI error:', msg)
@@ -59,6 +63,7 @@ export default async function handler(req: Request): Promise<Response> {
     return jsonResponse({
       sourceId,
       explanation: `${sourceTitle} provides historical evidence for the meaning of "${word}" during this period.`,
+      effectiveModel,
     })
   }
 }

@@ -60,6 +60,11 @@ export interface HealthResponse {
   version: string
   seedCount: number
   mode: string
+  models?: {
+    interpret: string
+    explain: string
+    deepDive: string
+  }
 }
 
 export function healthCheck(signal?: AbortSignal) {
