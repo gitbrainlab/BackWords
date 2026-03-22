@@ -11,9 +11,10 @@
 import { getStore } from '@netlify/blobs'
 
 const STORE_NAME = 'interpret-cache'
+const CACHE_SCHEMA_VERSION = 'v2'
 
 function cacheKey(normalizedQuery: string, mode: string): string {
-  return `${normalizedQuery}:${mode}`
+  return `${CACHE_SCHEMA_VERSION}:${normalizedQuery}:${mode}`
 }
 
 /** Returns the cached result or null on miss / any error. */

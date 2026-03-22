@@ -33,6 +33,13 @@ function buildEvents(
   timelineEvents?: TimelineEvent[],
   keyDates?: KeyDate[],
 ): Array<TimelineEvent & { definition?: string }> {
+  const meaningfulKeyDates = (keyDates ?? []).filter((kd, index) => {
+    const label = kd.label?.replace(/\?/g, '').trim() ?? ''
+    const significance = kd.significance?.replace(/\?/g, '').trim() ?? ''
+    const isGeneratedLabel = new RegExp(`^Key Moment ${index + 1}$`).test(kd.label?.trim() ?? '')
+    return label.length > 0 && (!isGeneratedLabel || significance.length > 0 || kd.date !== '2024-01-01')
+  })
+
   // 1. Try timelineEvents — but only if they carry meaningful content (non-empty title).
   //    Events produced by the model with only snapshotIndex+description have empty titles
   //    and a fallback "2024-01-01" date; discard them so richer sources can take over.
@@ -44,8 +51,8 @@ function buildEvents(
   }
 
   // 2. Synthesize from keyDates (Result page already shows these; reuse them for Timeline).
-  if (keyDates && keyDates.length > 0) {
-    return keyDates.map((kd, i) => ({
+  if (meaningfulKeyDates.length > 0) {
+    return meaningfulKeyDates.map((kd, i) => ({
       eventId: `kd-${i}`,
       date: kd.date || '2024-01-01',
       eraLabel: eraLabelFromDate(kd.date || '2024-01-01'),
