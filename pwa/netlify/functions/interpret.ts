@@ -270,6 +270,16 @@ function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: s
       driftType: normalizeDriftType(rootDriftType),
       driftMagnitude: normalizeDriftMagnitude(rootDriftMagnitude),
     }
+  } else {
+    // AI omitted summaryOfChange entirely — synthesize a minimal stub so downstream
+    // checks and UI rendering always have something to work with.
+    obj.summaryOfChange = {
+      shortSummary: '',
+      longSummary: '',
+      sentimentShift: 'stable',
+      driftType: 'semantic-shift',
+      driftMagnitude: 0.5,
+    }
   }
 
   // Normalize keyDates — filter non-objects just like historicalSnapshots
@@ -410,12 +420,22 @@ function isLowQualityResult(raw: unknown): boolean {
   if (typeof raw !== 'object' || raw === null) return true
   const result = raw as Record<string, unknown>
   const currentSnapshot = result.currentSnapshot as Record<string, unknown> | undefined
+  const summaryOfChange = result.summaryOfChange as Record<string, unknown> | undefined
   const keyDates = filterMeaningfulKeyDates(result)
   const sources = filterMeaningfulSources(result)
-  const historicalSnapshots = Array.isArray(result.historicalSnapshots) ? result.historicalSnapshots : []
+  const historicalSnapshots = Array.isArray(result.historicalSnapshots)
+    ? (result.historicalSnapshots as Array<Record<string, unknown>>)
+    : []
 
-  return !hasMeaningfulText(currentSnapshot?.definition)
-    || historicalSnapshots.length === 0
+  const hasGoodCurrentDefinition = hasMeaningfulText(currentSnapshot?.definition as string | undefined)
+  const hasEnoughSnapshots = historicalSnapshots.length >= 2
+  const hasAnySnaphotDefinition = historicalSnapshots.some(s => hasMeaningfulText(s.definition as string | undefined))
+  const hasSummary = hasMeaningfulText(summaryOfChange?.shortSummary as string | undefined)
+
+  return !hasGoodCurrentDefinition
+    || !hasEnoughSnapshots
+    || !hasAnySnaphotDefinition
+    || !hasSummary
     || keyDates.length === 0
     || sources.length === 0
 }
@@ -613,7 +633,7 @@ Return a complete InterpretationResult JSON object.`
         retryMessages,
         attemptModel,
         undefined,
-        { jsonMode: true, maxTokens: 4096 },
+        { jsonMode: true, maxTokens: 8192 },
       )
 
       const extracted = extractJson(raw)

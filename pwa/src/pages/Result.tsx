@@ -55,9 +55,9 @@ const DRIFT_LABELS: Record<string, string> = {
   amelioration: '↗ Amelioration',
   narrowing: '→ Narrowing',
   broadening: '↔ Broadening',
-  'metaphorical-extension': '⤳ Metaphorical',
-  'register-shift': '⇅ Register shift',
-  tabooisation: '⚠ Tabooisation',
+  'semantic-shift': '⇄ Semantic shift',
+  stable: '— Stable',
+  reclamation: '↑ Reclamation',
 }
 
 function hasMeaningfulText(raw: string | null | undefined): boolean {

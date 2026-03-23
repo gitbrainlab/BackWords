@@ -38,9 +38,10 @@ export interface PassageFile {
   }>
 }
 
-// API error shape
+// API error shape — function returns { error: string }, contract doc used 'detail'
 export interface ApiError {
-  detail: string
+  error?: string
+  detail?: string
 }
 
 // POST /interpret request
@@ -68,4 +69,5 @@ export interface ExplainSourceRequest {
 export interface ExplainSourceResponse {
   sourceId: string
   explanation: string
+  effectiveModel?: string
 }

@@ -29,8 +29,11 @@ async function post<T>(path: string, body: unknown, signal?: AbortSignal): Promi
     signal,
   })
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ detail: `HTTP ${res.status}` }))
-    throw new ApiError((err as { detail?: string }).detail ?? `HTTP ${res.status}`, res.status)
+    const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }))
+    const errMsg = (err as { error?: string; detail?: string }).error
+      ?? (err as { error?: string; detail?: string }).detail
+      ?? `HTTP ${res.status}`
+    throw new ApiError(errMsg, res.status)
   }
   return res.json() as Promise<T>
 }

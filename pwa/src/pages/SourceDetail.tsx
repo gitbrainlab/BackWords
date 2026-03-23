@@ -8,12 +8,12 @@ import type { SourceCitation } from '@/types'
 import styles from './SourceDetail.module.css'
 
 const SOURCE_TYPE_LABELS: Record<string, string> = {
+  dictionary: 'Dictionary',
   literary: 'Literary Work',
   academic: 'Academic',
-  journalistic: 'Journalism',
-  legal: 'Legal Document',
-  speech: 'Speech / Oral',
-  digital: 'Digital Source',
+  historical: 'Historical Document',
+  newspaper: 'Newspaper / Journalism',
+  other: 'Other',
 }
 
 export default function SourceDetail() {
