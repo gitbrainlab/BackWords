@@ -1,5 +1,6 @@
 import type { Config } from '@netlify/functions'
 import { getSeedCount } from './_shared/seed-loader.js'
+import { DEPLOYMENT_METADATA } from './_shared/deployment.js'
 import { INTERPRET_MODEL, EXPLAIN_MODEL, DEEP_DIVE_MODEL } from './_shared/xai-client.js'
 import { jsonResponse, optionsResponse } from './_shared/response.js'
 
@@ -17,6 +18,7 @@ export default async function handler(req: Request): Promise<Response> {
       explain: EXPLAIN_MODEL,
       deepDive: DEEP_DIVE_MODEL,
     },
+    deployment: DEPLOYMENT_METADATA,
   })
 }
 

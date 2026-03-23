@@ -11,7 +11,7 @@
 import { getStore } from '@netlify/blobs'
 
 const STORE_NAME = 'interpret-cache'
-const CACHE_SCHEMA_VERSION = 'v5'
+const CACHE_SCHEMA_VERSION = process.env.CACHE_SCHEMA_VERSION ?? 'v5'
 
 function cacheKey(normalizedQuery: string, mode: string, requestedModel: string): string {
   return `${CACHE_SCHEMA_VERSION}:${normalizedQuery}:${mode}:${requestedModel}`

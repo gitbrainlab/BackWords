@@ -63,10 +63,18 @@ export interface HealthResponse {
   version: string
   seedCount: number
   mode: string
+  timestamp?: string
   models?: {
     interpret: string
     explain: string
     deepDive: string
+  }
+  deployment?: {
+    buildId: string
+    commitSha: string
+    deployedAt: string
+    netlifyDeployId: string
+    cacheSchemaVersion: string
   }
 }
 

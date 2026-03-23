@@ -70,4 +70,5 @@ export interface ExplainSourceResponse {
   sourceId: string
   explanation: string
   effectiveModel?: string
+  generatedAt?: string
 }

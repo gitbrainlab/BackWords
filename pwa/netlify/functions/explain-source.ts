@@ -35,12 +35,14 @@ export default async function handler(req: Request): Promise<Response> {
   const isMock = useMock === true || process.env.MOCK_MODE === 'true'
 
   const effectiveModel = model ?? EXPLAIN_MODEL
+  const generatedAt = new Date().toISOString()
 
   if (isMock) {
     return jsonResponse({
       sourceId,
       explanation: `"${sourceTitle}" (${sourceDate ?? 'date unknown'}) is significant because it documents the usage of "${word}" in its historical context, providing lexicographic evidence of meaning at that time.`,
       effectiveModel,
+      generatedAt,
     })
   }
 
@@ -55,7 +57,7 @@ export default async function handler(req: Request): Promise<Response> {
       effectiveModel,
     )
 
-    return jsonResponse({ sourceId, explanation: explanation.trim(), effectiveModel })
+    return jsonResponse({ sourceId, explanation: explanation.trim(), effectiveModel, generatedAt })
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     console.error('[explain-source] xAI error:', msg)
@@ -64,6 +66,7 @@ export default async function handler(req: Request): Promise<Response> {
       sourceId,
       explanation: `${sourceTitle} provides historical evidence for the meaning of "${word}" during this period.`,
       effectiveModel,
+      generatedAt,
     })
   }
 }

@@ -1,6 +1,10 @@
 # BackWords API Contract
 
-Base URL: configurable in Settings (default `http://localhost:8000`)
+Base URL: configurable in Settings.
+
+Production default: `https://backwords-api.netlify.app/.netlify/functions`
+
+Local development default: `http://localhost:8888/.netlify/functions`
 
 All requests and responses use `Content-Type: application/json`.
 
@@ -16,12 +20,7 @@ Interpret a word, phrase, or passage in historical context.
 {
   "query": "awful",
   "mode": "word",
-  "selectedDate": "1850-01-01",
-  "clientContext": {
-    "appVersion": "1.0.0",
-    "locale": "en-US",
-    "deviceId": "optional-anonymous-id"
-  }
+  "requestedDate": "1850-01-01"
 }
 ```
 
@@ -29,8 +28,9 @@ Interpret a word, phrase, or passage in historical context.
 |-------|------|----------|-------------|
 | `query` | string | ✅ | Word, phrase, or passage text |
 | `mode` | `"word"` \| `"phrase"` \| `"paragraph"` | ✅ | Analysis mode |
-| `selectedDate` | string (ISO8601) | ❌ | Anchor the response to this date. If omitted, returns current snapshot as primary plus all historical. |
-| `clientContext` | object | ❌ | Optional telemetry / personalisation context |
+| `requestedDate` | string (ISO8601) | ❌ | Preferred historical anchor date when supported by the response source. |
+| `useMock` | boolean | ❌ | Internal/testing switch; not intended for normal production callers. |
+| `model` | string | ❌ | Optional server model override for testing or deep-dive workflows. |
 
 ### Response
 
@@ -39,8 +39,8 @@ Interpret a word, phrase, or passage in historical context.
   "lexemeId": "awful",
   "query": "awful",
   "normalizedQuery": "awful",
+  "mode": "word",
   "requestedDate": "1850-01-01",
-  "resolvedEraLabel": "Victorian Era",
   "currentSnapshot": {
     "snapshotId": "awful_current",
     "date": "2024-01-01",
@@ -52,18 +52,6 @@ Interpret a word, phrase, or passage in historical context.
     "sentiment": "negative",
     "confidence": 0.98,
     "sourceIds": ["oed_awful_modern"]
-  },
-  "selectedSnapshot": {
-    "snapshotId": "awful_1850",
-    "date": "1850-01-01",
-    "eraLabel": "Victorian Era",
-    "definition": "Inspiring awe; solemnly impressive.",
-    "usageNote": "Used reverently to describe the sublime—storms, cathedrals, divine power.",
-    "exampleUsage": "The awful silence of the mountains.",
-    "register": "formal",
-    "sentiment": "neutral",
-    "confidence": 0.95,
-    "sourceIds": ["oed_awful_1", "johnson_dict"]
   },
   "historicalSnapshots": [
     {
@@ -143,11 +131,15 @@ Interpret a word, phrase, or passage in historical context.
     }
   ],
   "ambiguityNotes": [],
-  "passage": null,
   "generatedAt": "2024-01-01T00:00:00Z",
-  "modelVersion": "mock-seed-v1"
+  "modelVersion": "mock-seed-v1",
+  "cacheHit": true
 }
 ```
+
+Notes:
+- `selectedSnapshot`, `resolvedEraLabel`, and `passage` are not currently guaranteed by the live Netlify API and should be treated as optional/unsupported until explicitly implemented.
+- `cacheHit` is optional and only present when a cached interpretation is returned.
 
 ### Error Responses
 
@@ -158,7 +150,7 @@ Interpret a word, phrase, or passage in historical context.
 | 500 | Internal server error |
 
 ```json
-{ "detail": "No interpretation found for query: 'xyz'" }
+{ "error": "No interpretation found for query: 'xyz'" }
 ```
 
 ---
@@ -172,18 +164,23 @@ Ask the engine to explain *why* a specific source supports a specific interpreta
 ```json
 {
   "sourceId": "oed_awful_1",
-  "query": "awful",
-  "snapshotId": "awful_1850",
-  "clientContext": null
+  "sourceTitle": "Oxford English Dictionary - awful, adj.",
+  "word": "awful",
+  "sourceDate": "2023-09-01",
+  "quote": "Originally: inspiring reverential wonder or fear."
 }
 ```
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `sourceId` | string | ✅ | Source to explain |
-| `query` | string | ✅ | Word/phrase being interpreted |
-| `snapshotId` | string | ✅ | Which snapshot this source supports |
-| `clientContext` | object | ❌ | Optional context |
+| `sourceTitle` | string | ✅ | Human-readable source title used to frame the explanation prompt |
+| `word` | string | ✅ | Word/phrase being interpreted |
+| `sourceDate` | string | ❌ | Optional publication date or best-known source date |
+| `quote` | string | ❌ | Optional excerpt shown to the model for context |
+| `context` | string | ❌ | Optional caller-supplied context string |
+| `useMock` | boolean | ❌ | Internal/testing switch; not intended for normal production callers |
+| `model` | string | ❌ | Optional server model override |
 
 ### Response
 
@@ -191,11 +188,7 @@ Ask the engine to explain *why* a specific source supports a specific interpreta
 {
   "sourceId": "oed_awful_1",
   "explanation": "The OED entry for 'awful' traces the word's etymology from Old English 'egeful' (fear-inducing) through its 18th-century meaning of reverential awe to the colloquial weakening in the 19th century. This dictionary entry is the gold standard reference for this transition because it provides dated quotations spanning over a thousand years of written English.",
-  "supportingQuotes": [
-    "1697 DRYDEN: 'The awful father sits in regal state.'",
-    "1830 TENNYSON: 'The awful shadow of some unseen Power.'"
-  ],
-  "confidenceNarrative": "High confidence (0.98) — the OED is the primary authority on historical English semantics and provides direct documentary evidence.",
+  "effectiveModel": "grok-4-1-fast-non-reasoning",
   "generatedAt": "2024-01-01T00:00:00Z"
 }
 ```
@@ -204,9 +197,8 @@ Ask the engine to explain *why* a specific source supports a specific interpreta
 |-------|------|-------------|
 | `sourceId` | string | Echoes request |
 | `explanation` | string | Prose explanation of source relevance |
-| `supportingQuotes` | string[] | Additional quotations (may be empty) |
-| `confidenceNarrative` | string | Human-readable gloss on the confidence score |
-| `generatedAt` | string (ISO8601) | Timestamp |
+| `effectiveModel` | string | Actual model used by the server |
+| `generatedAt` | string (ISO8601) | Response timestamp |
 
 ---
 
@@ -217,7 +209,25 @@ Health check. No auth required.
 ### Response
 
 ```json
-{ "status": "ok", "version": "mock-seed-v1", "seedCount": 6 }
+{
+  "status": "ok",
+  "version": "pwa-v0.1.0",
+  "mode": "live",
+  "seedCount": 6,
+  "timestamp": "2026-03-23T03:21:02.940Z",
+  "models": {
+    "interpret": "grok-4-1-fast-non-reasoning",
+    "explain": "grok-4-1-fast-non-reasoning",
+    "deepDive": "grok-4.20-0309-non-reasoning"
+  },
+  "deployment": {
+    "buildId": "unknown",
+    "commitSha": "unknown",
+    "deployedAt": "unknown",
+    "netlifyDeployId": "unknown",
+    "cacheSchemaVersion": "v5"
+  }
+}
 ```
 
 ---
