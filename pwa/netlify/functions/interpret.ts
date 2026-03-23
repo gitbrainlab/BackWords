@@ -109,10 +109,26 @@ function eraLabelFromDate(date: string): string {
 
 function extractDefinitionText(raw: unknown): string {
   if (typeof raw === 'string') return raw
-  if (Array.isArray(raw)) return raw.filter(d => typeof d === 'string' && d.trim()).map(d => d.replace(/\.\s*$/, '')).join('. ')
+  if (Array.isArray(raw)) {
+    return raw
+      .map((entry) => {
+        if (typeof entry === 'string') return entry
+        if (typeof entry === 'object' && entry !== null) {
+          const obj = entry as Record<string, unknown>
+          return String(obj.definition ?? obj.text ?? obj.value ?? obj.content ?? obj.primary ?? '')
+        }
+        return ''
+      })
+      .filter(hasMeaningfulText)
+      .map(text => text.replace(/\.\s*$/, ''))
+      .join('. ')
+  }
   if (typeof raw === 'object' && raw !== null) {
     const obj = raw as Record<string, unknown>
-    return String(obj.text ?? obj.value ?? obj.content ?? obj.primary ?? '')
+    if (Array.isArray(obj.definitions)) {
+      return extractDefinitionText(obj.definitions)
+    }
+    return String(obj.definition ?? obj.text ?? obj.value ?? obj.content ?? obj.primary ?? '')
   }
   return ''
 }
@@ -144,17 +160,29 @@ function normalizeSnapshot(raw: Record<string, unknown>, prefix: string): Record
     if (typeof usageNote === 'string' && usageNote.trim()) definition = usageNote
   }
 
+  const rawEraLabel = String(raw.eraLabel || raw.era || raw.period_label || '').trim()
+  const eraLabel = hasMeaningfulText(rawEraLabel) ? rawEraLabel : eraLabelFromDate(date)
+  const normalizedDefinition = hasMeaningfulText(definition) ? definition.trim() : ''
+  const registerRaw = String(raw.register ?? '').toLowerCase().trim()
+  const sentimentRaw = String(raw.sentiment ?? '').toLowerCase().trim()
+  const sourceIds = Array.isArray(raw.sourceIds)
+    ? raw.sourceIds
+        .filter((value) => typeof value === 'string')
+        .map((value) => value.trim())
+        .filter(hasMeaningfulText)
+    : []
+
   return {
     snapshotId: raw.snapshotId || raw.id || `${prefix}-snap-${_snapshotCounter}`,
     date,
-    eraLabel: String(raw.eraLabel || raw.era || raw.period_label || eraLabelFromDate(date)),
-    definition,
+    eraLabel,
+    definition: normalizedDefinition,
     usageNote: coerceString(raw.usageNote ?? raw.usage_note ?? raw.note),
     exampleUsage: coerceString(raw.exampleUsage ?? raw.example ?? raw.example_usage),
-    register: VALID_REGISTERS.has(String(raw.register)) ? raw.register : 'neutral',
-    sentiment: VALID_SENTIMENTS.has(String(raw.sentiment)) ? raw.sentiment : 'neutral',
+    register: VALID_REGISTERS.has(registerRaw) ? registerRaw : 'neutral',
+    sentiment: VALID_SENTIMENTS.has(sentimentRaw) ? sentimentRaw : 'neutral',
     confidence: typeof raw.confidence === 'number' ? raw.confidence : 0.8,
-    sourceIds: Array.isArray(raw.sourceIds) ? raw.sourceIds : [],
+    sourceIds,
   }
 }
 
@@ -314,19 +342,31 @@ function normalizeXaiResponse(parsed: unknown, query: string, normalizedQuery: s
           : yearToDate(rawDate)
 
         // Title: prefer explicit field, fall back to referenced snapshot era label
-        const title = String(
+        const rawTitle = String(
           ev.title ?? ev.label ?? ev.name ?? ev.heading ??
-          (refSnap?.eraLabel ?? refSnap?.eraLabel ?? ''),
+          (refSnap?.eraLabel ?? ''),
         )
+        const title = hasMeaningfulText(rawTitle) ? rawTitle.trim() : String(refSnap?.eraLabel ?? eraLabelFromDate(date as string))
+        const rawEraLabel = String(ev.eraLabel ?? ev.era ?? refSnap?.eraLabel ?? '').trim()
+        const eraLabel = hasMeaningfulText(rawEraLabel) ? rawEraLabel : eraLabelFromDate(date as string)
+        const rawSummary = String(ev.summary ?? ev.description ?? ev.content ?? ev.significance ?? ev.detail ?? ev.explanation ?? '')
+        const summary = hasMeaningfulText(rawSummary)
+          ? rawSummary.trim()
+          : String(refSnap?.definition ?? '')
 
         return {
           ...ev,
           eventId: String(ev.eventId ?? ev.id ?? `${prefix}-event-${_eventCounter}`),
           date,
-          eraLabel: String(ev.eraLabel ?? ev.era ?? refSnap?.eraLabel ?? eraLabelFromDate(date as string)),
+          eraLabel,
           title,
-          summary: String(ev.summary ?? ev.description ?? ev.content ?? ev.significance ?? ev.detail ?? ev.explanation ?? ''),
-          sourceIds: Array.isArray(ev.sourceIds) ? ev.sourceIds : [],
+          summary,
+          sourceIds: Array.isArray(ev.sourceIds)
+            ? ev.sourceIds
+                .filter((value) => typeof value === 'string')
+                .map((value) => value.trim())
+                .filter(hasMeaningfulText)
+            : [],
         }
       })
   }

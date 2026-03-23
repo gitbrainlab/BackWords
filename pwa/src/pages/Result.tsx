@@ -64,6 +64,13 @@ function hasMeaningfulText(raw: string | null | undefined): boolean {
   return typeof raw === 'string' && raw.replace(/\?/g, '').trim().length > 0
 }
 
+function snapshotHasMeaningfulContent(snapshot: SnapshotInterpretation | null | undefined): boolean {
+  if (!snapshot) return false
+  return hasMeaningfulText(snapshot.definition)
+    || hasMeaningfulText(snapshot.usageNote)
+    || hasMeaningfulText(snapshot.exampleUsage)
+}
+
 export default function Result() {
   const navigate = useNavigate()
   const { result, mode } = useResult()
@@ -75,7 +82,14 @@ export default function Result() {
 
   if (!result) return null
 
-  const oldestSnapshot = result.historicalSnapshots[0]
+  const historicalSnapshots = result.historicalSnapshots ?? []
+  const oldestSnapshot = historicalSnapshots.find(snapshotHasMeaningfulContent) ?? historicalSnapshots[0]
+  const latestMeaningfulHistorical = [...historicalSnapshots].reverse().find(snapshotHasMeaningfulContent)
+  const nowSnapshot = snapshotHasMeaningfulContent(result.currentSnapshot)
+    ? result.currentSnapshot
+    : (result.selectedSnapshot && snapshotHasMeaningfulContent(result.selectedSnapshot)
+      ? result.selectedSnapshot
+      : (latestMeaningfulHistorical ?? result.currentSnapshot))
   const driftLabel = result.summaryOfChange?.driftType
     ? DRIFT_LABELS[result.summaryOfChange.driftType] ?? result.summaryOfChange.driftType
     : null
@@ -133,7 +147,7 @@ export default function Result() {
           <h2 className={styles.sectionTitle}>Then vs. Now</h2>
           <div className={styles.compareGrid}>
             {oldestSnapshot && <SnapshotCard snapshot={oldestSnapshot} label="then" />}
-            <SnapshotCard snapshot={result.currentSnapshot} label="now" />
+            <SnapshotCard snapshot={nowSnapshot} label="now" />
           </div>
         </section>
 

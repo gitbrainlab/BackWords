@@ -33,6 +33,16 @@ function buildEvents(
   timelineEvents?: TimelineEvent[],
   keyDates?: KeyDate[],
 ): Array<TimelineEvent & { definition?: string }> {
+  const hasMeaningfulText = (raw: string | null | undefined): boolean =>
+    typeof raw === 'string' && raw.replace(/\?/g, '').trim().length > 0
+
+  const hasMeaningfulSnapshotContent = (snapshot: SnapshotInterpretation | null | undefined): boolean => {
+    if (!snapshot) return false
+    return hasMeaningfulText(snapshot.definition)
+      || hasMeaningfulText(snapshot.usageNote)
+      || hasMeaningfulText(snapshot.exampleUsage)
+  }
+
   const meaningfulKeyDates = (keyDates ?? []).filter((kd, index) => {
     const label = kd.label?.replace(/\?/g, '').trim() ?? ''
     const significance = kd.significance?.replace(/\?/g, '').trim() ?? ''
@@ -44,7 +54,11 @@ function buildEvents(
   //    Events produced by the model with only snapshotIndex+description have empty titles
   //    and a fallback "2024-01-01" date; discard them so richer sources can take over.
   if (timelineEvents && timelineEvents.length > 0) {
-    const usable = timelineEvents.filter(ev => ev.title?.trim().length > 0)
+    const usable = timelineEvents.filter(ev =>
+      hasMeaningfulText(ev.title)
+      && hasMeaningfulText(ev.eraLabel)
+      && (hasMeaningfulText(ev.summary) || (ev.sourceIds?.length ?? 0) > 0),
+    )
     if (usable.length > 0) {
       return usable.map(ev => ({ ...ev, sourceIds: Array.isArray(ev.sourceIds) ? ev.sourceIds : [] }))
     }
@@ -65,14 +79,16 @@ function buildEvents(
 
   // 3. Synthesize from snapshots as last resort.
   const allSnaps = Array.isArray(historicalSnapshots) ? historicalSnapshots : []
-  const snaps = [...allSnaps, currentSnapshot].filter((s): s is SnapshotInterpretation => s != null)
+  const snaps = [...allSnaps, currentSnapshot]
+    .filter((s): s is SnapshotInterpretation => s != null)
+    .filter(hasMeaningfulSnapshotContent)
   if (snaps.length === 0) return []
   return snaps.map((s, i) => ({
     eventId: s.snapshotId,
     date: s.date,
-    eraLabel: s.eraLabel,
-    title: s.eraLabel,
-    summary: s.definition || (typeof s.usageNote === 'string' ? s.usageNote : '') || '',
+    eraLabel: hasMeaningfulText(s.eraLabel) ? s.eraLabel : eraLabelFromDate(s.date),
+    title: hasMeaningfulText(s.eraLabel) ? s.eraLabel : eraLabelFromDate(s.date),
+    summary: s.definition || (typeof s.usageNote === 'string' ? s.usageNote : '') || 'Meaning in this period.',
     sourceIds: s.sourceIds ?? [],
     definition: s.definition,
     relatedSnapshotId: i < snaps.length - 1 ? s.snapshotId : null,
@@ -216,7 +232,7 @@ function TimelineInner() {
                   <p className={styles.eventSummary}>{event.summary}</p>
                   {(event.sourceIds?.length ?? 0) > 0 && (
                     <div className={styles.sourceBtns}>
-                      {event.sourceIds.map(sid => (
+                      {(event.sourceIds ?? []).map(sid => (
                         <button
                           key={sid}
                           type="button"
@@ -251,7 +267,7 @@ export default function Timeline() {
 function formatYear(isoDate: string | null | undefined): string {
   if (!isoDate) return '?'
   const year = parseInt(isoDate.slice(0, 4))
-  if (isNaN(year)) return isoDate
+  if (isNaN(year)) return '?'
   if (year < 1000) return `${year} CE`
   return String(year)
 }
