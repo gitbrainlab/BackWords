@@ -83,6 +83,19 @@
   line-height: 1.6;
 }
 
+.driftMeterWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.driftMeterLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
 .driftMeter {
   height: 6px;
   background: var(--color-border);
