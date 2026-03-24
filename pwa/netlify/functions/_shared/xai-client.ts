@@ -37,6 +37,7 @@ export async function chatComplete(
   // to balance quality vs latency without over-spending on budget.
   // Match models that end with "-reasoning" but not "-non-reasoning".
   const isReasoningModel = /(?<!non-)reasoning$/.test(model)
+  const isReasoningEffortUnsupportedModel = model === 'grok-4-1-fast-reasoning'
 
   const body: Record<string, unknown> = {
     model,
@@ -44,18 +45,40 @@ export async function chatComplete(
     temperature: 0.3,
     max_tokens: options?.maxTokens ?? 4096,
     ...(options?.jsonMode && { response_format: { type: 'json_object' } }),
-    ...(isReasoningModel && { reasoning_effort: 'medium' }),
+    ...(isReasoningModel && !isReasoningEffortUnsupportedModel && { reasoning_effort: 'medium' }),
   }
 
-  const response = await fetch(`${XAI_BASE_URL}/chat/completions`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify(body),
-    signal,
-  })
+  const requestXai = async (requestBody: Record<string, unknown>) =>
+    fetch(`${XAI_BASE_URL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(requestBody),
+      signal,
+    })
+
+  let response = await requestXai(body)
+
+  // Some reasoning model variants reject reasoning_effort.
+  // Retry once without it instead of failing the full request path.
+  if (!response.ok && body.reasoning_effort) {
+    const text = await response.text()
+    const rejectsReasoningEffort =
+      response.status === 400 && /reasoning[_A-Z]?effort|invalid argument/i.test(text)
+    if (rejectsReasoningEffort) {
+      console.warn(
+        '[xai-client] retry_without_reasoning_effort',
+        JSON.stringify({ model, status: response.status }),
+      )
+      const retryBody = { ...body }
+      delete retryBody.reasoning_effort
+      response = await requestXai(retryBody)
+    } else {
+      throw new Error(`XAI API error ${response.status}: ${text}`)
+    }
+  }
 
   if (!response.ok) {
     const text = await response.text()

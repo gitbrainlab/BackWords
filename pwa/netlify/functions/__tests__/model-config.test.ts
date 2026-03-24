@@ -144,8 +144,8 @@ describe('chatComplete sends the correct model in request body', () => {
     }
   })
 
-  it('includes reasoning_effort for reasoning models', async () => {
-    const reasoningModel = 'grok-4-1-fast-reasoning'
+  it('includes reasoning_effort for compatible reasoning models', async () => {
+    const reasoningModel = 'grok-4-2-reasoning'
     let capturedBody: Record<string, unknown> | null = null
 
     vi.stubGlobal('fetch', async (_url: string, init: RequestInit) => {
@@ -167,6 +167,31 @@ describe('chatComplete sends the correct model in request body', () => {
     expect(capturedBody).not.toBeNull()
     expect(capturedBody!.model).toBe(reasoningModel)
     expect(capturedBody!.reasoning_effort).toBe('medium')
+  })
+
+  it('does NOT include reasoning_effort for balanced model due to xAI compatibility', async () => {
+    const reasoningModel = 'grok-4-1-fast-reasoning'
+    let capturedBody: Record<string, unknown> | null = null
+
+    vi.stubGlobal('fetch', async (_url: string, init: RequestInit) => {
+      capturedBody = JSON.parse(init.body as string)
+      return new Response(
+        JSON.stringify({
+          choices: [{ message: { content: 'test response' }, finish_reason: 'stop' }],
+        }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      )
+    })
+
+    const { chatComplete } = await import('../_shared/xai-client')
+    await chatComplete(
+      [{ role: 'user', content: 'test' }],
+      reasoningModel,
+    )
+
+    expect(capturedBody).not.toBeNull()
+    expect(capturedBody!.model).toBe(reasoningModel)
+    expect(capturedBody!.reasoning_effort).toBeUndefined()
   })
 
   it('does NOT include reasoning_effort for non-reasoning models', async () => {
@@ -192,6 +217,52 @@ describe('chatComplete sends the correct model in request body', () => {
     expect(capturedBody).not.toBeNull()
     expect(capturedBody!.model).toBe(nonReasoningModel)
     expect(capturedBody!.reasoning_effort).toBeUndefined()
+  })
+
+  it('retries without reasoning_effort when xAI rejects that argument', async () => {
+    const reasoningModel = 'grok-4-2-reasoning'
+    const capturedBodies: Array<Record<string, unknown>> = []
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    vi.stubGlobal('fetch', async (_url: string, init: RequestInit) => {
+      const requestBody = JSON.parse(init.body as string) as Record<string, unknown>
+      capturedBodies.push(requestBody)
+
+      if (capturedBodies.length === 1) {
+        return new Response(
+          JSON.stringify({
+            code: 'Client specified an invalid argument',
+            error: 'Model grok-4-1-fast-reasoning does not support parameter reasoningEffort.',
+          }),
+          { status: 400, headers: { 'Content-Type': 'application/json' } },
+        )
+      }
+
+      return new Response(
+        JSON.stringify({
+          choices: [{ message: { content: 'recovered response' }, finish_reason: 'stop' }],
+        }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      )
+    })
+
+    const { chatComplete } = await import('../_shared/xai-client')
+    const result = await chatComplete(
+      [{ role: 'user', content: 'test' }],
+      reasoningModel,
+    )
+
+    expect(result).toBe('recovered response')
+    expect(capturedBodies).toHaveLength(2)
+    expect(capturedBodies[0].model).toBe(reasoningModel)
+    expect(capturedBodies[0].reasoning_effort).toBe('medium')
+    expect(capturedBodies[1].model).toBe(reasoningModel)
+    expect(capturedBodies[1].reasoning_effort).toBeUndefined()
+    expect(warnSpy).toHaveBeenCalledTimes(1)
+    expect(warnSpy).toHaveBeenCalledWith(
+      '[xai-client] retry_without_reasoning_effort',
+      JSON.stringify({ model: reasoningModel, status: 400 }),
+    )
   })
 
   it('sends requests to the correct xAI API base URL', async () => {
