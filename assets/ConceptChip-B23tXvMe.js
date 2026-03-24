@@ -1,1 +1,0 @@
-import{j as e}from"./index-CBm1A5Ix.js";const i="_chip_mcamm_1",n="_muted_mcamm_27",t={chip:i,static:"_static_mcamm_23",muted:n};function p({label:c,onClick:s,muted:m}){return s?e.jsx("button",{type:"button",className:`${t.chip} ${m?t.muted:""}`,onClick:s,children:c}):e.jsx("span",{className:`${t.chip} ${t.static} ${m?t.muted:""}`,children:c})}export{p as C};
