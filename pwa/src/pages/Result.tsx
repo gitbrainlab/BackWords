@@ -125,18 +125,24 @@ export default function Result() {
             {driftLabel && <span className={styles.driftBadge}>{driftLabel}</span>}
             <p className={styles.shortSummary}>{result.summaryOfChange.shortSummary}</p>
             {result.summaryOfChange.driftMagnitude !== undefined && (
-              <div
-                className={styles.driftMeter}
-                role="meter"
-                aria-valuenow={Math.round(result.summaryOfChange.driftMagnitude * 100)}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-label={`Drift magnitude: ${Math.round(result.summaryOfChange.driftMagnitude * 100)}%`}
-              >
+              <div className={styles.driftMeterWrapper}>
+                <div className={styles.driftMeterLabel}>
+                  <span>Drift magnitude</span>
+                  <span>{Math.round(result.summaryOfChange.driftMagnitude * 100)}%</span>
+                </div>
                 <div
-                  className={styles.driftFill}
-                  style={{ width: `${result.summaryOfChange.driftMagnitude * 100}%` }}
-                />
+                  className={styles.driftMeter}
+                  role="meter"
+                  aria-valuenow={Math.round(result.summaryOfChange.driftMagnitude * 100)}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-label={`Drift magnitude: ${Math.round(result.summaryOfChange.driftMagnitude * 100)}%`}
+                >
+                  <div
+                    className={styles.driftFill}
+                    style={{ width: `${result.summaryOfChange.driftMagnitude * 100}%` }}
+                  />
+                </div>
               </div>
             )}
           </section>
