@@ -16,6 +16,7 @@ export default defineConfig({
       manifest: false, // We manage manifest.json manually in public/
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        navigateFallback: '/index.html',
         // Runtime cache: API calls use NetworkFirst with seed fallback
         runtimeCaching: [
           {
