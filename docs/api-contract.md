@@ -232,6 +232,123 @@ Health check. No auth required.
 
 ---
 
+## POST /benchmark
+
+Run isolated synthetic benchmark calls against xAI without exercising normal app UI flows.
+
+Safety controls:
+- Disabled by default. Requires `BENCHMARK_ENABLED=true` on the function runtime.
+- Optional shared-secret auth via `BENCHMARK_API_KEY` and request header `X-Benchmark-Key`.
+- Hard limits are enforced server-side for iterations, concurrency, timeout, and token budget.
+
+### Request
+
+```json
+{
+  "scenario": "interpret-lite",
+  "model": "grok-4-1-fast-reasoning",
+  "iterations": 12,
+  "warmup": 2,
+  "concurrency": 2,
+  "timeoutMs": 45000,
+  "jsonMode": true,
+  "maxTokens": 256
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `scenario` | `"interpret-lite"` \| `"explain-lite"` \| `"chat-lite"` | ❌ | Synthetic prompt profile used for measurement. Defaults to `interpret-lite`. |
+| `model` | string | ❌ | xAI model override. Defaults to server interpret model. |
+| `iterations` | number | ❌ | Measured requests (clamped to 1–50). |
+| `warmup` | number | ❌ | Warmup requests excluded from stats (clamped to 0–10). |
+| `concurrency` | number | ❌ | Parallel workers (clamped to 1–8). |
+| `timeoutMs` | number | ❌ | Per-request timeout in ms (clamped to 1000–120000). |
+| `jsonMode` | boolean | ❌ | Forces JSON response-format request hint. |
+| `maxTokens` | number | ❌ | Max token limit (clamped to 16–4096). |
+| `includeRunDetails` | boolean | ❌ | Include per-run telemetry records in the response. Defaults to `true`. |
+
+### Response
+
+```json
+{
+  "endpoint": "benchmark",
+  "startedAt": "2026-03-23T12:00:00.000Z",
+  "completedAt": "2026-03-23T12:00:09.500Z",
+  "scenario": "interpret-lite",
+  "model": "grok-4-1-fast-reasoning",
+  "config": {
+    "iterations": 12,
+    "warmup": 2,
+    "concurrency": 2,
+    "timeoutMs": 45000,
+    "jsonMode": true,
+    "maxTokens": 256
+  },
+  "elapsedMs": 9500,
+  "throughputRps": 1.26,
+  "runs": {
+    "total": 12,
+    "success": 12,
+    "failed": 0
+  },
+  "latencyMs": {
+    "min": 620,
+    "mean": 781,
+    "p50": 760,
+    "p90": 910,
+    "p95": 940,
+    "p99": 980,
+    "max": 990
+  },
+  "failureBreakdown": []
+}
+```
+
+When `includeRunDetails` is `true` (default), the response also includes `runDetails[]` with per-run telemetry:
+- run number
+- ok/fail flag
+- per-run latency
+- start/end timestamps
+- xAI HTTP status
+- xAI headers returned by the upstream endpoint
+- reasoning-effort fallback indicator
+- error text for failed runs
+
+### Error Responses
+
+| Status | Meaning |
+|--------|---------|
+| 400 | Invalid JSON body or invalid field values |
+| 403 | Missing/invalid `X-Benchmark-Key` when key auth is configured |
+| 404 | Benchmark endpoint disabled |
+| 405 | Method not allowed |
+
+Example invocation:
+
+```bash
+curl -sS -X POST "https://backwords-api.netlify.app/.netlify/functions/benchmark" \
+  -H "Content-Type: application/json" \
+  -H "X-Benchmark-Key: $BENCHMARK_API_KEY" \
+  -d '{"scenario":"interpret-lite","model":"grok-4-1-fast-reasoning","iterations":10,"warmup":2,"concurrency":2}'
+```
+
+---
+
+## Benchmark Web UI
+
+The PWA includes a dedicated Benchmark Lab page at:
+
+- `/benchmark`
+
+This page lets you:
+- Configure model, scenario, run count, concurrency, warmup, timeout, token budget, and JSON mode
+- Execute benchmark runs with live progress updates
+- View all endpoint response headers and upstream xAI headers from the latest run
+- Inspect per-run history and live p95-like latency trends while tests are running
+
+---
+
 ## CORS
 
 The proxy accepts requests from any origin during development (`allow_origins=["*"]`). In production, restrict to the app's bundle ID / known origins.

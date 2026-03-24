@@ -17,6 +17,17 @@ interface ChatResponse {
   }>
 }
 
+export interface ChatCompleteTelemetry {
+  status: number
+  headers: Record<string, string>
+  retryWithoutReasoningEffort: boolean
+}
+
+export interface ChatCompleteResult {
+  content: string
+  telemetry: ChatCompleteTelemetry
+}
+
 export interface ChatOptions {
   /** Force the model to respond with a valid JSON object (no markdown fences). */
   jsonMode?: boolean
@@ -24,12 +35,20 @@ export interface ChatOptions {
   maxTokens?: number
 }
 
-export async function chatComplete(
+function headersToObject(headers: Headers): Record<string, string> {
+  const out: Record<string, string> = {}
+  for (const [key, value] of headers.entries()) {
+    out[key] = value
+  }
+  return out
+}
+
+export async function chatCompleteWithTelemetry(
   messages: ChatMessage[],
   model: string,
   signal?: AbortSignal,
   options?: ChatOptions,
-): Promise<string> {
+): Promise<ChatCompleteResult> {
   const apiKey = process.env.XAI_API_KEY
   if (!apiKey) throw new Error('XAI_API_KEY not set')
 
@@ -60,6 +79,7 @@ export async function chatComplete(
     })
 
   let response = await requestXai(body)
+  let retryWithoutReasoningEffort = false
 
   // Some reasoning model variants reject reasoning_effort.
   // Retry once without it instead of failing the full request path.
@@ -72,6 +92,7 @@ export async function chatComplete(
         '[xai-client] retry_without_reasoning_effort',
         JSON.stringify({ model, status: response.status }),
       )
+      retryWithoutReasoningEffort = true
       const retryBody = { ...body }
       delete retryBody.reasoning_effort
       response = await requestXai(retryBody)
@@ -88,7 +109,25 @@ export async function chatComplete(
   const data = (await response.json()) as ChatResponse
   const content = data.choices[0]?.message?.content
   if (!content) throw new Error('Empty response from XAI API')
-  return content
+
+  return {
+    content,
+    telemetry: {
+      status: response.status,
+      headers: headersToObject(response.headers),
+      retryWithoutReasoningEffort,
+    },
+  }
+}
+
+export async function chatComplete(
+  messages: ChatMessage[],
+  model: string,
+  signal?: AbortSignal,
+  options?: ChatOptions,
+): Promise<string> {
+  const result = await chatCompleteWithTelemetry(messages, model, signal, options)
+  return result.content
 }
 
 /** Extract JSON from model output — handles markdown code fences */

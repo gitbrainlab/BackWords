@@ -11,6 +11,7 @@ const Result      = lazy(() => import('./pages/Result'))
 const Timeline    = lazy(() => import('./pages/Timeline'))
 const SourceDetail = lazy(() => import('./pages/SourceDetail'))
 const Settings    = lazy(() => import('./pages/Settings'))
+const BenchmarkLab = lazy(() => import('./pages/BenchmarkLab'))
 const KnowledgePage = lazy(() => import('./pages/KnowledgePage'))
 const PassageView = lazy(() => import('./pages/PassageView'))
 
@@ -55,6 +56,7 @@ export default function App() {
               <Route path="/passages"          element={<PassageView />} />
               <Route path="/source/:sourceId"  element={<SourceDetail />} />
               <Route path="/settings"          element={<Settings />} />
+              <Route path="/benchmark"         element={<BenchmarkLab />} />
               <Route path="/pages/:slug"       element={<KnowledgePage />} />
               {/* Fallback */}
               <Route path="*"                  element={<Navigate to="/" replace />} />

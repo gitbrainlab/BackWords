@@ -3,6 +3,7 @@ import styles from './NavBar.module.css'
 
 const LINKS = [
   { to: '/', label: 'Search', icon: '🔍', end: true },
+  { to: '/benchmark', label: 'Bench', icon: '📈', end: false },
   { to: '/settings', label: 'Settings', icon: '⚙️', end: false },
 ]
 

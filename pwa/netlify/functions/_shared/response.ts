@@ -4,7 +4,7 @@ import { DEPLOYMENT_METADATA } from './deployment.js'
 export const CORS_HEADERS = {
   'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN ?? '*',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, X-Benchmark-Key, Authorization',
   'X-Build-Id': DEPLOYMENT_METADATA.buildId,
   'X-Commit-Sha': DEPLOYMENT_METADATA.commitSha,
   'X-Cache-Schema': DEPLOYMENT_METADATA.cacheSchemaVersion,
