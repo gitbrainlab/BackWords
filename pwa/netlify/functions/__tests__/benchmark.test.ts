@@ -12,6 +12,7 @@ describe('benchmark endpoint', () => {
 
   it('returns 404 when benchmark endpoint is disabled', async () => {
     delete process.env.BENCHMARK_ENABLED
+    process.env.CONTEXT = 'deploy-preview'
 
     const { default: handler } = await import('../benchmark')
     const response = await handler(new Request('http://localhost/.netlify/functions/benchmark', {
@@ -23,6 +24,32 @@ describe('benchmark endpoint', () => {
 
     expect(response.status).toBe(404)
     expect(body.error).toBe('Benchmark endpoint disabled')
+  })
+
+  it('defaults to enabled in production context when BENCHMARK_ENABLED is unset', async () => {
+    delete process.env.BENCHMARK_ENABLED
+    process.env.CONTEXT = 'production'
+
+    vi.doMock('../_shared/xai-client', () => ({
+      INTERPRET_MODEL: 'grok-4-1-fast-non-reasoning',
+      chatCompleteWithTelemetry: vi.fn(async () => ({
+        content: 'ok',
+        telemetry: {
+          status: 200,
+          headers: { 'x-request-id': 'test-prod-default' },
+          retryWithoutReasoningEffort: false,
+        },
+      })),
+    }))
+
+    const { default: handler } = await import('../benchmark')
+    const response = await handler(new Request('http://localhost/.netlify/functions/benchmark', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ iterations: 1, warmup: 0 }),
+    }))
+
+    expect(response.status).toBe(200)
   })
 
   it('returns 403 when API key is configured and missing or invalid', async () => {

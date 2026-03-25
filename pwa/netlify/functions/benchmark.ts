@@ -28,6 +28,15 @@ interface RunResult {
   error?: string
 }
 
+function isBenchmarkEnabled(env: NodeJS.ProcessEnv): boolean {
+  const configured = env.BENCHMARK_ENABLED?.trim().toLowerCase()
+  if (configured === 'true') return true
+  if (configured === 'false') return false
+
+  // Safe default: production is enabled, non-production is disabled.
+  return env.CONTEXT === 'production'
+}
+
 function percentile(sortedValues: number[], p: number): number {
   if (sortedValues.length === 0) return 0
   if (sortedValues.length === 1) return sortedValues[0]
@@ -177,7 +186,7 @@ export default async function handler(req: Request): Promise<Response> {
   if (req.method === 'OPTIONS') return optionsResponse()
   if (req.method !== 'POST') return errorResponse('Method not allowed', 405)
 
-  if (process.env.BENCHMARK_ENABLED !== 'true') {
+  if (!isBenchmarkEnabled(process.env)) {
     return errorResponse('Benchmark endpoint disabled', 404)
   }
 
