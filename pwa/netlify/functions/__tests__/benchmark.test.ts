@@ -10,9 +10,8 @@ describe('benchmark endpoint', () => {
     vi.doUnmock('../_shared/xai-client')
   })
 
-  it('returns 404 when benchmark endpoint is disabled', async () => {
-    delete process.env.BENCHMARK_ENABLED
-    process.env.CONTEXT = 'deploy-preview'
+  it('returns 404 when benchmark endpoint is explicitly disabled', async () => {
+    process.env.BENCHMARK_ENABLED = 'false'
 
     const { default: handler } = await import('../benchmark')
     const response = await handler(new Request('http://localhost/.netlify/functions/benchmark', {
@@ -26,9 +25,8 @@ describe('benchmark endpoint', () => {
     expect(body.error).toBe('Benchmark endpoint disabled')
   })
 
-  it('defaults to enabled in production context when BENCHMARK_ENABLED is unset', async () => {
+  it('defaults to enabled when BENCHMARK_ENABLED is unset', async () => {
     delete process.env.BENCHMARK_ENABLED
-    process.env.CONTEXT = 'production'
 
     vi.doMock('../_shared/xai-client', () => ({
       INTERPRET_MODEL: 'grok-4-1-fast-non-reasoning',
@@ -36,7 +34,7 @@ describe('benchmark endpoint', () => {
         content: 'ok',
         telemetry: {
           status: 200,
-          headers: { 'x-request-id': 'test-prod-default' },
+          headers: { 'x-request-id': 'test-default-enabled' },
           retryWithoutReasoningEffort: false,
         },
       })),

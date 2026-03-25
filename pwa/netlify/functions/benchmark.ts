@@ -30,11 +30,10 @@ interface RunResult {
 
 function isBenchmarkEnabled(env: NodeJS.ProcessEnv): boolean {
   const configured = env.BENCHMARK_ENABLED?.trim().toLowerCase()
-  if (configured === 'true') return true
   if (configured === 'false') return false
 
-  // Safe default: production is enabled, non-production is disabled.
-  return env.CONTEXT === 'production'
+  // Enabled by default to keep benchmark availability repo-driven.
+  return true
 }
 
 function percentile(sortedValues: number[], p: number): number {

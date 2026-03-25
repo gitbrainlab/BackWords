@@ -237,8 +237,8 @@ Health check. No auth required.
 Run isolated synthetic benchmark calls against xAI without exercising normal app UI flows.
 
 Safety controls:
-- Production defaults are version-controlled in `netlify.toml` with `BENCHMARK_ENABLED=true`.
-- You can disable it per-environment by overriding `BENCHMARK_ENABLED=false` in Netlify UI.
+- Enabled by default so the benchmark endpoint works from repo configuration alone.
+- You can disable it in any environment with `BENCHMARK_ENABLED=false`.
 - Optional shared-secret auth via `BENCHMARK_API_KEY` and request header `X-Benchmark-Key`.
 - Hard limits are enforced server-side for iterations, concurrency, timeout, and token budget.
 
