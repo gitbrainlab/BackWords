@@ -4,6 +4,11 @@
 # XAI_API_KEY must be set in the Netlify UI under Site → Environment Variables.
 # NEVER put secrets in this file.
 
+# Version-controlled runtime defaults for production.
+# Keep secrets (XAI_API_KEY, BENCHMARK_API_KEY) in Netlify UI only.
+[context.production.environment]
+  BENCHMARK_ENABLED = "true"
+
 [build]
   command = "echo 'API functions only — PWA hosted on GitHub Pages'"
   # publish points at an empty placeholder so Netlify does not error on missing dist
@@ -23,7 +28,7 @@
   [headers.values]
     Access-Control-Allow-Origin  = "*"
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
-    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Allow-Headers = "Content-Type, Authorization, X-Benchmark-Key"
 
 # ---------------------------------------------------------------------------
 # Security headers — TODO: tighten in production
