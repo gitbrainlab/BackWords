@@ -16,7 +16,7 @@ const CURATED_SEEDS = [
   { word: 'artificial', hint: 'Once "full of artistry"' },
   { word: 'charity', hint: 'Love → almsgiving' },
   { word: 'nice', hint: 'Foolish → pleasant' },
-  { word: 'gay', hint: 'Joyful to contentious' },
+  { word: 'shampoo', hint: 'A loanword with a global journey' },
   { word: 'woke', hint: 'Alert to politically charged' },
 ]
 
